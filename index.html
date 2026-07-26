@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Fulusku - Mobile Financial App</title>
+    <title>FuluskuAI - Mobile Financial App</title>
     
-    <!-- Fullscreen & Standalone Web App Settings -->
+    <!-- Fullscreen & Standalone PWA Settings -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Fulusku">
+    <meta name="apple-mobile-web-app-title" content="FuluskuAI">
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
     
-    <!-- Web App Manifest (Embedded JSON Data URI dengan Standalone Mode) -->
-    <link rel="manifest" href='data:application/manifest+json,{"name":"Fulusku","short_name":"Fulusku","start_url":"./","display":"standalone","background_color":"#09090b","theme_color":"#09090b","orientation":"portrait"}'>
+    <!-- Embedded Base64 Web App Manifest (Includes Display Standalone & SVG App Icon) -->
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDt1dGY4LDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PScxMjgnIGZpbGw9JyVkMmZmMWYnLz48cGF0aCBkPSdNMzg0IDE2MEgxMjhjLTE3LjcgMC0zMiAxNC4zLTMyIDMydjE5MmMwIDE3LjcgMTQuMyAzMiAzMiAzMmgyNTZjMTcuNyAwIDMyLTE0LjMgMzItMzJWMTkyYzAtMTcuNy0xNC4zLTMyLTMyLTMyem0tMzIgMTI4Yy0xMy4zIDAtMjQtMTAuNy0yNC0yNHMxMC43LTI0IDI0LTI0IDI0IDEwLjcgMjQgMjQtMTAuNyAyNC0yNCAyNHonIGZpbGw9JyUwOTA5MGInLz48L3N2Zz4iLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -156,6 +156,9 @@
                 <div class="w-1.5 h-1.5 rounded-full bg-limeaccent-400 animate-pulse shadow-[0_0_8px_#d2ff1f]"></div>
             </div>
             <div class="flex items-center gap-4">
+                <button type="button" onclick="openModal('modalSettings')" class="hover:text-[var(--text-accent)] transition-colors" title="Pengaturan API & GAS">
+                    <i class="fa-solid fa-gear text-sm txt-accent"></i>
+                </button>
                 <button type="button" onclick="openModal('modalTelegram')" class="hover:text-[#0088cc] transition-colors relative" title="Bot Telegram">
                     <i class="fa-brands fa-telegram text-base txt-accent"></i>
                     <span id="telegramBadge" class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500"></span>
@@ -195,7 +198,7 @@
                         <div class="w-10 h-10 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center text-lg font-bold shrink-0"><i class="fa-solid fa-download"></i></div>
                         <div class="flex-1">
                             <h4 class="text-xs font-bold txt-primary">Instal Fulusku PWA</h4>
-                            <p class="text-[11px] txt-secondary mt-0.5">Akses layar penuh & bekerja offline!</p>
+                            <p class="text-[11px] txt-secondary mt-0.5">Akses layar penuh tanpa header browser!</p>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -205,7 +208,6 @@
                 </div>
             </section>
 
-            <!-- Authentication Form Section -->
             <section id="viewLogin" class="hidden space-y-8 py-8 slide-up">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center mx-auto mb-4 shadow-lg overflow-hidden p-2">
@@ -243,7 +245,6 @@
                 </form>
             </section>
 
-            <!-- Dashboard View -->
             <section id="viewDashboard" class="hidden space-y-7 slide-up">
                 <div class="relative p-7 rounded-[32px] overflow-hidden shadow-2xl transition-all border border-[var(--border-color)]" style="background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-gradient-end) 100%);">
                     <div class="absolute -top-16 -right-16 w-48 h-48 bg-lime-400/20 rounded-full blur-[50px] pointer-events-none"></div>
@@ -298,7 +299,6 @@
                 </div>
             </section>
 
-            <!-- Transactions Tab -->
             <section id="tabTransactions" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-bold txt-primary">Riwayat Transaksi</h3>
@@ -324,7 +324,6 @@
                 </div>
             </section>
 
-            <!-- Vision AI Scanner Tab -->
             <section id="tabScanner" class="hidden space-y-6 slide-up">
                 <div class="text-center space-y-2 mt-4">
                     <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-3xl mx-auto mb-4 shadow-[0_0_30px_rgba(210,255,31,0.2)]">
@@ -358,7 +357,6 @@
                 </div>
             </section>
 
-            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-6 slide-up">
                 <div class="flex gap-2 p-1 bg-[var(--bg-subcard)] rounded-2xl mb-6">
                     <button type="button" class="flex-1 py-2 text-xs font-bold bg-[var(--bg-card)] rounded-xl shadow-sm txt-accent">Target</button>
@@ -371,7 +369,6 @@
                 <div id="goalsList" class="space-y-4"></div>
             </section>
 
-            <!-- Debts Tab -->
             <section id="tabDebts" class="hidden space-y-6 slide-up">
                 <div class="flex gap-2 p-1 bg-[var(--bg-subcard)] rounded-2xl mb-6">
                     <button type="button" onclick="switchTab('tabGoals')" class="flex-1 py-2 text-xs font-semibold txt-secondary hover:txt-primary">Target</button>
@@ -384,7 +381,6 @@
                 <div id="debtsList" class="space-y-4"></div>
             </section>
 
-            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-6 slide-up">
                 <h3 class="text-xl font-bold txt-primary">Analitik AI</h3>
                 <div class="p-5 app-card rounded-[24px] flex gap-4 items-start bg-gradient-to-br from-[var(--bg-card)] to-[var(--text-accent)]/5">
@@ -407,7 +403,6 @@
                 </div>
             </section>
 
-            <!-- Chatbot Tab -->
             <section id="tabChatbot" class="hidden flex-col h-[calc(100vh-220px)] sm:h-[600px] slide-up">
                 <div class="text-center pb-2 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-lg font-bold txt-primary">Asisten Finansial</h3>
@@ -436,7 +431,6 @@
 
         </main>
 
-        <!-- Stationary Fixed Bottom Navigation Bar -->
         <nav id="bottomNav" class="hidden absolute bottom-5 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] max-w-[340px] z-40 rounded-3xl p-1.5 backdrop-blur-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center justify-between border border-[var(--border-color)] transition-all duration-300 bg-[var(--nav-bg)]">
             <button type="button" onclick="switchTab('viewDashboard')" id="nav-viewDashboard" class="nav-item flex-1 py-3 flex flex-col items-center gap-1 txt-muted hover:txt-primary transition-all rounded-2xl">
                 <i class="fa-solid fa-house text-[1.1rem] transition-transform"></i>
@@ -462,7 +456,6 @@
         <div class="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
-    <!-- Modals Section -->
     <!-- Modal Transaction -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
         <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 border-b-0 sm:border-b slide-up">
@@ -585,6 +578,28 @@
         </div>
     </div>
 
+    <!-- Modal Apps Script Backend Settings -->
+    <div id="modalSettings" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 slide-up border border-[var(--border-color)]">
+            <div class="flex justify-between items-center">
+                <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-solid fa-cloud text-limeaccent-400 text-lg"></i> Backend URL (Google Apps Script)</h3>
+                <button type="button" onclick="closeModal('modalSettings')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-color)] space-y-4">
+                <p class="text-xs txt-secondary leading-relaxed">
+                    Tempelkan URL Web App Google Apps Script Anda di sini jika di-host via Vercel agar database Google Sheets & AI tersambung.
+                </p>
+                <div>
+                    <label class="block text-xs font-semibold txt-secondary mb-1.5 ml-1">Web App Exec URL</label>
+                    <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="app-input w-full px-4 py-3 rounded-2xl text-xs font-medium border border-[var(--border-color)] text-white">
+                </div>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="saveGasUrlSettings()" class="w-full py-3.5 btn-lime text-sm rounded-xl font-bold active:scale-95">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Telegram Settings -->
     <div id="modalTelegram" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity">
         <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 slide-up border border-[var(--border-color)]">
@@ -624,25 +639,25 @@
     <div id="modalGuide" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 max-h-[85vh] overflow-y-auto hide-scroll slide-up">
             <div class="flex justify-between items-center">
-                <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-brands fa-android txt-accent"></i> Panduan Instal Android</h3>
+                <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-brands fa-android txt-accent"></i> Panduan Instal Standalone PWA</h3>
                 <button type="button" onclick="closeModal('modalGuide')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <ol class="text-xs txt-secondary space-y-4 list-decimal list-inside font-medium leading-relaxed bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-color)]">
-                <li>Buka web Fulusku ini menggunakan browser <strong class="txt-accent">Google Chrome</strong> di HP Anda.</li>
+                <li>Buka web Vercel ini menggunakan browser <strong class="txt-accent">Google Chrome</strong> di HP Anda.</li>
                 <li>Ketuk ikon menu tiga titik (⋮) di pojok kanan atas browser.</li>
-                <li>Cari dan pilih opsi <strong class="txt-primary">"Tambahkan ke Layar Utama"</strong> (Add to Home screen).</li>
-                <li>Ketuk tombol <strong class="txt-primary">"Tambahkan"</strong> pada jendela konfirmasi.</li>
-                <li>Selesai! Ikon aplikasi Fulusku akan muncul di Home Screen.</li>
+                <li>Cari dan pilih opsi <strong class="txt-primary">"Instal aplikasi"</strong> (Install App).</li>
+                <li>Ketuk tombol <strong class="txt-primary">"Instal"</strong> pada pop-up konfirmasi.</li>
+                <li>Selesai! Buka aplikasi FuluskuAI dari layar utama HP: Aplikasi akan berjalan **Fullscreen 100% tanpa header browser**.</li>
             </ol>
             <button type="button" onclick="closeModal('modalGuide')" class="w-full py-3 bg-[var(--bg-subcard)] text-sm rounded-xl hover:bg-white/5 transition-colors font-semibold">Tutup Panduan</button>
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
     <script>
         const appState = {
             theme: 'dark', privacyMode: false, user: null, activeTab: 'viewDashboard',
-            wallets: [], transactions: [], goals: [], debts: [], telegramEnabled: false, telegramChatId: ''
+            wallets: [], transactions: [], goals: [], debts: [], telegramEnabled: false, telegramChatId: '',
+            gasUrl: ''
         };
 
         let chartCashflowInstance = null, chartCategoryInstance = null;
@@ -650,7 +665,7 @@
         let scannedDataTemp = null;
         let isRegisterMode = false;
 
-        // Inisialisasi Service Worker untuk PWA
+        // Service Worker Registration for PWA Compliance
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 try {
@@ -658,7 +673,7 @@
                         self.addEventListener('install', (e) => self.skipWaiting());
                         self.addEventListener('activate', (e) => self.clients.claim());
                         self.addEventListener('fetch', (e) => {
-                            e.respondWith(fetch(e.request).catch(() => new Response('Offline mode active.')));
+                            e.respondWith(fetch(e.request).catch(() => new Response('Offline mode ready.')));
                         });
                     `;
                     const blob = new Blob([swCode], { type: 'application/javascript' });
@@ -691,6 +706,13 @@
             loadLocalData();
             
             try {
+                const savedGasUrl = localStorage.getItem('fulusku_gas_url');
+                if (savedGasUrl) {
+                    appState.gasUrl = savedGasUrl;
+                    const inputGas = document.getElementById('gasUrlInput');
+                    if (inputGas) inputGas.value = savedGasUrl;
+                }
+
                 const savedChatId = localStorage.getItem('fulusku_telegram_chatid');
                 if (savedChatId) {
                     appState.telegramChatId = savedChatId;
@@ -710,6 +732,19 @@
                 }
             } catch (e) {}
 
+            fetchInitialBackendData();
+        };
+
+        function saveGasUrlSettings() {
+            const urlVal = document.getElementById('gasUrlInput')?.value.trim();
+            appState.gasUrl = urlVal || '';
+            try { localStorage.setItem('fulusku_gas_url', appState.gasUrl); } catch(e){}
+            closeModal('modalSettings');
+            showToast("Pengaturan Web App Backend disimpan!", "success");
+            fetchInitialBackendData();
+        }
+
+        function fetchInitialBackendData() {
             if (typeof google !== 'undefined' && google.script && google.script.run) {
                 google.script.run.withSuccessHandler((res) => {
                     if (res && res.status === 'success' && res.data) {
@@ -721,8 +756,22 @@
                         refreshAllViews();
                     }
                 }).getInitialData();
+            } else if (appState.gasUrl) {
+                fetch(appState.gasUrl)
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res && res.status === 'success' && res.data) {
+                            if (res.data.wallets?.length) appState.wallets = res.data.wallets;
+                            if (res.data.transactions?.length) appState.transactions = res.data.transactions;
+                            if (res.data.goals?.length) appState.goals = res.data.goals;
+                            if (res.data.debts?.length) appState.debts = res.data.debts;
+                            saveLocalData();
+                            refreshAllViews();
+                        }
+                    })
+                    .catch(err => console.warn('GAS Fetch error:', err));
             }
-        };
+        }
 
         function escapeHTML(str) {
             return String(str).replace(/[&<>'"]/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[match]));
