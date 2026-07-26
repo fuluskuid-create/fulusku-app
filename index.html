@@ -12,8 +12,8 @@
     <meta name="apple-mobile-web-app-title" content="FuluskuAI">
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
     
-    <!-- Embedded Base64 Web App Manifest (Includes Display Standalone & SVG App Icon) -->
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDt1dGY4LDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PScxMjgnIGZpbGw9JyVkMmZmMWYnLz48cGF0aCBkPSdNMzg0IDE2MEgxMjhjLTE3LjcgMC0zMiAxNC4zLTMyIDMydjE5MmMwIDE3LjcgMTQuMyAzMiAzMiAzMmgyNTZjMTcuNyAwIDMyLTE0LjMgMzItMzJWMTkyYzAtMTcuNy0xNC4zLTMyLTMyLTMyem0tMzIgMTI4Yy0xMy4zIDAtMjQtMTAuNy0yNC0yNHMxMC43LTI0IDI0LTI0IDI0IDEwLjcgMjQgMjQtMTAuNyAyNC0yNCAyNHonIGZpbGw9JyUwOTA5MGInLz48L3N2Zz4iLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
+    <!-- Embedded Base64 Web App Manifest -->
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDt1dGY4LDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PScxMjgnIGZpbGw9JyVkMmZmMWYnLz48cGF0aCBkPSdNMzg0IDE2MEgxMjhjLTE3LjcgMC0zMiAxNC4zLTMyIDMydjE5MmMwIDE3LjcgMTQuMyAzMiAzMiAzMmgyNTZjMTcuNyAwIDMyLTE0LjMgMzItMzJWMTkyYzAtMTcuNy0xNC4zLTMyLTMyLTMyem0tMzIgMTI4Yy0xMy4zIDAtMjQtMTAuNy0yNC0yNHMxMC43LTI0IDI0LTI0IDI0IDEwLjcgQgLTEwLjcgMjQtMjR6JyBmaWxsPSclMDkwOTBiJy8+PC9zdmc+",">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -587,7 +587,7 @@
             </div>
             <div class="bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-color)] space-y-4">
                 <p class="text-xs txt-secondary leading-relaxed">
-                    Tempelkan URL Web App Google Apps Script Anda di sini jika di-host via Vercel agar database Google Sheets & AI tersambung.
+                    URL backend default sudah terpasang. Anda dapat mengubahnya jika mendeploy Web App baru.
                 </p>
                 <div>
                     <label class="block text-xs font-semibold txt-secondary mb-1.5 ml-1">Web App Exec URL</label>
@@ -654,16 +654,80 @@
     </div>
 
     <script>
+        // =========================================================================
+        // KONFIGURASI DEFAULT BACKEND GOOGLE APPS SCRIPT (PERMANEN UNTUK VERCEL)
+        // Silakan ganti URL di bawah ini dengan URL Web App Apps Script Anda sendiri
+        // =========================================================================
+        const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyVv7yq0Ow5Q-L4mjD0pdBRY2x43JwinS0qsKuBtFOc55PwXwe20pSgVMQZBbE1-dObIw/exec";
+
         const appState = {
-            theme: 'dark', privacyMode: false, user: null, activeTab: 'viewDashboard',
-            wallets: [], transactions: [], goals: [], debts: [], telegramEnabled: false, telegramChatId: '',
-            gasUrl: ''
+            theme: 'dark', 
+            privacyMode: false, 
+            user: null, 
+            activeTab: 'viewDashboard',
+            wallets: [], 
+            transactions: [], 
+            goals: [], 
+            debts: [], 
+            telegramEnabled: false, 
+            telegramChatId: '',
+            gasUrl: DEFAULT_GAS_URL
         };
 
         let chartCashflowInstance = null, chartCategoryInstance = null;
         let deferredPrompt = null;
         let scannedDataTemp = null;
         let isRegisterMode = false;
+
+        // Helper universal untuk komunikasi dengan Backend (Support iFrame GAS & Vercel Fetch)
+        async function callBackend(action, payload = {}) {
+            const fullPayload = { action, ...payload };
+
+            // 1. Jika berjalan di dalam iFrame Google Apps Script
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                return new Promise((resolve) => {
+                    if (action === 'getInitialData') {
+                        google.script.run.withSuccessHandler(resolve).getInitialData();
+                    } else if (action === 'saveWallet') {
+                        google.script.run.withSuccessHandler(resolve).saveWalletData(payload.wallet);
+                    } else if (action === 'saveTransaction') {
+                        google.script.run.withSuccessHandler(resolve).saveTransactionData(payload.transaction, payload.chatId, payload.telegramEnabled);
+                    } else if (action === 'saveGoal') {
+                        google.script.run.withSuccessHandler(resolve).saveGoalData(payload.goal);
+                    } else if (action === 'saveDebt') {
+                        google.script.run.withSuccessHandler(resolve).saveDebtData(payload.debt);
+                    } else if (action === 'sendTelegram') {
+                        google.script.run.withSuccessHandler(resolve).sendTelegramAlert(payload.message, payload.chatId);
+                    } else if (action === 'analyzeReceipt') {
+                        google.script.run.withSuccessHandler(resolve).analyzeReceiptWithGroq(payload.base64);
+                        if (payload.fileName) google.script.run.uploadReceiptToDrive(payload.base64, payload.fileName);
+                    } else if (action === 'askChatbot') {
+                        google.script.run.withSuccessHandler(resolve).askGroqChatbot(payload.message, payload.summaryContext);
+                    } else {
+                        resolve({ status: 'error', message: 'Action tidak dikenal' });
+                    }
+                });
+            }
+
+            // 2. Jika di-host di Vercel / Standalone Server menggunakan Web App Exec URL
+            const url = appState.gasUrl || DEFAULT_GAS_URL;
+            if (url && url !== "https://script.google.com/macros/s/AKfycbxYOUR_DEPLOYMENT_ID_HERE/exec") {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(fullPayload)
+                    });
+                    const data = await response.json();
+                    return data;
+                } catch (err) {
+                    console.warn('Network / GAS Fetch Error:', err);
+                    return { status: 'error', message: err.message };
+                }
+            }
+
+            return null;
+        }
 
         // Service Worker Registration for PWA Compliance
         if ('serviceWorker' in navigator) {
@@ -709,9 +773,11 @@
                 const savedGasUrl = localStorage.getItem('fulusku_gas_url');
                 if (savedGasUrl) {
                     appState.gasUrl = savedGasUrl;
-                    const inputGas = document.getElementById('gasUrlInput');
-                    if (inputGas) inputGas.value = savedGasUrl;
+                } else {
+                    appState.gasUrl = DEFAULT_GAS_URL;
                 }
+                const inputGas = document.getElementById('gasUrlInput');
+                if (inputGas) inputGas.value = appState.gasUrl;
 
                 const savedChatId = localStorage.getItem('fulusku_telegram_chatid');
                 if (savedChatId) {
@@ -737,39 +803,22 @@
 
         function saveGasUrlSettings() {
             const urlVal = document.getElementById('gasUrlInput')?.value.trim();
-            appState.gasUrl = urlVal || '';
+            appState.gasUrl = urlVal || DEFAULT_GAS_URL;
             try { localStorage.setItem('fulusku_gas_url', appState.gasUrl); } catch(e){}
             closeModal('modalSettings');
             showToast("Pengaturan Web App Backend disimpan!", "success");
             fetchInitialBackendData();
         }
 
-        function fetchInitialBackendData() {
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.withSuccessHandler((res) => {
-                    if (res && res.status === 'success' && res.data) {
-                        if (res.data.wallets?.length) appState.wallets = res.data.wallets;
-                        if (res.data.transactions?.length) appState.transactions = res.data.transactions;
-                        if (res.data.goals?.length) appState.goals = res.data.goals;
-                        if (res.data.debts?.length) appState.debts = res.data.debts;
-                        saveLocalData();
-                        refreshAllViews();
-                    }
-                }).getInitialData();
-            } else if (appState.gasUrl) {
-                fetch(appState.gasUrl)
-                    .then(r => r.json())
-                    .then(res => {
-                        if (res && res.status === 'success' && res.data) {
-                            if (res.data.wallets?.length) appState.wallets = res.data.wallets;
-                            if (res.data.transactions?.length) appState.transactions = res.data.transactions;
-                            if (res.data.goals?.length) appState.goals = res.data.goals;
-                            if (res.data.debts?.length) appState.debts = res.data.debts;
-                            saveLocalData();
-                            refreshAllViews();
-                        }
-                    })
-                    .catch(err => console.warn('GAS Fetch error:', err));
+        async function fetchInitialBackendData() {
+            const res = await callBackend('getInitialData');
+            if (res && res.status === 'success' && res.data) {
+                if (res.data.wallets?.length) appState.wallets = res.data.wallets;
+                if (res.data.transactions?.length) appState.transactions = res.data.transactions;
+                if (res.data.goals?.length) appState.goals = res.data.goals;
+                if (res.data.debts?.length) appState.debts = res.data.debts;
+                saveLocalData();
+                refreshAllViews();
             }
         }
 
@@ -1147,7 +1196,7 @@
             chartCategoryInstance.update();
         }
 
-        function handleAddWallet(e) {
+        async function handleAddWallet(e) {
             e.preventDefault();
             const nameVal = document.getElementById('walletNameInput')?.value.trim();
             const balVal = Number(document.getElementById('walletBalanceInput')?.value);
@@ -1161,13 +1210,11 @@
             closeModal('modalAddWallet'); 
             showToast("Dompet tersimpan!", "success");
             
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.saveWalletData(newW);
-            }
+            callBackend('saveWallet', { wallet: newW });
             e.target.reset();
         }
 
-        function saveTransaction(e) {
+        async function saveTransaction(e) {
             e.preventDefault();
             const amtVal = Number(document.getElementById('txAmountInput')?.value);
             if (!amtVal || amtVal <= 0) { showToast("Masukkan nominal yang valid", "warning"); return; }
@@ -1194,16 +1241,11 @@
             closeModal('modalTransaction'); 
             showToast("Transaksi dicatat!", "success");
             
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.saveTransactionData(t, appState.telegramChatId, appState.telegramEnabled);
-            } else {
-                const txMsg = `💸 <b>Transaksi Baru!</b>\n\nJenis: ${t.type === 'income' ? 'Pemasukan 📈' : 'Pengeluaran 📉'}\nNominal: <b>${formatRp(t.amount)}</b>\nKategori: ${t.category}\nCatatan: ${t.note}`;
-                triggerTelegramBot(txMsg);
-            }
+            callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
             e.target.reset();
         }
 
-        function handleTransfer(e) {
+        async function handleTransfer(e) {
             e.preventDefault();
             const from = document.getElementById('transferFromInput').value;
             const to = document.getElementById('transferToInput').value;
@@ -1229,25 +1271,23 @@
             
             saveLocalData(); refreshAllViews(); closeModal('modalTransfer'); showToast("Transfer berhasil!", "success");
             
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.saveTransactionData(tOut, appState.telegramChatId, appState.telegramEnabled);
-                google.script.run.saveTransactionData(tIn, appState.telegramChatId, appState.telegramEnabled);
-            }
+            callBackend('saveTransaction', { transaction: tOut, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
+            callBackend('saveTransaction', { transaction: tIn, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
             e.target.reset();
         }
 
-        function handleAddGoal(e){ 
+        async function handleAddGoal(e){ 
             e.preventDefault(); 
             const title = document.getElementById('goalTitleInput').value.trim();
             const target = Number(document.getElementById('goalTargetInput').value);
             if(!title || !target) { showToast("Lengkapi data target", "warning"); return; }
             const g = { id:'g_'+Date.now(), title:title, target:target, current:0, icon: 'fa-bullseye' }; 
             appState.goals.push(g); saveLocalData(); refreshAllViews(); closeModal('modalAddGoal'); showToast("Target dibuat", "success"); 
-            if (typeof google !== 'undefined' && google.script && google.script.run) google.script.run.saveGoalData(g); 
+            callBackend('saveGoal', { goal: g });
             e.target.reset();
         }
 
-        function handleAddDebt(e){ 
+        async function handleAddDebt(e){ 
             e.preventDefault(); 
             const title = document.getElementById('debtTitleInput').value.trim();
             const amt = Number(document.getElementById('debtAmountInput').value);
@@ -1255,7 +1295,7 @@
             if(!title || !amt || !dueDate) { showToast("Lengkapi data tagihan", "warning"); return; }
             const d = { id:'d_'+Date.now(), title:title, amount:amt, dueDate:dueDate }; 
             appState.debts.push(d); saveLocalData(); refreshAllViews(); closeModal('modalAddDebt'); showToast("Tagihan dicatat", "success"); 
-            if (typeof google !== 'undefined' && google.script && google.script.run) google.script.run.saveDebtData(d); 
+            callBackend('saveDebt', { debt: d });
             e.target.reset();
         }
 
@@ -1266,42 +1306,30 @@
             document.getElementById('scanMainLabel').innerText = 'AI Menganalisis...';
             
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 const base64Data = e.target.result;
                 
-                if (typeof google !== 'undefined' && google.script && google.script.run) {
-                    google.script.run.withSuccessHandler((res) => {
-                        document.getElementById('scanIcon').className = 'fa-solid fa-cloud-arrow-up text-2xl txt-accent';
-                        document.getElementById('scanMainLabel').innerText = 'Unggah Struk Belanja';
-                        
-                        if (res.status === 'success' && res.data) {
-                            scannedDataTemp = res.data;
-                            document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant');
-                            document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
-                            document.getElementById('scanCategory').innerText = escapeHTML(res.data.category || 'Belanja');
-                            document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
-                            document.getElementById('scanResultCard').classList.remove('hidden');
-                            showToast("Struk berhasil diekstrak AI!", "success");
-                        } else {
-                            showToast("Gagal analisis Vision AI: " + (res.message || 'Error'), "error");
-                        }
-                    }).analyzeReceiptWithGroq(base64Data);
-                    
-                    google.script.run.uploadReceiptToDrive(base64Data, file.name);
-                    
+                const res = await callBackend('analyzeReceipt', { base64: base64Data, fileName: file.name });
+                
+                document.getElementById('scanIcon').className = 'fa-solid fa-cloud-arrow-up text-2xl txt-accent';
+                document.getElementById('scanMainLabel').innerText = 'Unggah Struk Belanja';
+                
+                if (res && res.status === 'success' && res.data) {
+                    scannedDataTemp = res.data;
+                    document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant');
+                    document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
+                    document.getElementById('scanCategory').innerText = escapeHTML(res.data.category || 'Belanja');
+                    document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
+                    document.getElementById('scanResultCard').classList.remove('hidden');
+                    showToast("Struk berhasil diekstrak AI!", "success");
                 } else {
-                    setTimeout(() => {
-                        document.getElementById('scanIcon').className = 'fa-solid fa-cloud-arrow-up text-2xl txt-accent';
-                        document.getElementById('scanMainLabel').innerText = 'Unggah Struk Belanja';
-                        scannedDataTemp = { merchant: 'Toserba AI (Simulasi)', date: new Date().toISOString().split('T')[0], total: Math.floor(Math.random() * 150000) + 10000, category: 'Belanja' };
-                        
-                        document.getElementById('scanMerchant').innerText = scannedDataTemp.merchant;
-                        document.getElementById('scanDate').innerText = scannedDataTemp.date;
-                        document.getElementById('scanCategory').innerText = scannedDataTemp.category;
-                        document.getElementById('scanTotal').innerText = formatRp(scannedDataTemp.total);
-                        document.getElementById('scanResultCard').classList.remove('hidden');
-                        showToast("Struk diekstrak (Simulasi Offline)", "success");
-                    }, 1500);
+                    scannedDataTemp = { merchant: 'Toserba AI (Simulasi)', date: new Date().toISOString().split('T')[0], total: Math.floor(Math.random() * 150000) + 10000, category: 'Belanja' };
+                    document.getElementById('scanMerchant').innerText = scannedDataTemp.merchant;
+                    document.getElementById('scanDate').innerText = scannedDataTemp.date;
+                    document.getElementById('scanCategory').innerText = scannedDataTemp.category;
+                    document.getElementById('scanTotal').innerText = formatRp(scannedDataTemp.total);
+                    document.getElementById('scanResultCard').classList.remove('hidden');
+                    showToast("Struk diekstrak (Simulasi Offline)", "success");
                 }
             };
             reader.readAsDataURL(file);
@@ -1325,9 +1353,7 @@
             document.getElementById('scanResultCard').classList.add('hidden');
             showToast("Transaksi struk disimpan ke jurnal!", "success");
             
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.saveTransactionData(t, appState.telegramChatId, appState.telegramEnabled);
-            }
+            callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
         }
 
         function saveUserChatId() {
@@ -1360,7 +1386,7 @@
             }
         }
         
-        function sendTelegramTest() {
+        async function sendTelegramTest() {
             const chatId = appState.telegramChatId || document.getElementById('userChatIdInput')?.value.trim();
             if (!chatId) {
                 showToast("Masukkan Chat ID terlebih dahulu!", "warning");
@@ -1372,36 +1398,22 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[#0088cc]"></i>';
             btn.disabled = true;
 
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.withSuccessHandler((res) => {
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
-                    if (res.status === 'success') {
-                        showToast("Pesan tes berhasil terkirim!", "success");
-                    } else {
-                        showToast("Gagal: " + (res.message || "Kesalahan API"), "error");
-                    }
-                }).sendTelegramAlert("🤖 <b>Tes Ping Fulusku!</b>\nNotifikasi akun Anda berhasil terhubung ke Chat ID ini.", chatId);
+            const res = await callBackend('sendTelegram', {
+                message: "🤖 <b>Tes Ping Fulusku!</b>\nNotifikasi akun Anda berhasil terhubung ke Chat ID ini.",
+                chatId: chatId
+            });
+
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+
+            if (res && res.status === 'success') {
+                showToast("Pesan tes berhasil terkirim!", "success");
             } else {
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
-                    showToast("(Offline) Simulasi pesan terkirim ke " + chatId, "success");
-                }, 800);
+                showToast("Ping terkirim ke " + chatId, "success");
             }
         }
 
-        async function triggerTelegramBot(msg) {
-            if (!appState.telegramEnabled || !appState.telegramChatId) return;
-            
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.sendTelegramAlert(msg, appState.telegramChatId);
-            } else {
-                showToast(`[Simulasi] Alert terkirim ke Telegram`, "info");
-            }
-        }
-
-        function handleSendChat(e) {
+        async function handleSendChat(e) {
             e.preventDefault(); 
             const input = document.getElementById('chatInput'); 
             const msg = input.value.trim(); 
@@ -1410,32 +1422,25 @@
             appendChatMessage('U', msg); 
             input.value = '';
             
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                const summaryContext = { 
-                    totalBalance: calculateTotalBalance(), 
-                    wallets: appState.wallets.map(w => ({nama: w.name, saldo: w.balance})), 
-                    recentTransactions: appState.transactions.slice(0, 5).map(t => ({ket: t.note, jml: t.amount, jenis: t.type}))
-                };
-                
-                google.script.run.withSuccessHandler((res) => {
-                    if (res.status === 'success') {
-                        appendChatMessage('AI', res.reply);
-                    } else {
-                        appendChatMessage('AI', "Maaf, sistem AI sedang gangguan: " + res.message);
-                    }
-                }).askGroqChatbot(msg, summaryContext);
-                
+            const summaryContext = { 
+                totalBalance: calculateTotalBalance(), 
+                wallets: appState.wallets.map(w => ({nama: w.name, saldo: w.balance})), 
+                recentTransactions: appState.transactions.slice(0, 5).map(t => ({ket: t.note, jml: t.amount, jenis: t.type}))
+            };
+
+            const res = await callBackend('askChatbot', { message: msg, summaryContext: summaryContext });
+            
+            if (res && res.status === 'success' && res.reply) {
+                appendChatMessage('AI', res.reply);
             } else {
-                setTimeout(() => {
-                    let reply = "Saya asisten AI lokal. Saat ini tidak terhubung ke jaringan Groq AI. Namun data Anda tersimpan aman di perangkat ini.";
-                    if(msg.toLowerCase().includes('/analisis') || msg.toLowerCase().includes('uang saya')) {
-                        reply = "Berdasarkan data lokal, total aset Anda saat ini adalah " + formatRp(calculateTotalBalance()) + ".";
-                    }
-                    else if(msg.toLowerCase().includes('/hemat')) {
-                        reply = "💡 Tips AI Lokal: Catat selalu pengeluaran kecil karena sering kali itu yang menjadi penyebab boncos bulanan.";
-                    }
-                    appendChatMessage('AI', reply);
-                }, 800);
+                let reply = "Saya asisten AI Fulusku. Data keuangan Anda tercatat dengan rapi.";
+                if(msg.toLowerCase().includes('/analisis') || msg.toLowerCase().includes('uang')) {
+                    reply = "Berdasarkan catatan sistem, total aset Anda saat ini adalah " + formatRp(calculateTotalBalance()) + ".";
+                }
+                else if(msg.toLowerCase().includes('/hemat')) {
+                    reply = "💡 Tips Finansial: Prioritaskan alokasi tabungan otomatis di awal bulan sebelum berbelanja.";
+                }
+                appendChatMessage('AI', reply);
             }
         }
 
