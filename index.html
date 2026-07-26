@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FuluskuAI - Mobile Financial App</title>
+    <title>FuluskuAI - Keuangan & Vision AI</title>
     
-    <!-- Fullscreen & Standalone PWA Settings -->
+    <!-- Fullscreen & Standalone PWA Meta Configuration -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="FuluskuAI">
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
-    
-    <!-- Embedded Base64 Web App Manifest -->
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDt1dGY4LDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PScxMjgnIGZpbGw9JyVkMmZmMWYnLz48cGF0aCBkPSdNMzg0IDE2MEgxMjhjLTE3LjcgMC0zMiAxNC4zLTMyIDMydjE5MmMwIDE3LjcgMTQuMyAzMiAzMiAzMmgyNTZjMTcuNyAwIDMyLTE0LjMgMzItMzJWMTkyYzAtMTcuNy0xNC4zLTMyLTMyLTMyem0tMzIgMTI4Yy0xMy4zIDAtMjQtMTAuNy0yNC0yNHMxMC43LTI0IDI0LTI0IDI0IDEwLjcgQgLTEwLjcgMjQtMjR6JyBmaWxsPSclMDkwOTBiJy8+PC9zdmc+",">
+    <meta name="application-name" content="FuluskuAI">
+    <meta name="msapplication-TileColor" content="#09090b">
+
+    <!-- Embedded Base64 Web App Manifest (Standalone Mode & SVG Icons) -->
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIC0gS2V1YW5nYW4gJiBWaXNpb24gQUkiLCJzaG9ydF9uYW1lIjoiRnVsdXNrdUFJIiwid2lkZ2V0cyI6W10sImRlc2NyaXB0aW9uIjoiRWtvc2lzdGVtIGZpbmFuc2lhbCBjZXJkYXMgZGVuZ2FuIFZpc2lvbiBBSSAmIEJvdCBUZWxlZ3JhbSIsInN0YXJ0X3VybCI6Ii4vIiwidGhlbWVfY29sb3IiOiIjMDkwOTBiIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQiLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL3R3aXR0ZXIvdHdlbW9qaUBsYXRlc3QvYXNzZXRzL3N2Zy8xZjYwMi5zdmciLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f602.svg">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -188,21 +193,22 @@
                     </button>
                     <button type="button" onclick="triggerPwaInstall()" id="pwaInstallBtn" class="p-5 app-card rounded-[24px] text-sm flex flex-col items-center justify-center gap-2.5 active:scale-95 group relative cursor-pointer">
                         <span id="pwaBadge" class="absolute -top-1 -right-1 w-3 h-3 bg-lime-400 rounded-full animate-ping hidden"></span>
-                        <i class="fa-brands fa-android text-xl txt-accent group-hover:scale-110 transition-transform"></i>
+                        <i id="pwaOsIcon" class="fa-brands fa-android text-xl txt-accent group-hover:scale-110 transition-transform"></i>
                         <span class="txt-primary font-semibold" id="pwaBtnText">Instal App</span>
                     </button>
                 </div>
 
+                <!-- PWA Auto Promotion Banner -->
                 <div id="pwaAutoBanner" class="hidden app-card p-5 rounded-[28px] border-2 border-[var(--text-accent)] shadow-[0_0_25px_rgba(210,255,31,0.2)] slide-up space-y-3">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center text-lg font-bold shrink-0"><i class="fa-solid fa-download"></i></div>
+                        <div class="w-10 h-10 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center text-lg font-bold shrink-0"><i class="fa-solid fa-mobile-screen-button"></i></div>
                         <div class="flex-1">
                             <h4 class="text-xs font-bold txt-primary">Instal Fulusku PWA</h4>
                             <p class="text-[11px] txt-secondary mt-0.5">Akses layar penuh tanpa header browser!</p>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button type="button" onclick="triggerPwaInstall()" class="flex-1 py-2.5 btn-lime rounded-xl text-xs font-bold active:scale-95">Instal</button>
+                        <button type="button" onclick="triggerPwaInstall()" class="flex-1 py-2.5 btn-lime rounded-xl text-xs font-bold active:scale-95">Instal Sekarang</button>
                         <button type="button" onclick="dismissPwaBanner()" class="px-4 py-2.5 app-subcard rounded-xl text-xs txt-muted font-medium hover:txt-primary">Nanti</button>
                     </div>
                 </div>
@@ -587,7 +593,7 @@
             </div>
             <div class="bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-color)] space-y-4">
                 <p class="text-xs txt-secondary leading-relaxed">
-                    URL backend default sudah terpasang. Anda dapat mengubahnya jika mendeploy Web App baru.
+                    URL backend default telah terpasang. Anda dapat mengganti URL ini secara manual jika mendeploy ulang Web App Google Apps Script.
                 </p>
                 <div>
                     <label class="block text-xs font-semibold txt-secondary mb-1.5 ml-1">Web App Exec URL</label>
@@ -635,20 +641,44 @@
         </div>
     </div>
 
-    <!-- Modal Installation Guide -->
+    <!-- Modal Installation Guide (Adaptive iOS & Android) -->
     <div id="modalGuide" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 max-h-[85vh] overflow-y-auto hide-scroll slide-up">
             <div class="flex justify-between items-center">
-                <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-brands fa-android txt-accent"></i> Panduan Instal Standalone PWA</h3>
+                <h3 class="text-base font-bold txt-primary flex items-center gap-2" id="pwaModalTitle">
+                    <i class="fa-solid fa-mobile-screen-button txt-accent"></i> Panduan Instal PWA Standalone
+                </h3>
                 <button type="button" onclick="closeModal('modalGuide')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <ol class="text-xs txt-secondary space-y-4 list-decimal list-inside font-medium leading-relaxed bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-color)]">
-                <li>Buka web Vercel ini menggunakan browser <strong class="txt-accent">Google Chrome</strong> di HP Anda.</li>
-                <li>Ketuk ikon menu tiga titik (⋮) di pojok kanan atas browser.</li>
-                <li>Cari dan pilih opsi <strong class="txt-primary">"Instal aplikasi"</strong> (Install App).</li>
-                <li>Ketuk tombol <strong class="txt-primary">"Instal"</strong> pada pop-up konfirmasi.</li>
-                <li>Selesai! Buka aplikasi FuluskuAI dari layar utama HP: Aplikasi akan berjalan **Fullscreen 100% tanpa header browser**.</li>
-            </ol>
+
+            <!-- Content for Android / Chrome -->
+            <div id="guideAndroid" class="space-y-3">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-lime-400/10 txt-accent text-xs font-bold">
+                    <i class="fa-brands fa-android text-sm"></i> Android / Google Chrome
+                </div>
+                <ol class="text-xs txt-secondary space-y-3 list-decimal list-inside font-medium leading-relaxed bg-[var(--bg-input)] p-4 rounded-2xl border border-[var(--border-color)]">
+                    <li>Buka web Vercel ini menggunakan browser <strong class="txt-accent">Google Chrome</strong>.</li>
+                    <li>Ketuk ikon menu tiga titik (<strong class="txt-primary">⋮</strong>) di pojok kanan atas browser.</li>
+                    <li>Pilih opsi <strong class="txt-primary">"Instal aplikasi"</strong> atau <strong class="txt-primary">"Tambahkan ke layar Utama"</strong>.</li>
+                    <li>Ketuk tombol <strong class="txt-primary">"Instal"</strong> pada pop-up konfirmasi.</li>
+                    <li>Selesai! Aplikasi FuluskuAI akan tampil di Home Screen dan berjalan **Layar Penuh 100%**.</li>
+                </ol>
+            </div>
+
+            <!-- Content for iOS Safari -->
+            <div id="guideIos" class="space-y-3">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-400/10 txt-info text-xs font-bold">
+                    <i class="fa-brands fa-apple text-sm"></i> iPhone / iPad (Safari)
+                </div>
+                <ol class="text-xs txt-secondary space-y-3 list-decimal list-inside font-medium leading-relaxed bg-[var(--bg-input)] p-4 rounded-2xl border border-[var(--border-color)]">
+                    <li>Buka web ini menggunakan browser bawaan <strong class="txt-info">Safari</strong> di iPhone Anda.</li>
+                    <li>Ketuk tombol <strong class="txt-primary">Bagikan (Share)</strong> <i class="fa-solid fa-arrow-up-from-bracket text-xs txt-accent"></i> di bagian bawah layar.</li>
+                    <li>Gulir ke bawah pada menu opsi lalu pilih <strong class="txt-primary">"Tambah ke Layar Utama" (Add to Home Screen)</strong>.</li>
+                    <li>Ketuk <strong class="txt-primary">"Tambah" (Add)</strong> di pojok kanan atas.</li>
+                    <li>Ikon FuluskuAI akan muncul di Home Screen iPhone Anda tanpa bilah browser!</li>
+                </ol>
+            </div>
+
             <button type="button" onclick="closeModal('modalGuide')" class="w-full py-3 bg-[var(--bg-subcard)] text-sm rounded-xl hover:bg-white/5 transition-colors font-semibold">Tutup Panduan</button>
         </div>
     </div>
@@ -678,12 +708,52 @@
         let deferredPrompt = null;
         let scannedDataTemp = null;
         let isRegisterMode = false;
+        let isIosDevice = false;
 
-        // Helper universal untuk komunikasi dengan Backend (Support iFrame GAS & Vercel Fetch)
+        // Service Worker Registration for Offline Capabilities & PWA Compliance
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                try {
+                    const swCode = `
+                        const CACHE_NAME = 'fulusku-pwa-v2';
+                        const ASSETS = [
+                            './',
+                            'https://cdn.tailwindcss.com',
+                            'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap',
+                            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+                            'https://cdn.jsdelivr.net/npm/chart.js'
+                        ];
+                        self.addEventListener('install', (e) => {
+                            e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS).catch(() => {})));
+                            self.skipWaiting();
+                        });
+                        self.addEventListener('activate', (e) => {
+                            e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))));
+                            self.clients.claim();
+                        });
+                        self.addEventListener('fetch', (e) => {
+                            if (e.request.method !== 'GET') return;
+                            e.respondWith(
+                                fetch(e.request).then((res) => {
+                                    const clone = res.clone();
+                                    caches.open(CACHE_NAME).then((c) => c.put(e.request, clone));
+                                    return res;
+                                }).catch(() => caches.match(e.request).then((res) => res || new Response('Mode offline aktif.')))
+                            );
+                        });
+                    `;
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(swUrl).catch(err => console.warn('SW info:', err.message));
+                } catch (e) { console.warn('SW setup error:', e.message); }
+            });
+        }
+
+        // Universal helper for communication with Backend (Support iFrame GAS & Vercel Fetch)
         async function callBackend(action, payload = {}) {
             const fullPayload = { action, ...payload };
 
-            // 1. Jika berjalan di dalam iFrame Google Apps Script
+            // 1. If running inside Google Apps Script iFrame
             if (typeof google !== 'undefined' && google.script && google.script.run) {
                 return new Promise((resolve) => {
                     if (action === 'getInitialData') {
@@ -709,7 +779,7 @@
                 });
             }
 
-            // 2. Jika di-host di Vercel / Standalone Server menggunakan Web App Exec URL
+            // 2. If hosted on Vercel / Standalone Server using Web App Exec URL
             const url = appState.gasUrl || DEFAULT_GAS_URL;
             if (url && url !== "https://script.google.com/macros/s/AKfycbxYOUR_DEPLOYMENT_ID_HERE/exec") {
                 try {
@@ -729,44 +799,47 @@
             return null;
         }
 
-        // Service Worker Registration for PWA Compliance
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                try {
-                    const swCode = `
-                        self.addEventListener('install', (e) => self.skipWaiting());
-                        self.addEventListener('activate', (e) => self.clients.claim());
-                        self.addEventListener('fetch', (e) => {
-                            e.respondWith(fetch(e.request).catch(() => new Response('Offline mode ready.')));
-                        });
-                    `;
-                    const blob = new Blob([swCode], { type: 'application/javascript' });
-                    const swUrl = URL.createObjectURL(blob);
-                    navigator.serviceWorker.register(swUrl).catch(err => {
-                        console.warn('Service Worker info:', err.message);
-                    });
-                } catch (e) { console.warn('SW setup error:', e.message); }
-            });
-        }
-
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e; showPwaAutoBanner();
+            e.preventDefault(); 
+            deferredPrompt = e; 
+            showPwaAutoBanner();
         });
 
-        function showPwaAutoBanner() { document.getElementById('pwaAutoBanner')?.classList.remove('hidden'); document.getElementById('pwaBadge')?.classList.remove('hidden'); }
-        function dismissPwaBanner() { document.getElementById('pwaAutoBanner')?.classList.add('hidden'); }
+        function showPwaAutoBanner() { 
+            const banner = document.getElementById('pwaAutoBanner');
+            const badge = document.getElementById('pwaBadge');
+            if (banner) banner.classList.remove('hidden'); 
+            if (badge) badge.classList.remove('hidden'); 
+        }
+
+        function dismissPwaBanner() { 
+            document.getElementById('pwaAutoBanner')?.classList.add('hidden'); 
+        }
+
         function triggerPwaInstall() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choice) => {
-                    if (choice.outcome === 'accepted') showToast("Instalasi berhasil!", "success");
-                    deferredPrompt = null; dismissPwaBanner();
+                    if (choice.outcome === 'accepted') showToast("PWA FuluskuAI Berhasil Diinstal!", "success");
+                    deferredPrompt = null; 
+                    dismissPwaBanner();
                 });
-            } else { openModal('modalGuide'); }
+            } else { 
+                openModal('modalGuide'); 
+            }
         }
 
         window.onload = function() {
-            updateClock(); setInterval(updateClock, 1000);
+            updateClock(); 
+            setInterval(updateClock, 1000);
+            
+            // Detect iOS for specific installation UX
+            isIosDevice = /iphone|ipad|ipod/i.test(navigator.userAgent);
+            const pwaOsIcon = document.getElementById('pwaOsIcon');
+            if (isIosDevice && pwaOsIcon) {
+                pwaOsIcon.className = 'fa-brands fa-apple text-xl txt-accent group-hover:scale-110 transition-transform';
+            }
+
             loadLocalData();
             
             try {
