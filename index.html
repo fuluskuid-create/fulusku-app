@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- STREAMING_CHUNK:Styling custom CSS variables and glassmorphism themes... -->
     <style>
         :root {
             --bg-main: #09090b;
@@ -136,7 +135,6 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4 transition-all"></div>
 
-<!-- STREAMING_CHUNK:Rendering main app container and top header... -->
     <div id="appContainer" class="app-container max-w-md mx-auto shadow-2xl flex flex-col overflow-hidden relative sm:border border-[var(--border-color)] sm:rounded-[36px] sm:h-[880px]">
         
         <div class="ambient-bg">
@@ -164,7 +162,6 @@
             </div>
         </header>
 
-<!-- STREAMING_CHUNK:Rendering landing, auth, and dashboard views... -->
         <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-28 hide-scroll relative z-10 flex flex-col">
 
             <!-- Landing Page Section -->
@@ -286,7 +283,6 @@
                 </div>
             </section>
 
-<!-- STREAMING_CHUNK:Rendering transaction filters, vision scanner, targets, and debt views... -->
             <section id="tabTransactions" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-bold txt-primary">Riwayat Transaksi</h3>
@@ -380,7 +376,6 @@
                 </div>
             </section>
 
-<!-- STREAMING_CHUNK:Rendering chatbot tab and fixed bottom navigation... -->
             <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-[500px] slide-up relative pb-12">
                 <div class="text-center pb-3 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-lg font-bold txt-primary">Asisten Finansial</h3>
@@ -439,7 +434,6 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
-<!-- STREAMING_CHUNK:Rendering application modals (Transaction, Transfer, Wallet, Goal, Debt, Settings)... -->
     <!-- Modal Transaction -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
         <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 border-b-0 sm:border-b slide-up">
@@ -587,6 +581,11 @@
                 <p class="text-xs txt-secondary leading-relaxed">
                     Masukkan URL Web App Exec Google Apps Script Anda untuk menghubungkan Google Sheets, Groq Vision AI, & Bot Telegram.
                 </p>
+                <div class="p-3 bg-lime-400/10 rounded-xl border border-lime-400/20 text-[11px] txt-secondary space-y-1">
+                    <p class="font-bold txt-accent">💡 Tips Deployment Apps Script:</p>
+                    <p>• Akses: <b>Siapa saja (Anyone)</b></p>
+                    <p>• Jalankan sebagai: <b>Saya (Me)</b></p>
+                </div>
                 <div>
                     <label class="block text-xs font-semibold txt-secondary mb-1.5 ml-1">Web App Exec URL</label>
                     <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="app-input w-full px-4 py-3 rounded-2xl text-xs font-medium border border-[var(--border-color)] text-white">
@@ -627,7 +626,6 @@
         </div>
     </div>
 
-<!-- STREAMING_CHUNK:Initializing JavaScript logic and state handlers... -->
     <script>
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbxejM4mHPOj5Px6KuBppL9TKQ5unEWJFQy3ScXEjkpjuZdgqemVUtX5xAcE1Rc038h/exec";
 
@@ -684,7 +682,6 @@
             } else { showToast("Gunakan menu 'Instal aplikasi' di browser HP Anda", "info"); }
         }
 
-<!-- STREAMING_CHUNK:Defining backend connection and API dispatching... -->
         async function callBackend(action, payload = {}) {
             const fullPayload = { action, ...payload };
             
@@ -712,13 +709,19 @@
                 const response = await fetch(url, {
                     method: 'POST',
                     mode: 'cors',
+                    redirect: 'follow',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(fullPayload)
                 });
+
+                if (!response.ok) {
+                    return { status: 'error', message: `Server HTTP ${response.status}` };
+                }
+
                 return await response.json();
             } catch (err) {
-                console.error("callBackend error:", err);
-                return { status: 'error', message: err.toString() };
+                // Return structured error safely without crashing or throwing console stacktraces
+                return { status: 'error', message: 'Koneksi backend terputus / CORS limit. Menggunakan Mode Lokal.' };
             }
         }
 
@@ -756,7 +759,7 @@
             if (res && res.status === 'success') {
                 showToast("✅ Berhasil! Backend GAS Terhubung.", "success");
             } else {
-                showToast("❌ Gagal terhubung. Periksa URL Web App!", "error");
+                showToast("❌ Gagal terhubung: " + (res?.message || "Cek URL Web App!"), "error");
             }
         }
 
@@ -770,14 +773,21 @@
         }
 
         async function fetchInitialBackendData() {
-            const res = await callBackend('getInitialData');
-            if (res && res.status === 'success' && res.data) {
-                if (res.data.wallets?.length) appState.wallets = res.data.wallets;
-                if (res.data.transactions?.length) appState.transactions = res.data.transactions;
-                if (res.data.goals?.length) appState.goals = res.data.goals;
-                if (res.data.debts?.length) appState.debts = res.data.debts;
-                saveLocalData();
-                refreshAllViews();
+            try {
+                const res = await callBackend('getInitialData');
+                if (res && res.status === 'success' && res.data) {
+                    if (res.data.wallets?.length) appState.wallets = res.data.wallets;
+                    if (res.data.transactions?.length) appState.transactions = res.data.transactions;
+                    if (res.data.goals?.length) appState.goals = res.data.goals;
+                    if (res.data.debts?.length) appState.debts = res.data.debts;
+                    saveLocalData();
+                    refreshAllViews();
+                } else {
+                    // Smooth silent fallback to local storage
+                    loadLocalData();
+                }
+            } catch (e) {
+                loadLocalData();
             }
         }
 
@@ -808,7 +818,6 @@
             }
         }
 
-<!-- STREAMING_CHUNK:Configuring authentication and navigation UI state... -->
         function escapeHTML(str) { 
             return String(str || '').replace(/[&<>'"]/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[match])); 
         }
@@ -971,7 +980,7 @@
             const key = 'fulusku_db_' + (username ? username.toLowerCase() : 'guest'); 
             try { 
                 const db = JSON.parse(localStorage.getItem(key)); 
-                if (db && db.wallets) { 
+                if (db && db.wallets && db.wallets.length > 0) { 
                     appState.wallets = db.wallets; 
                     appState.transactions = db.transactions || []; 
                     appState.goals = db.goals || []; 
@@ -1025,7 +1034,6 @@
             return appState.wallets.reduce((sum, w) => sum + Number(w.balance), 0); 
         }
 
-<!-- STREAMING_CHUNK:Rendering DOM lists for wallets, transactions, goals, debts... -->
         function renderWallets() { 
             const container = document.getElementById('walletContainer'); 
             if (!container) return; 
@@ -1163,7 +1171,6 @@
             }); 
         }
 
-<!-- STREAMING_CHUNK:Processing modal form submissions (Transactions, Transfers, Wallets, Goals, Debts)... -->
         async function saveTransaction(e) { 
             e.preventDefault(); 
             const amtVal = Number(document.getElementById('txAmountInput')?.value); 
@@ -1285,7 +1292,6 @@
             callBackend('saveDebt', { debt });
         }
 
-<!-- STREAMING_CHUNK:Configuring Chart.js analytics reports and cashflow graphs... -->
         function initCharts() {
             if (typeof Chart === 'undefined') return;
             if (chartCashflowInstance || chartCategoryInstance) return;
@@ -1396,7 +1402,6 @@
             chartCategoryInstance.update();
         }
 
-<!-- STREAMING_CHUNK:Processing Vision AI receipt OCR scanning and Chatbot Groq integration... -->
         function processReceiptScan(event) {
             const file = event.target.files[0]; 
             if (!file) return;
@@ -1420,7 +1425,7 @@
                     document.getElementById('scanResultCard').classList.remove('hidden');
                     showToast("Struk berhasil diekstrak AI!", "success");
                 } else {
-                    showToast("Gagal scan struk AI. Coba lagi.", "error");
+                    showToast("Gagal scan struk AI. Menggunakan mode manual.", "info");
                 }
             };
             reader.readAsDataURL(file);
@@ -1481,7 +1486,7 @@
             if (res && res.status === 'success' && res.reply) {
                 appendChatMessage('AI', res.reply);
             } else {
-                appendChatMessage('AI', "Maaf, terjadi kendala saat terhubung ke Groq AI Backend. Silakan periksa koneksi Backend Anda pada menu Pengaturan (⚙️).");
+                appendChatMessage('AI', "Mode offline: AI Backend tidak terhubung. Anda masih bisa menggunakan seluruh fitur pencatatan lokal & grafik analitik.");
             }
         }
 
