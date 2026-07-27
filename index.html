@@ -15,7 +15,6 @@
     <!-- Embedded Base64 Web App Manifest -->
     <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0In0=">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -177,7 +176,6 @@
 </head>
 <body class="flex justify-center items-center w-full h-full p-0">
 
-    <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4 transition-all"></div>
 
     <div id="appContainer" class="app-container max-w-md mx-auto shadow-2xl flex flex-col overflow-hidden relative sm:border border-[var(--border-color)] sm:rounded-[36px] sm:h-[880px]">
@@ -208,7 +206,6 @@
 
         <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-32 hide-scroll relative z-10 flex flex-col">
 
-            <!-- Landing Page -->
             <section id="viewLanding" class="space-y-8 py-8 slide-up">
                 <div class="text-center space-y-5">
                     <div id="appLogoContainer" class="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-limeaccent-300 via-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(210,255,31,0.3)] transform hover:scale-105 transition-transform duration-500 overflow-hidden p-3 relative">
@@ -233,7 +230,6 @@
                 </div>
             </section>
 
-            <!-- Login / Auth Section -->
             <section id="viewLogin" class="hidden space-y-8 py-8 slide-up">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center mx-auto mb-4 shadow-lg overflow-hidden p-2 relative">
@@ -275,7 +271,6 @@
                 </form>
             </section>
 
-            <!-- Dashboard Section -->
             <section id="viewDashboard" class="hidden space-y-7 slide-up">
                 <div class="relative p-7 rounded-[32px] overflow-hidden shadow-2xl transition-all border border-[var(--border-color)]" style="background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-gradient-end) 100%);">
                     <div class="absolute -top-16 -right-16 w-48 h-48 bg-lime-400/20 rounded-full blur-[50px] pointer-events-none"></div>
@@ -329,7 +324,6 @@
                 </div>
             </section>
 
-            <!-- Transactions List Tab -->
             <section id="tabTransactions" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-bold txt-primary">Riwayat Transaksi</h3>
@@ -365,11 +359,11 @@
                     <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis detail toko, tanggal, & nominal transaksi dari foto struk.</p>
                 </div>
 
-                <!-- Dual Native File Input Cards with Absolute Overlays for Fail-Safe Touch -->
-                <div class="grid grid-cols-2 gap-3 relative">
-                    <!-- Native Camera Input Card -->
-                    <div class="relative app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all overflow-hidden cursor-pointer">
-                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
+                <!-- Dual Native HTML5 Label Cards with Hidden Sr-Only Inputs for Fail-Safe Mobile Touch -->
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Native Camera Input Label Card -->
+                    <label for="cameraFileInput" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all overflow-hidden cursor-pointer select-none">
+                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="hidden" onchange="processReceiptScan(event)">
                         <div class="w-12 h-12 rounded-2xl bg-limeaccent-400/10 txt-accent flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-camera"></i>
                         </div>
@@ -377,11 +371,11 @@
                             <p class="text-xs font-bold txt-primary">Ambil Foto</p>
                             <p class="text-[10px] txt-secondary">Kamera HP (Native)</p>
                         </div>
-                    </div>
+                    </label>
 
-                    <!-- Native Gallery File Input Card -->
-                    <div class="relative app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all overflow-hidden cursor-pointer">
-                        <input type="file" id="galleryFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
+                    <!-- Native Gallery File Input Label Card -->
+                    <label for="galleryFileInput" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all overflow-hidden cursor-pointer select-none">
+                        <input type="file" id="galleryFileInput" accept="image/*" class="hidden" onchange="processReceiptScan(event)">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 txt-income flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-images"></i>
                         </div>
@@ -389,12 +383,12 @@
                             <p class="text-xs font-bold txt-primary">Pilih Galeri</p>
                             <p class="text-[10px] txt-secondary">File / Gambar Struk</p>
                         </div>
-                    </div>
+                    </label>
                 </div>
 
-                <!-- Big Drop Container with Direct File Overlay -->
-                <div class="relative app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors overflow-hidden cursor-pointer">
-                    <input type="file" id="dropFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
+                <!-- Big Drop Container with Direct Native Label Trigger -->
+                <label for="dropFileInput" class="block app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors overflow-hidden cursor-pointer select-none">
+                    <input type="file" id="dropFileInput" accept="image/*" class="hidden" onchange="processReceiptScan(event)">
                     <div class="pointer-events-none">
                         <div class="w-16 h-16 rounded-full bg-[var(--bg-subcard)] txt-accent flex items-center justify-center text-2xl mx-auto mb-4">
                             <i id="scanIcon" class="fa-solid fa-cloud-arrow-up"></i>
@@ -402,7 +396,7 @@
                         <p id="scanMainLabel" class="text-sm font-bold txt-primary mb-1">Unggah Struk Belanja</p>
                         <p id="scanSubLabel" class="text-[11px] txt-secondary">Ketuk di sini untuk memilih foto dari perangkat Anda</p>
                     </div>
-                </div>
+                </label>
 
                 <!-- Scanned Result Card -->
                 <div id="scanResultCard" class="hidden app-card p-6 rounded-[32px] space-y-4 border-accent relative overflow-hidden">
@@ -418,7 +412,6 @@
                 </div>
             </section>
 
-            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
@@ -427,7 +420,6 @@
                 <div id="goalsList" class="space-y-4"></div>
             </section>
 
-            <!-- Debts Tab -->
             <section id="tabDebts" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Utang & Tagihan</h3>
@@ -436,7 +428,6 @@
                 <div id="debtsList" class="space-y-4"></div>
             </section>
 
-            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-6 slide-up">
                 <h3 class="text-xl font-bold txt-primary">Analitik & Laporan</h3>
                 <div class="p-5 app-card rounded-[24px] flex gap-4 items-start bg-gradient-to-br from-[var(--bg-card)] to-[var(--text-accent)]/5 border border-[var(--border-color)]">
@@ -516,7 +507,6 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
-    <!-- Modals Section -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
             <div class="flex justify-between items-center mb-1">
