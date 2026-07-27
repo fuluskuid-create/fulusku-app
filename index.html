@@ -11,8 +11,7 @@
     <meta name="apple-mobile-web-app-title" content="FuluskuAI">
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
 
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIC0gS2V1YW5nYW4gJiBWaXNpb24gQUkiLCJzaG9ydF9uYW1lIjoiRnVsdXNrdUFJIiwid2lkZ2V0cyI6W10sImRlc2NyaXB0aW9uIjoiRWtvc2lzdGVtIGZpbmFuc2lhbCBjZXJkYXMgZGVuZ2FuIFZpc2lvbiBBSSAmIEJvdCBUZWxlZ3JhbSIsInN0YXJ0X3VybCI6Ii4vIiwidGhlbWVfY29sb3IiOiIjMDkwOTBiIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQiLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL3R3aXR0ZXIvdHdlbW9qaUBsYXRlc3QvYXNzZXRzL3N2Zy8xZjYwMi5zdmciLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
-    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f602.svg">
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0In0=">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -52,9 +51,6 @@
             --text-accent: #d2ff1f;
             --text-income: #34d399;
             --text-expense: #f87171;
-            --text-warning: #fb923c;
-            --text-info: #38bdf8;
-            --bg-gradient-end: rgba(0, 0, 0, 0.5);
             --nav-bg: rgba(24, 24, 27, 0.85);
             --shadow-color: rgba(0, 0, 0, 0.4);
             --glass-edge: inset 0 1px 1px rgba(255, 255, 255, 0.1);
@@ -77,9 +73,6 @@
             --text-accent: #65a30d;
             --text-income: #059669;
             --text-expense: #dc2626;
-            --text-warning: #ea580c;
-            --text-info: #0284c7;
-            --bg-gradient-end: rgba(255, 255, 255, 0.2);
             --nav-bg: rgba(255, 255, 255, 0.9);
             --shadow-color: rgba(148, 163, 184, 0.15);
             --glass-edge: inset 0 1px 1px rgba(255, 255, 255, 0.9);
@@ -163,8 +156,9 @@
             </div>
         </header>
 
-        <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-28 hide-scroll relative z-10">
+        <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-28 hide-scroll relative z-10 flex flex-col">
 
+            <!-- Landing Page Section -->
             <section id="viewLanding" class="space-y-8 py-8 slide-up">
                 <div class="text-center space-y-5">
                     <div class="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-limeaccent-300 via-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(210,255,31,0.3)] transform hover:scale-105 transition-transform duration-500 overflow-hidden p-4">
@@ -186,42 +180,39 @@
                         <span class="txt-primary font-semibold" id="pwaBtnText">Instal App</span>
                     </button>
                 </div>
-
-                <div id="pwaAutoBanner" class="hidden app-card p-5 rounded-[28px] border-2 border-[var(--text-accent)] shadow-[0_0_25px_rgba(210,255,31,0.2)] slide-up space-y-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center text-lg font-bold shrink-0"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                        <div class="flex-1">
-                            <h4 class="text-xs font-bold txt-primary">Instal Fulusku PWA</h4>
-                            <p class="text-[11px] txt-secondary mt-0.5">Akses layar penuh tanpa header browser!</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <button type="button" onclick="triggerPwaInstall()" class="flex-1 py-2.5 btn-lime rounded-xl text-xs font-bold active:scale-95">Instal Sekarang</button>
-                        <button type="button" onclick="dismissPwaBanner()" class="px-4 py-2.5 app-subcard rounded-xl text-xs txt-muted font-medium hover:txt-primary">Nanti</button>
-                    </div>
-                </div>
             </section>
 
+            <!-- Login & Registration View -->
             <section id="viewLogin" class="hidden space-y-8 py-8 slide-up">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center mx-auto mb-4 shadow-lg overflow-hidden p-2">
-                        <i class="fa-solid fa-user-lock text-3xl"></i>
+                        <i id="authIcon" class="fa-solid fa-user-lock text-3xl"></i>
                     </div>
                     <h2 id="authTitle" class="text-2xl font-extrabold txt-primary tracking-tight">Masuk Akun</h2>
-                    <p id="authSubtitle" class="text-xs txt-secondary">Masukkan ID Pengguna Anda</p>
+                    <p id="authSubtitle" class="text-xs txt-secondary">Masukkan ID Pengguna Anda untuk melanjutkan</p>
+                </div>
+
+                <!-- Segmented Control Switch for Masuk vs Daftar -->
+                <div class="app-card p-1.5 rounded-2xl flex gap-1">
+                    <button type="button" id="tabModeLogin" onclick="setAuthMode('login')" class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-[var(--accent-lime)] text-[var(--accent-lime-text)] transition-all">
+                        Masuk Akun
+                    </button>
+                    <button type="button" id="tabModeRegister" onclick="setAuthMode('register')" class="flex-1 py-2.5 rounded-xl text-xs font-bold txt-secondary hover:txt-primary transition-all">
+                        Daftar Baru
+                    </button>
                 </div>
 
                 <form onsubmit="handleAuth(event)" class="app-card p-7 rounded-[32px] space-y-4">
                     <div id="registerFields" class="hidden">
                         <label class="block text-xs font-semibold txt-secondary mb-2 ml-1">Nama Lengkap</label>
-                        <input type="text" id="registerName" placeholder="Nama Lengkap Anda" class="app-input w-full px-5 py-3.5 rounded-2xl text-sm font-medium mb-4">
+                        <input type="text" id="registerName" placeholder="Nama Lengkap Anda" class="app-input w-full px-5 py-3.5 rounded-2xl text-sm font-medium mb-1">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold txt-secondary mb-2 ml-1">ID Pengguna</label>
+                        <label class="block text-xs font-semibold txt-secondary mb-2 ml-1">ID Pengguna (Username)</label>
                         <input type="text" id="loginUsername" placeholder="Contoh: Budi123" class="app-input w-full px-5 py-3.5 rounded-2xl text-sm font-medium" required>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold txt-secondary mb-2 ml-1">Kata Sandi (Opsional)</label>
+                        <label class="block text-xs font-semibold txt-secondary mb-2 ml-1">Kata Sandi / PIN (Opsional)</label>
                         <input type="password" id="loginPassword" placeholder="••••••••" class="app-input w-full px-5 py-3.5 rounded-2xl text-sm font-medium">
                     </div>
                     
@@ -230,19 +221,13 @@
                     <button type="button" onclick="quickLogin()" class="w-full py-3 app-subcard text-xs font-bold txt-accent rounded-2xl border border-[var(--border-color)] hover:bg-lime-400/10 active:scale-95 transition-all">
                         <i class="fa-solid fa-bolt mr-1"></i> Masuk Langsung (Tamu)
                     </button>
-
-                    <div class="text-center mt-3">
-                        <button type="button" onclick="toggleAuthMode()" id="authToggleBtn" class="text-xs font-medium txt-secondary hover:text-[var(--text-accent)] transition-colors">
-                            Belum memiliki akun? <span class="font-bold txt-accent">Daftar</span>
-                        </button>
-                    </div>
                 </form>
             </section>
 
+            <!-- Main Dashboard Section -->
             <section id="viewDashboard" class="hidden space-y-7 slide-up">
                 <div class="relative p-7 rounded-[32px] overflow-hidden shadow-2xl transition-all border border-[var(--border-color)]" style="background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-gradient-end) 100%);">
                     <div class="absolute -top-16 -right-16 w-48 h-48 bg-lime-400/20 rounded-full blur-[50px] pointer-events-none"></div>
-                    
                     <div class="flex items-center justify-between relative z-10 mb-4">
                         <span class="text-xs font-semibold txt-secondary uppercase tracking-wider flex items-center gap-2">
                             Total Aset <i class="fa-solid fa-circle-info text-[10px] opacity-50"></i>
@@ -298,29 +283,15 @@
                     <h3 class="text-xl font-bold txt-primary">Riwayat Transaksi</h3>
                     <button type="button" onclick="openModal('modalTransaction', 'expense')" class="w-10 h-10 btn-lime rounded-2xl flex items-center justify-center"><i class="fa-solid fa-plus"></i></button>
                 </div>
-                <div class="flex gap-3">
-                    <div class="relative flex-1">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-xs txt-muted"></i>
-                        <input type="text" id="txSearchInput" oninput="renderTransactions()" placeholder="Cari catatan..." class="app-input w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-medium">
-                    </div>
-                    <select id="txFilterCategory" onchange="renderTransactions()" class="app-input px-3 py-3 rounded-2xl text-xs font-medium shrink-0 max-w-[120px]">
-                        <option value="ALL">Semua</option>
-                        <option value="Makanan">Makanan</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Belanja">Belanja</option>
-                        <option value="Tagihan">Tagihan</option>
-                        <option value="Gaji">Gaji</option>
-                        <option value="Hiburan">Hiburan</option>
-                    </select>
-                </div>
                 <div class="app-card rounded-[24px] overflow-hidden">
                     <div id="fullTxList" class="divide-y divide-[var(--border-color)]"></div>
                 </div>
             </section>
 
+            <!-- Vision AI Scan View -->
             <section id="tabScanner" class="hidden space-y-6 slide-up">
                 <div class="text-center space-y-2 mt-4">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-3xl mx-auto mb-4 shadow-[0_0_30px_rgba(210,255,31,0.2)]">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-3xl mx-auto mb-4">
                         <i class="fa-solid fa-microchip"></i>
                     </div>
                     <h3 class="text-xl font-bold txt-primary">Vision AI Scan</h3>
@@ -330,20 +301,14 @@
                 <div class="app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] cursor-pointer hover:border-[var(--border-highlight)] transition-colors" onclick="document.getElementById('receiptFileInput').click()">
                     <div class="w-16 h-16 rounded-full bg-[var(--bg-subcard)] txt-accent flex items-center justify-center text-2xl mx-auto mb-4"><i id="scanIcon" class="fa-solid fa-cloud-arrow-up"></i></div>
                     <p id="scanMainLabel" class="text-sm font-bold txt-primary mb-1">Unggah Struk Belanja</p>
-                    <p id="scanSubLabel" class="text-[11px] txt-muted">Sentuh untuk memilih berkas atau foto struk</p>
                     <input type="file" id="receiptFileInput" accept="image/*" class="hidden" onchange="processReceiptScan(event)">
                 </div>
 
                 <div id="scanResultCard" class="hidden app-card p-6 rounded-[32px] space-y-4 border-accent relative overflow-hidden">
-                    <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-3">
-                        <h4 class="text-sm font-bold txt-primary flex items-center gap-2"><i class="fa-solid fa-check-circle txt-accent"></i> Hasil Analisis</h4>
-                        <span class="text-[10px] bg-[var(--text-accent)]/20 txt-accent px-2.5 py-1 rounded-full font-bold">Otomatis AI</span>
-                    </div>
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between items-center"><span class="txt-secondary text-xs">Merchant</span> <strong id="scanMerchant" class="txt-primary">-</strong></div>
                         <div class="flex justify-between items-center"><span class="txt-secondary text-xs">Tanggal</span> <strong id="scanDate" class="txt-primary">-</strong></div>
-                        <div class="flex justify-between items-center"><span class="txt-secondary text-xs">Kategori</span> <span id="scanCategory" class="bg-[var(--bg-subcard)] px-2.5 py-0.5 rounded-md text-xs font-medium txt-primary">-</span></div>
-                        <div class="flex justify-between items-center pt-3 mt-1 border-t border-[var(--border-color)]">
+                        <div class="flex justify-between items-center pt-3 border-t border-[var(--border-color)]">
                             <span class="txt-secondary text-xs">Total Akhir</span> <strong id="scanTotal" class="text-xl font-bold txt-accent">Rp 0</strong>
                         </div>
                     </div>
@@ -352,10 +317,6 @@
             </section>
 
             <section id="tabGoals" class="hidden space-y-6 slide-up">
-                <div class="flex gap-2 p-1 bg-[var(--bg-subcard)] rounded-2xl mb-6">
-                    <button type="button" class="flex-1 py-2 text-xs font-bold bg-[var(--bg-card)] rounded-xl shadow-sm txt-accent">Target</button>
-                    <button type="button" onclick="switchTab('tabDebts')" class="flex-1 py-2 text-xs font-semibold txt-secondary hover:txt-primary">Tagihan</button>
-                </div>
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
                     <button type="button" onclick="openModal('modalAddGoal')" class="text-xs txt-accent hover:bg-lime-400/10 px-3 py-1.5 rounded-xl font-semibold">+ Tambah</button>
@@ -364,10 +325,6 @@
             </section>
 
             <section id="tabDebts" class="hidden space-y-6 slide-up">
-                <div class="flex gap-2 p-1 bg-[var(--bg-subcard)] rounded-2xl mb-6">
-                    <button type="button" onclick="switchTab('tabGoals')" class="flex-1 py-2 text-xs font-semibold txt-secondary hover:txt-primary">Target</button>
-                    <button type="button" class="flex-1 py-2 text-xs font-bold bg-[var(--bg-card)] rounded-xl shadow-sm txt-accent">Tagihan</button>
-                </div>
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Utang & Tagihan</h3>
                     <button type="button" onclick="openModal('modalAddDebt')" class="text-xs txt-accent hover:bg-lime-400/10 px-3 py-1.5 rounded-xl font-semibold">+ Catat</button>
@@ -375,50 +332,32 @@
                 <div id="debtsList" class="space-y-4"></div>
             </section>
 
-            <section id="tabReports" class="hidden space-y-6 slide-up">
-                <h3 class="text-xl font-bold txt-primary">Analitik AI</h3>
-                <div class="p-5 app-card rounded-[24px] flex gap-4 items-start bg-gradient-to-br from-[var(--bg-card)] to-[var(--text-accent)]/5">
-                    <div class="w-10 h-10 rounded-full bg-[var(--text-accent)]/20 txt-accent flex items-center justify-center text-lg shrink-0 mt-1"><i class="fa-solid fa-lightbulb"></i></div>
-                    <div>
-                        <h4 class="text-sm font-bold txt-primary mb-1">Insight Fulusku</h4>
-                        <p id="reportInsightText" class="text-xs txt-secondary leading-relaxed">Menyiapkan laporan analitik berdasarkan transaksi Anda...</p>
-                    </div>
-                </div>
-                <div class="app-card p-5 rounded-[24px]">
-                    <h4 class="text-sm font-bold txt-primary mb-4">Arus Kas (Kas Masuk vs Keluar)</h4>
-                    <div class="h-48 w-full"><canvas id="chartCashflow"></canvas></div>
-                </div>
-                <div class="app-card p-5 rounded-[24px]">
-                    <h4 class="text-sm font-bold txt-primary mb-4">Distribusi Pengeluaran</h4>
-                    <div class="h-52 w-full flex items-center justify-center relative">
-                        <canvas id="chartCategory"></canvas>
-                        <p id="chartCategoryEmpty" class="absolute hidden text-xs txt-muted font-medium text-center">Belum ada data pengeluaran</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="tabChatbot" class="hidden flex-col h-[calc(100vh-220px)] sm:h-[600px] slide-up">
-                <div class="text-center pb-2 border-b border-[var(--border-color)] shrink-0">
+            <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-[500px] slide-up relative pb-12">
+                <div class="text-center pb-3 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-lg font-bold txt-primary">Asisten Finansial</h3>
-                    <p class="text-[10px] txt-secondary mt-1"><i class="fa-solid fa-bolt txt-accent"></i> Groq Llama 3.3 AI Ready</p>
+                    <p class="text-[10px] txt-secondary mt-0.5"><i class="fa-solid fa-bolt txt-accent"></i> Groq Llama 3.3 AI Ready</p>
                 </div>
-                <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-2 hide-scroll py-4">
-                    <div class="flex gap-3 max-w-[90%]">
-                        <div class="w-8 h-8 rounded-full btn-lime flex items-center justify-center text-xs font-bold shrink-0 shadow-md">AI</div>
+                
+                <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-1 hide-scroll py-4 my-1">
+                    <div class="flex gap-3 max-w-[92%] slide-up">
+                        <div class="w-8 h-8 rounded-full btn-lime flex items-center justify-center text-xs font-bold shrink-0 shadow-md">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
                         <div class="p-3.5 app-card rounded-2xl rounded-tl-none text-xs txt-primary leading-relaxed shadow-sm">
                             Halo! Saya FuluskuAI yang ditenagai oleh Groq Llama 3.3. Saya siap menganalisis posisi keuangan Anda dan memberikan saran finansial terbaik.
                         </div>
                     </div>
                 </div>
-                <div class="shrink-0 space-y-3">
+
+                <div class="shrink-0 space-y-2.5 pt-2 border-t border-[var(--border-color)] bg-[var(--bg-main)]/95 backdrop-blur-md z-10 pb-4">
                     <div class="flex gap-2 overflow-x-auto pb-1 hide-scroll">
-                        <button type="button" onclick="sendQuickChat('/analisis')" class="px-3 py-1.5 app-subcard txt-accent rounded-full text-xs font-medium whitespace-nowrap">/analisis</button>
-                        <button type="button" onclick="sendQuickChat('/hemat')" class="px-3 py-1.5 app-subcard txt-accent rounded-full text-xs font-medium whitespace-nowrap">/hemat</button>
-                        <button type="button" onclick="sendQuickChat('/tagihan')" class="px-3 py-1.5 app-subcard txt-accent rounded-full text-xs font-medium whitespace-nowrap">/tagihan</button>
+                        <button type="button" onclick="sendQuickChat('/analisis')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/analisis</button>
+                        <button type="button" onclick="sendQuickChat('/hemat')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/hemat</button>
+                        <button type="button" onclick="sendQuickChat('/tagihan')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/tagihan</button>
                     </div>
                     <form onsubmit="handleSendChat(event)" class="flex gap-2">
-                        <input type="text" id="chatInput" placeholder="Tanyakan sesuatu ke AI..." class="app-input flex-1 px-4 py-3 rounded-2xl text-sm font-medium" autocomplete="off">
-                        <button type="submit" class="w-12 h-12 rounded-2xl btn-lime flex items-center justify-center text-sm shrink-0"><i class="fa-solid fa-paper-plane"></i></button>
+                        <input type="text" id="chatInput" placeholder="Tanyakan sesuatu ke AI..." class="app-input flex-1 px-4 py-3 rounded-2xl text-xs font-medium" autocomplete="off">
+                        <button type="submit" class="w-12 h-12 rounded-2xl btn-lime flex items-center justify-center text-sm shrink-0 active:scale-95"><i class="fa-solid fa-paper-plane"></i></button>
                     </form>
                 </div>
             </section>
@@ -447,7 +386,7 @@
             </button>
         </nav>
         
-        <div class="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
+        <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
     <!-- Modal Transaction -->
@@ -488,86 +427,6 @@
                     <input type="text" id="txNoteInput" placeholder="Keterangan..." class="app-input w-full px-4 py-3 rounded-2xl font-medium" required>
                 </div>
                 <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95 mt-2">Simpan</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Transfer -->
-    <div id="modalTransfer" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="text-base font-bold txt-primary">Transfer Antar Dompet</h3>
-                <button type="button" onclick="closeModal('modalTransfer')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleTransfer(event)" class="space-y-4 text-sm">
-                <div class="flex items-center gap-3">
-                    <div class="flex-1">
-                        <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Dari</label>
-                        <select id="transferFromInput" class="app-input w-full px-3 py-3 rounded-2xl text-xs"></select>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-[var(--text-accent)]/10 txt-accent flex items-center justify-center shrink-0 mt-5"><i class="fa-solid fa-arrow-right"></i></div>
-                    <div class="flex-1">
-                        <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Ke</label>
-                        <select id="transferToInput" class="app-input w-full px-3 py-3 rounded-2xl text-xs"></select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Nominal (Rp)</label>
-                    <input type="number" id="transferAmountInput" placeholder="0" class="app-input w-full px-4 py-3 rounded-2xl font-bold text-lg txt-accent" required min="1">
-                </div>
-                <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Kirim</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Add Wallet -->
-    <div id="modalAddWallet" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="text-base font-bold txt-primary">Tambah Dompet</h3>
-                <button type="button" onclick="closeModal('modalAddWallet')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleAddWallet(event)" class="space-y-4 text-sm">
-                <div>
-                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Nama Dompet/Bank</label>
-                    <input type="text" id="walletNameInput" placeholder="BCA Utama" class="app-input w-full px-4 py-3 rounded-2xl" required>
-                </div>
-                <div>
-                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Saldo Awal (Rp)</label>
-                    <input type="number" id="walletBalanceInput" placeholder="0" class="app-input w-full px-4 py-3 rounded-2xl font-bold" required>
-                </div>
-                <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Simpan Dompet</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Add Goal -->
-    <div id="modalAddGoal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="text-base font-bold txt-primary">Target Baru</h3>
-                <button type="button" onclick="closeModal('modalAddGoal')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleAddGoal(event)" class="space-y-4 text-sm">
-                <input type="text" id="goalTitleInput" placeholder="Nama Target (Dana Darurat)" class="app-input w-full px-4 py-3 rounded-2xl mb-3" required>
-                <input type="number" id="goalTargetInput" placeholder="Target Nominal (Rp)" class="app-input w-full px-4 py-3 rounded-2xl mb-3 font-bold" required min="1">
-                <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Buat Target</button>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Modal Add Debt -->
-    <div id="modalAddDebt" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="text-base font-bold txt-primary">Catat Tagihan</h3>
-                <button type="button" onclick="closeModal('modalAddDebt')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleAddDebt(event)" class="space-y-4 text-sm">
-                <input type="text" id="debtTitleInput" placeholder="Nama Tagihan (WiFi)" class="app-input w-full px-4 py-3 rounded-2xl mb-3" required>
-                <input type="number" id="debtAmountInput" placeholder="Nominal (Rp)" class="app-input w-full px-4 py-3 rounded-2xl mb-3 font-bold" required min="1">
-                <input type="date" id="debtDueDateInput" class="app-input w-full px-4 py-3 rounded-2xl mb-3" required>
-                <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Simpan</button>
             </form>
         </div>
     </div>
@@ -613,15 +472,6 @@
                     <input type="text" id="userChatIdInput" placeholder="Contoh: 987654321" onchange="saveUserChatId()" class="app-input w-full px-4 py-3 rounded-2xl text-xs font-medium border border-[var(--border-color)] text-white">
                     <p class="text-[10px] txt-muted mt-1 ml-1">Dapatkan Chat ID via bot <a href="https://t.me/userinfobot" target="_blank" class="txt-accent font-bold underline">@userinfobot</a></p>
                 </div>
-                <div class="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
-                    <div class="flex flex-col">
-                        <span class="text-sm font-bold txt-primary">Status Notifikasi</span>
-                        <span class="text-[10px] txt-muted">Kirim alert transaksi otomatis</span>
-                    </div>
-                    <button type="button" id="btnToggleTelegram" onclick="toggleTelegram()" class="w-12 h-6 rounded-full bg-zinc-700 relative transition-colors duration-300 shadow-inner">
-                        <div id="telegramToggleThumb" class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-300 shadow-md"></div>
-                    </button>
-                </div>
             </div>
             <div class="flex gap-3 pt-2">
                 <button type="button" onclick="sendTelegramTest()" class="flex-1 py-3 bg-[var(--bg-subcard)] border border-[var(--border-color)] text-sm rounded-xl font-bold txt-primary hover:bg-[#0088cc]/10 transition-colors flex justify-center items-center gap-2">
@@ -632,33 +482,7 @@
         </div>
     </div>
 
-    <!-- Modal Installation Guide -->
-    <div id="modalGuide" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 max-h-[85vh] overflow-y-auto hide-scroll slide-up">
-            <div class="flex justify-between items-center">
-                <h3 class="text-base font-bold txt-primary flex items-center gap-2" id="pwaModalTitle">
-                    <i class="fa-solid fa-mobile-screen-button txt-accent"></i> Panduan Instal PWA
-                </h3>
-                <button type="button" onclick="closeModal('modalGuide')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div id="guideAndroid" class="space-y-3">
-                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-lime-400/10 txt-accent text-xs font-bold">
-                    <i class="fa-brands fa-android text-sm"></i> Android / Chrome
-                </div>
-                <ol class="text-xs txt-secondary space-y-3 list-decimal list-inside font-medium leading-relaxed bg-[var(--bg-input)] p-4 rounded-2xl border border-[var(--border-color)]">
-                    <li>Buka web Vercel ini di <strong class="txt-accent">Google Chrome</strong>.</li>
-                    <li>Ketuk titik tiga (<strong class="txt-primary">⋮</strong>) di kanan atas.</li>
-                    <li>Pilih <strong class="txt-primary">"Instal aplikasi"</strong>.</li>
-                </ol>
-            </div>
-
-            <button type="button" onclick="closeModal('modalGuide')" class="w-full py-3 bg-[var(--bg-subcard)] text-sm rounded-xl hover:bg-white/5 transition-colors font-semibold">Tutup Panduan</button>
-        </div>
-    </div>
-
     <script>
-        // MASUKKAN URL EXEC GOOGLE APPS SCRIPT ANDA DI SINI SANGAT IMPORTANT!
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyxejM4mHPOj5Px6KuBppL9TkQ5unEWJFQy3ScXEjkpjuZdgqemVUtX5xAcE1Rc038h/exec";
 
         const appState = {
@@ -676,15 +500,47 @@
         };
 
         let chartCashflowInstance = null, chartCategoryInstance = null;
-        let deferredPrompt = null;
         let scannedDataTemp = null;
         let isRegisterMode = false;
+        let deferredPrompt = null;
 
-        // FUNGSI UTAMA KOMUNIKASI DENGAN BACKEND GAS (MELEWATI CORS PREFLIGHT)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                try {
+                    const swCode = `
+                        self.addEventListener('install', (e) => self.skipWaiting());
+                        self.addEventListener('activate', (e) => self.clients.claim());
+                        self.addEventListener('fetch', (e) => {
+                            e.respondWith(fetch(e.request).catch(() => new Response('Offline mode ready.')));
+                        });
+                    `;
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(swUrl).catch(err => {
+                        console.warn('SW info:', err.message);
+                    });
+                } catch (e) { console.warn('SW setup error:', e.message); }
+            });
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); 
+            deferredPrompt = e; 
+        });
+
+        function triggerPwaInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') showToast("Instalasi berhasil!", "success");
+                    deferredPrompt = null; 
+                });
+            } else { openModal('modalGuide'); }
+        }
+
         async function callBackend(action, payload = {}) {
             const fullPayload = { action, ...payload };
             
-            // 1. Jika dijalankan langsung di dalam iFrame Apps Script
             if (typeof google !== 'undefined' && google.script && google.script.run) {
                 return new Promise((resolve) => {
                     if (action === 'getInitialData') google.script.run.withSuccessHandler(resolve).getInitialData();
@@ -700,41 +556,40 @@
                 });
             }
 
-            // 2. Jika di-host di Vercel: Panggil via FETCH dengan Content-Type text/plain (MELEWATI CORS PREFLIGHT!)
             const url = appState.gasUrl || DEFAULT_GAS_URL;
-            if (url && !url.includes("YOUR_DEPLOYMENT_ID_HERE")) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify(fullPayload)
-                    });
-                    const data = await response.json();
-                    return data;
-                } catch (err) {
-                    console.warn('Network / GAS Fetch Error:', err);
-                    return { status: 'error', message: err.message };
-                }
+            if (!url || url.includes("YOUR_DEPLOYMENT_ID")) {
+                return { status: 'error', message: 'URL Backend Apps Script belum diatur!' };
             }
 
-            return null;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(fullPayload)
+                });
+                return await response.json();
+            } catch (err) {
+                console.error("callBackend error:", err);
+                return { status: 'error', message: err.toString() };
+            }
         }
 
         window.onload = function() {
             updateClock(); 
             setInterval(updateClock, 1000);
             
-            loadLocalData();
-            
             try {
                 const savedGasUrl = localStorage.getItem('fulusku_gas_url');
                 if (savedGasUrl) {
                     appState.gasUrl = savedGasUrl;
+                    const inputGas = document.getElementById('gasUrlInput');
+                    if (inputGas) inputGas.value = savedGasUrl;
                 } else {
                     appState.gasUrl = DEFAULT_GAS_URL;
+                    const inputGas = document.getElementById('gasUrlInput');
+                    if (inputGas) inputGas.value = DEFAULT_GAS_URL;
                 }
-                const inputGas = document.getElementById('gasUrlInput');
-                if (inputGas) inputGas.value = appState.gasUrl;
 
                 const savedChatId = localStorage.getItem('fulusku_telegram_chatid');
                 if (savedChatId) {
@@ -755,6 +610,7 @@
                 }
             } catch (e) {}
 
+            loadLocalData();
             fetchInitialBackendData();
         };
 
@@ -789,17 +645,334 @@
             }
         }
 
-        async function processReceiptScan(event) {
-            const file = event.target.files[0]; if (!file) return;
+        function saveUserChatId() {
+            const inputVal = document.getElementById('userChatIdInput')?.value.trim();
+            if (inputVal) {
+                appState.telegramChatId = inputVal;
+                try { localStorage.setItem('fulusku_telegram_chatid', inputVal); } catch(e){}
+                showToast("Chat ID disimpan!", "success");
+            }
+        }
+
+        function toggleTelegram() {
+            appState.telegramEnabled = !appState.telegramEnabled;
+            try { localStorage.setItem('fulusku_telegram_enabled', appState.telegramEnabled); } catch(e){}
+            
+            const thumb = document.getElementById('telegramToggleThumb');
+            const bg = document.getElementById('btnToggleTelegram');
+            const badge = document.getElementById('telegramBadge');
+            
+            if (appState.telegramEnabled) {
+                if(thumb) thumb.style.transform = 'translateX(24px)';
+                if(bg) bg.classList.replace('bg-zinc-700', 'bg-emerald-500');
+                if (badge) badge.className = 'absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+                showToast("Notifikasi Telegram diaktifkan", "success");
+            } else {
+                if(thumb) thumb.style.transform = 'translateX(0)';
+                if(bg) bg.classList.replace('bg-emerald-500', 'bg-zinc-700');
+                if (badge) badge.className = 'absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500';
+                showToast("Notifikasi Telegram dinonaktifkan", "info");
+            }
+        }
+
+        async function sendTelegramTest() {
+            const chatId = appState.telegramChatId || document.getElementById('userChatIdInput')?.value.trim();
+            if (!chatId) {
+                showToast("Masukkan Chat ID terlebih dahulu!", "warning");
+                return;
+            }
+
+            showToast("Mengirim pesan tes Telegram...", "info");
+            const msg = "🤖 <b>Tes Ping FuluskuAI!</b>\nNotifikasi akun Anda berhasil terhubung dengan Chat ID ini.";
+            const res = await callBackend('sendTelegram', { message: msg, chatId: chatId });
+            
+            if (res && res.status === 'success') {
+                showToast("Pesan tes berhasil terkirim!", "success");
+            } else {
+                showToast("Gagal: " + (res?.message || "Koneksi terputus"), "error");
+            }
+        }
+
+        function escapeHTML(str) { 
+            return String(str || '').replace(/[&<>'"]/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[match])); 
+        }
+
+        function openModal(modalId, type = null) { 
+            const modal = document.getElementById(modalId); 
+            if (modal) { 
+                modal.classList.remove('hidden'); 
+                if (modalId === 'modalTransaction' && type) { 
+                    const txTypeInput = document.getElementById('txTypeInput'); 
+                    if (txTypeInput) txTypeInput.value = type; 
+                } 
+            } 
+        }
+
+        function closeModal(modalId) { 
+            const modal = document.getElementById(modalId); 
+            if (modal) modal.classList.add('hidden'); 
+        }
+
+        function updateClock() { 
+            const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); 
+            if (document.getElementById('currentTime')) document.getElementById('currentTime').innerText = timeStr; 
+        }
+
+        function formatRp(val) { 
+            return appState.privacyMode ? 'Rp ••••••••' : 'Rp ' + Number(val || 0).toLocaleString('id-ID'); 
+        }
+
+        function togglePrivacy() { 
+            appState.privacyMode = !appState.privacyMode; 
+            const privacyIcon = document.getElementById('privacyIcon'); 
+            if (privacyIcon) privacyIcon.className = appState.privacyMode ? 'fa-solid fa-eye-slash text-xs txt-accent' : 'fa-solid fa-eye text-xs txt-accent'; 
+            renderWallets(); 
+            const totalTxt = document.getElementById('totalBalanceText'); 
+            if (totalTxt) totalTxt.innerText = formatRp(calculateTotalBalance()); 
+        }
+
+        function toggleTheme() { 
+            appState.theme = appState.theme === 'dark' ? 'light' : 'dark'; 
+            document.body.classList.toggle('theme-light'); 
+            document.documentElement.classList.toggle('dark'); 
+            const themeIcon = document.getElementById('themeIcon'); 
+            if (themeIcon) { 
+                themeIcon.className = appState.theme === 'light' ? 'fa-solid fa-moon text-sm text-zinc-950' : 'fa-solid fa-sun text-sm txt-accent'; 
+            } 
+        }
+
+        function setAuthMode(mode) {
+            isRegisterMode = (mode === 'register');
+            const authTitle = document.getElementById('authTitle');
+            const authSubtitle = document.getElementById('authSubtitle');
+            const authIcon = document.getElementById('authIcon');
+            const registerFields = document.getElementById('registerFields');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const tabLogin = document.getElementById('tabModeLogin');
+            const tabRegister = document.getElementById('tabModeRegister');
+
+            if (isRegisterMode) {
+                if (authTitle) authTitle.innerText = 'Daftar Akun Baru';
+                if (authSubtitle) authSubtitle.innerText = 'Buat ID Pengguna & profil keuangan Anda';
+                if (authIcon) authIcon.className = 'fa-solid fa-user-plus text-3xl';
+                if (registerFields) registerFields.classList.remove('hidden');
+                if (submitBtn) submitBtn.innerText = 'Daftar Sekarang';
+                
+                if (tabRegister) {
+                    tabRegister.className = 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-[var(--accent-lime)] text-[var(--accent-lime-text)] transition-all';
+                }
+                if (tabLogin) {
+                    tabLogin.className = 'flex-1 py-2.5 rounded-xl text-xs font-bold txt-secondary hover:txt-primary transition-all';
+                }
+            } else {
+                if (authTitle) authTitle.innerText = 'Masuk Akun';
+                if (authSubtitle) authSubtitle.innerText = 'Masukkan ID Pengguna Anda untuk melanjutkan';
+                if (authIcon) authIcon.className = 'fa-solid fa-user-lock text-3xl';
+                if (registerFields) registerFields.classList.add('hidden');
+                if (submitBtn) submitBtn.innerText = 'Masuk Dashboard';
+                
+                if (tabLogin) {
+                    tabLogin.className = 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-[var(--accent-lime)] text-[var(--accent-lime-text)] transition-all';
+                }
+                if (tabRegister) {
+                    tabRegister.className = 'flex-1 py-2.5 rounded-xl text-xs font-bold txt-secondary hover:txt-primary transition-all';
+                }
+            }
+        }
+
+        function switchPage(page) {
+            const allViews = ['viewLanding', 'viewLogin', 'viewDashboard', 'tabTransactions', 'tabScanner', 'tabGoals', 'tabDebts', 'tabReports', 'tabChatbot'];
+            allViews.forEach(v => document.getElementById(v)?.classList.add('hidden'));
+
+            if (page === 'landing') {
+                document.getElementById('viewLanding')?.classList.remove('hidden');
+                document.getElementById('bottomNav')?.classList.add('hidden');
+                document.getElementById('logoutBtn')?.classList.add('hidden');
+            } else if (page === 'login') {
+                document.getElementById('viewLogin')?.classList.remove('hidden');
+                document.getElementById('bottomNav')?.classList.add('hidden');
+                document.getElementById('logoutBtn')?.classList.add('hidden');
+                setTimeout(() => document.getElementById('loginUsername')?.focus(), 100);
+            } else if (page === 'main') {
+                document.getElementById('viewDashboard')?.classList.remove('hidden');
+                document.getElementById('bottomNav')?.classList.remove('hidden');
+                document.getElementById('logoutBtn')?.classList.remove('hidden');
+                document.querySelectorAll('#bottomNav .nav-item').forEach(b => b.classList.remove('active'));
+                document.getElementById('nav-viewDashboard')?.classList.add('active');
+            }
+        }
+
+        function switchTab(tabId) {
+            const allViews = ['viewLanding', 'viewLogin', 'viewDashboard', 'tabTransactions', 'tabScanner', 'tabGoals', 'tabDebts', 'tabReports', 'tabChatbot'];
+            allViews.forEach(v => document.getElementById(v)?.classList.add('hidden'));
+
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            document.querySelectorAll('#bottomNav .nav-item').forEach(b => b.classList.remove('active'));
+            if (tabId !== 'tabReports' && document.getElementById(`nav-${tabId}`)) {
+                document.getElementById(`nav-${tabId}`).classList.add('active');
+            }
+
+            if (tabId === 'tabChatbot') {
+                setTimeout(() => {
+                    const box = document.getElementById('chatMessages');
+                    if (box) box.scrollTop = box.scrollHeight;
+                }, 100);
+            }
+        }
+
+        function handleAuth(e) { 
+            if (e && e.preventDefault) e.preventDefault(); 
+            const usernameInput = document.getElementById('loginUsername'); 
+            let username = usernameInput ? usernameInput.value.trim() : 'Pengguna'; 
+            appState.user = { username, name: username }; 
+            loadLocalDataForUser(username); 
+            switchPage('main'); 
+        }
+
+        function quickLogin() { 
+            document.getElementById('loginUsername').value = "Tamu"; 
+            handleAuth(new Event('submit')); 
+        }
+
+        function logout() { 
+            appState.user = null; 
+            appState.wallets = []; 
+            appState.transactions = []; 
+            refreshAllViews(); 
+            switchPage('landing'); 
+        }
+
+        function getStorageKey() { 
+            return appState.user && appState.user.username ? 'fulusku_db_' + appState.user.username.toLowerCase() : 'fulusku_db_guest'; 
+        }
+
+        function saveLocalData() { 
+            try { 
+                localStorage.setItem(getStorageKey(), JSON.stringify({ wallets: appState.wallets, transactions: appState.transactions, goals: appState.goals, debts: appState.debts })); 
+            } catch(e){} 
+        }
+
+        function loadLocalDataForUser(username) { 
+            const key = 'fulusku_db_' + (username ? username.toLowerCase() : 'guest'); 
+            try { 
+                const db = JSON.parse(localStorage.getItem(key)); 
+                if (db && db.wallets) { 
+                    appState.wallets = db.wallets; 
+                    appState.transactions = db.transactions || []; 
+                    appState.goals = db.goals || []; 
+                    appState.debts = db.debts || []; 
+                } else resetDataForNewUser(); 
+            } catch(e) { 
+                resetDataForNewUser(); 
+            } 
+            refreshAllViews(); 
+        }
+
+        function resetDataForNewUser() { 
+            appState.wallets = [{ id: 'w_' + Date.now(), name: 'Dompet Tunai', balance: 0, icon: 'fa-wallet', color: 'from-lime-400 to-emerald-500' }]; 
+            appState.transactions = []; 
+            appState.goals = []; 
+            appState.debts = []; 
+            saveLocalData(); 
+            refreshAllViews(); 
+        }
+
+        function loadLocalData() { 
+            if (appState.user && appState.user.username) loadLocalDataForUser(appState.user.username); 
+            else refreshAllViews(); 
+        }
+
+        function refreshAllViews() { 
+            renderWallets(); 
+            renderTransactions(); 
+            renderGoals(); 
+            renderDebts(); 
+            populateWalletOptions(); 
+        }
+
+        function showToast(msg, type = "info") { 
+            const box = document.getElementById('toastContainer'); 
+            if(!box) return; 
+            const color = type === 'success' ? 'border-emerald-500 txt-income' : (type === 'error' ? 'border-red-500 txt-expense' : 'border-lime-400 txt-accent'); 
+            const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-triangle-exclamation' : 'fa-info-circle'); 
+            const toast = document.createElement('div'); 
+            toast.className = `app-card p-3 rounded-2xl border-l-4 ${color} text-xs font-bold txt-primary flex items-center gap-3 slide-up`; 
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHTML(msg)}</span>`; 
+            box.appendChild(toast); 
+            setTimeout(() => { 
+                toast.classList.replace('slide-up', 'fade-out'); 
+                setTimeout(() => toast.remove(), 300); 
+            }, 3000); 
+        }
+
+        function calculateTotalBalance() { 
+            return appState.wallets.reduce((sum, w) => sum + Number(w.balance), 0); 
+        }
+
+        function renderWallets() { 
+            const container = document.getElementById('walletContainer'); 
+            if (!container) return; 
+            document.getElementById('totalBalanceText').innerText = formatRp(calculateTotalBalance()); 
+            container.innerHTML = appState.wallets.map(w => `<div class="app-subcard p-4 rounded-2xl min-w-[140px] flex-1 shrink-0 snap-center border-l-2 border-[var(--border-color)] border-l-accent relative overflow-hidden"><p class="text-[11px] txt-secondary font-medium truncate mb-1 relative z-10">${escapeHTML(w.name)}</p><p class="text-sm font-bold txt-primary truncate relative z-10">${formatRp(w.balance)}</p></div>`).join(''); 
+        }
+
+        function renderTransactions() { 
+            const recent = document.getElementById('recentTxList'); 
+            const full = document.getElementById('fullTxList'); 
+            const renderHTML = (txs) => txs.map(t => `<div class="p-4 hover:bg-white/5 transition flex items-center justify-between gap-3 group"><div class="flex-1 min-w-0"><h4 class="text-xs font-bold txt-primary truncate">${escapeHTML(t.note)}</h4><p class="text-[10px] txt-secondary mt-0.5">${t.category} • ${t.date}</p></div><strong class="text-xs ${t.type==='income'?'txt-income':'txt-primary'}">${t.type==='income'?'+':'-'}${formatRp(t.amount)}</strong></div>`).join('') || `<p class="text-xs txt-muted text-center py-6">Tidak ada transaksi.</p>`; 
+            if (recent) recent.innerHTML = renderHTML(appState.transactions.slice(0, 4)); 
+            if (full) full.innerHTML = renderHTML(appState.transactions); 
+        }
+
+        function renderGoals() { 
+            const container = document.getElementById('goalsList'); 
+            if(!container) return; 
+            container.innerHTML = appState.goals.map(g => `<div class="app-card p-4 rounded-2xl mb-3"><h4 class="text-sm font-bold txt-primary">${escapeHTML(g.title)}</h4><p class="text-[10px] txt-secondary mt-2">${formatRp(g.current)} / ${formatRp(g.target)}</p></div>`).join('') || `<p class="text-xs txt-muted text-center py-6">Belum ada target.</p>`; 
+        }
+
+        function renderDebts() { 
+            const container = document.getElementById('debtsList'); 
+            if(!container) return; 
+            container.innerHTML = appState.debts.map(d => `<div class="app-card p-4 rounded-2xl mb-3 flex justify-between items-center"><div><h4 class="text-sm font-bold txt-primary">${escapeHTML(d.title)}</h4></div><strong class="text-sm txt-primary">${formatRp(d.amount)}</strong></div>`).join('') || `<p class="text-xs txt-muted text-center py-6">Tidak ada tagihan.</p>`; 
+        }
+
+        function populateWalletOptions() { 
+            const html = appState.wallets.map(w => `<option value="${w.id}">${escapeHTML(w.name)} (${formatRp(w.balance)})</option>`).join(''); 
+            ['txWalletInput'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerHTML = html; }); 
+        }
+
+        async function saveTransaction(e) { 
+            e.preventDefault(); 
+            const amtVal = Number(document.getElementById('txAmountInput')?.value); 
+            if (!amtVal) return; 
+            const t = { id: 't_'+Date.now(), type: document.getElementById('txTypeInput').value, amount: amtVal, category: document.getElementById('txCategoryInput').value, walletId: document.getElementById('txWalletInput').value, note: document.getElementById('txNoteInput').value||'Transaksi', date: new Date().toISOString().split('T')[0] }; 
+            const wallet = appState.wallets.find(w => w.id === t.walletId); 
+            if(wallet) { 
+                t.type === 'expense' ? wallet.balance -= t.amount : wallet.balance += t.amount; 
+                appState.transactions.unshift(t); 
+                saveLocalData(); 
+                refreshAllViews(); 
+                closeModal('modalTransaction'); 
+                showToast("Transaksi dicatat!", "success"); 
+                callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled }); 
+            } 
+        }
+
+        function processReceiptScan(event) {
+            const file = event.target.files[0]; 
+            if (!file) return;
             
             document.getElementById('scanIcon').className = 'fa-solid fa-spinner fa-spin text-2xl txt-accent';
-            document.getElementById('scanMainLabel').innerText = 'Groq Vision AI Menganalisis...';
+            document.getElementById('scanMainLabel').innerText = 'AI Menganalisis Struk...';
             
             const reader = new FileReader();
             reader.onload = async function(e) {
                 const base64Data = e.target.result;
-                
-                const res = await callBackend('analyzeReceipt', { base64: base64Data, fileName: file.name });
+                const res = await callBackend('analyzeReceipt', { base64: base64Data });
                 
                 document.getElementById('scanIcon').className = 'fa-solid fa-cloud-arrow-up text-2xl txt-accent';
                 document.getElementById('scanMainLabel').innerText = 'Unggah Struk Belanja';
@@ -808,15 +981,58 @@
                     scannedDataTemp = res.data;
                     document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant');
                     document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
-                    document.getElementById('scanCategory').innerText = escapeHTML(res.data.category || 'Belanja');
                     document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
                     document.getElementById('scanResultCard').classList.remove('hidden');
-                    showToast("Struk berhasil diekstrak oleh Groq AI!", "success");
+                    showToast("Struk berhasil diekstrak AI!", "success");
                 } else {
-                    showToast("Gagal analisis Vision AI: " + (res?.message || "Koneksi Backend"), "error");
+                    showToast("Gagal scan struk AI. Coba lagi.", "error");
                 }
             };
             reader.readAsDataURL(file);
+        }
+
+        function saveScannedTransaction() {
+            if (!scannedDataTemp) return;
+            const w = appState.wallets[0];
+            if (!w) { showToast("Buat dompet terlebih dahulu", "warning"); return; }
+            
+            const t = { 
+                id: 't_'+Date.now(), type: 'expense', amount: Number(scannedDataTemp.total || 0), 
+                category: scannedDataTemp.category || 'Belanja', walletId: w.id, 
+                note: scannedDataTemp.merchant || 'Belanja Struk', date: scannedDataTemp.date || new Date().toISOString().split('T')[0]
+            };
+            
+            w.balance = Number(w.balance) - t.amount; 
+            appState.transactions.unshift(t);
+            
+            saveLocalData(); 
+            refreshAllViews();
+            document.getElementById('scanResultCard').classList.add('hidden');
+            showToast("Transaksi disimpan ke jurnal!", "success");
+            callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
+        }
+
+        function parseMarkdownToHTML(text) {
+            if (!text) return '';
+            let formatted = escapeHTML(text);
+            
+            // Bold **text**
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>');
+            formatted = formatted.replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>');
+            
+            // Italic *text*
+            formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Inline code `code`
+            formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>');
+            
+            // Bullet points
+            formatted = formatted.replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1');
+            
+            // Newlines
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            return formatted;
         }
 
         async function handleSendChat(e) {
@@ -839,72 +1055,34 @@
             if (res && res.status === 'success' && res.reply) {
                 appendChatMessage('AI', res.reply);
             } else {
-                appendChatMessage('AI', "Maaf, terjadi kendala saat terhubung ke Groq AI Backend. Silakan periksa koneksi Backend Anda.");
+                appendChatMessage('AI', "Maaf, terjadi kendala saat terhubung ke Groq AI Backend. Silakan periksa koneksi Backend Anda pada menu Pengaturan (⚙️).");
             }
         }
 
-        async function sendTelegramTest() {
-            const chatId = appState.telegramChatId || document.getElementById('userChatIdInput')?.value.trim();
-            if (!chatId) {
-                showToast("Masukkan Chat ID terlebih dahulu!", "warning");
-                return;
-            }
-
-            const btn = document.querySelector('button[onclick="sendTelegramTest()"]');
-            const originalHTML = btn ? btn.innerHTML : '';
-            if (btn) { btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[#0088cc]"></i>'; btn.disabled = true; }
-
-            const res = await callBackend('sendTelegram', {
-                message: "🤖 <b>Tes Ping FuluskuAI!</b>\nNotifikasi akun Anda berhasil terhubung!",
-                chatId: chatId
-            });
-
-            if (btn) { btn.innerHTML = originalHTML; btn.disabled = false; }
-
-            if (res && res.status === 'success') {
-                showToast("Pesan tes berhasil terkirim ke Telegram!", "success");
-            } else {
-                showToast("Gagal kirim: " + (res?.message || "Periksa Webhook/Token"), "error");
-            }
+        function sendQuickChat(cmd) { 
+            document.getElementById('chatInput').value = cmd; 
+            handleSendChat(new Event('submit')); 
         }
 
-        function escapeHTML(str) { return String(str).replace(/[&<>'"]/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[match])); }
-        function openModal(modalId, type = null) { const modal = document.getElementById(modalId); if (modal) { modal.classList.remove('hidden'); if (modalId === 'modalTransaction' && type) { const txTypeInput = document.getElementById('txTypeInput'); if (txTypeInput) txTypeInput.value = type; } } }
-        function closeModal(modalId) { const modal = document.getElementById(modalId); if (modal) modal.classList.add('hidden'); }
-        function updateClock() { const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); if (document.getElementById('currentTime')) document.getElementById('currentTime').innerText = timeStr; }
-        function formatRp(val) { return appState.privacyMode ? 'Rp ••••••••' : 'Rp ' + Number(val || 0).toLocaleString('id-ID'); }
-        function togglePrivacy() { appState.privacyMode = !appState.privacyMode; const privacyIcon = document.getElementById('privacyIcon'); if (privacyIcon) privacyIcon.className = appState.privacyMode ? 'fa-solid fa-eye-slash text-xs txt-accent' : 'fa-solid fa-eye text-xs txt-accent'; renderWallets(); const totalTxt = document.getElementById('totalBalanceText'); if (totalTxt) totalTxt.innerText = formatRp(calculateTotalBalance()); }
-        function toggleTheme() { appState.theme = appState.theme === 'dark' ? 'light' : 'dark'; document.body.classList.toggle('theme-light'); document.documentElement.classList.toggle('dark'); const themeIcon = document.getElementById('themeIcon'); if (themeIcon) themeIcon.className = appState.theme === 'light' ? 'fa-solid fa-moon text-sm text-zinc-950' : 'fa-solid fa-sun text-sm txt-accent'; updateChartsTheme(); }
-        function switchPage(page) { ['viewLanding', 'viewLogin', 'viewDashboard'].forEach(p => document.getElementById(p)?.classList.add('hidden')); document.getElementById(page === 'main' ? 'viewDashboard' : 'view' + page.charAt(0).toUpperCase() + page.slice(1))?.classList.remove('hidden'); if (page === 'main') { document.getElementById('bottomNav')?.classList.remove('hidden'); document.getElementById('logoutBtn')?.classList.remove('hidden'); } }
-        function switchTab(tabId) { ['viewDashboard', 'tabTransactions', 'tabScanner', 'tabGoals', 'tabDebts', 'tabReports', 'tabChatbot'].forEach(t => document.getElementById(t)?.classList.add('hidden')); document.getElementById(tabId)?.classList.remove('hidden'); document.querySelectorAll('#bottomNav .nav-item').forEach(b => b.classList.remove('active')); if (tabId !== 'tabReports' && document.getElementById(`nav-${tabId}`)) document.getElementById(`nav-${tabId}`).classList.add('active'); if (tabId === 'tabReports') setTimeout(() => { initCharts(); updateDashboardCharts(); updateChartsTheme(); }, 100); }
-        function toggleAuthMode() { isRegisterMode = !isRegisterMode; document.getElementById('authTitle').innerText = isRegisterMode ? 'Daftar Akun Baru' : 'Masuk Akun'; document.getElementById('registerFields').classList.toggle('hidden'); document.getElementById('authSubmitBtn').innerText = isRegisterMode ? 'Daftar' : 'Masuk Dashboard'; document.getElementById('authToggleBtn').innerHTML = isRegisterMode ? 'Punya akun? <span class="font-bold txt-accent">Masuk</span>' : 'Belum memiliki akun? <span class="font-bold txt-accent">Daftar</span>'; }
-        function handleAuth(e) { if (e && e.preventDefault) e.preventDefault(); const usernameInput = document.getElementById('loginUsername'); let username = usernameInput ? usernameInput.value.trim() : 'Pengguna'; appState.user = { username, name: username }; loadLocalDataForUser(username); switchPage('main'); switchTab('viewDashboard'); }
-        function quickLogin() { document.getElementById('loginUsername').value = "Tamu"; handleAuth(new Event('submit')); }
-        function logout() { appState.user = null; appState.wallets = []; appState.transactions = []; refreshAllViews(); switchPage('landing'); }
-        function getStorageKey() { return appState.user && appState.user.username ? 'fulusku_db_' + appState.user.username.toLowerCase() : 'fulusku_db_guest'; }
-        function saveLocalData() { try { localStorage.setItem(getStorageKey(), JSON.stringify({ wallets: appState.wallets, transactions: appState.transactions, goals: appState.goals, debts: appState.debts })); } catch(e){} }
-        function loadLocalDataForUser(username) { const key = 'fulusku_db_' + (username ? username.toLowerCase() : 'guest'); try { const db = JSON.parse(localStorage.getItem(key)); if (db && db.wallets) { appState.wallets = db.wallets; appState.transactions = db.transactions || []; appState.goals = db.goals || []; appState.debts = db.debts || []; } else resetDataForNewUser(); } catch(e) { resetDataForNewUser(); } refreshAllViews(); }
-        function resetDataForNewUser() { appState.wallets = [{ id: 'w_' + Date.now(), name: 'Dompet Tunai', balance: 0, icon: 'fa-wallet', color: 'from-lime-400 to-emerald-500' }]; appState.transactions = []; appState.goals = []; appState.debts = []; saveLocalData(); refreshAllViews(); }
-        function loadLocalData() { if (appState.user && appState.user.username) loadLocalDataForUser(appState.user.username); else refreshAllViews(); }
-        function refreshAllViews() { renderWallets(); renderTransactions(); renderGoals(); renderDebts(); populateWalletOptions(); }
-        function showToast(msg, type = "info") { const box = document.getElementById('toastContainer'); if(!box) return; const color = type === 'success' ? 'border-emerald-500 txt-income' : (type === 'error' ? 'border-red-500 txt-expense' : 'border-lime-400 txt-accent'); const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-triangle-exclamation' : 'fa-info-circle'); const toast = document.createElement('div'); toast.className = `app-card p-3 rounded-2xl border-l-4 ${color} text-xs font-bold txt-primary flex items-center gap-3 slide-up`; toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHTML(msg)}</span>`; box.appendChild(toast); setTimeout(() => { toast.classList.replace('slide-up', 'fade-out'); setTimeout(() => toast.remove(), 300); }, 3000); }
-        function calculateTotalBalance() { return appState.wallets.reduce((sum, w) => sum + Number(w.balance), 0); }
-        function renderWallets() { const container = document.getElementById('walletContainer'); if (!container) return; document.getElementById('totalBalanceText').innerText = formatRp(calculateTotalBalance()); container.innerHTML = appState.wallets.map(w => `<div class="app-subcard p-4 rounded-2xl min-w-[140px] flex-1 shrink-0 snap-center border-l-2 border-[var(--border-color)] border-l-accent relative overflow-hidden"><p class="text-[11px] txt-secondary font-medium truncate mb-1 relative z-10">${escapeHTML(w.name)}</p><p class="text-sm font-bold txt-primary truncate relative z-10">${formatRp(w.balance)}</p></div>`).join(''); }
-        function renderTransactions() { const recent = document.getElementById('recentTxList'); const full = document.getElementById('fullTxList'); const renderHTML = (txs) => txs.map(t => `<div class="p-4 hover:bg-white/5 transition flex items-center justify-between gap-3 group"><div class="flex-1 min-w-0"><h4 class="text-xs font-bold txt-primary truncate">${escapeHTML(t.note)}</h4><p class="text-[10px] txt-secondary mt-0.5">${t.category} • ${t.date}</p></div><strong class="text-xs ${t.type==='income'?'txt-income':'txt-primary'}">${t.type==='income'?'+':'-'}${formatRp(t.amount)}</strong></div>`).join('') || `<p class="text-xs txt-muted text-center py-6">Tidak ada transaksi.</p>`; if (recent) recent.innerHTML = renderHTML(appState.transactions.slice(0, 4)); if (full) full.innerHTML = renderHTML(appState.transactions); }
-        function renderGoals() { const container = document.getElementById('goalsList'); if(!container) return; container.innerHTML = appState.goals.map(g => `<div class="app-card p-4 rounded-2xl mb-3"><h4 class="text-sm font-bold txt-primary">${escapeHTML(g.title)}</h4><p class="text-[10px] txt-secondary mt-2">${formatRp(g.current)} / ${formatRp(g.target)}</p></div>`).join('') || `<p class="text-xs txt-muted text-center py-6">Belum ada target.</p>`; }
-        function renderDebts() { const container = document.getElementById('debtsList'); if(!container) return; container.innerHTML = appState.debts.map(d => `<div class="app-card p-4 rounded-2xl mb-3 flex justify-between items-center"><div><h4 class="text-sm font-bold txt-primary">${escapeHTML(d.title)}</h4></div><strong class="text-sm txt-primary">${formatRp(d.amount)}</strong></div>`).join('') || `<p class="text-xs txt-muted text-center py-6">Tidak ada tagihan.</p>`; }
-        function populateWalletOptions() { const html = appState.wallets.map(w => `<option value="${w.id}">${escapeHTML(w.name)} (${formatRp(w.balance)})</option>`).join(''); ['txWalletInput', 'transferFromInput', 'transferToInput'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerHTML = html; }); }
-        function initCharts() {} function updateDashboardCharts() {} function updateChartsTheme() {}
-        async function handleAddWallet(e) { e.preventDefault(); const nameVal = document.getElementById('walletNameInput')?.value.trim(); const balVal = Number(document.getElementById('walletBalanceInput')?.value); if (!nameVal) return; const newW = { id: 'w_'+Date.now(), name: nameVal, balance: balVal || 0 }; appState.wallets.push(newW); saveLocalData(); refreshAllViews(); closeModal('modalAddWallet'); showToast("Dompet tersimpan!", "success"); callBackend('saveWallet', { wallet: newW }); }
-        async function saveTransaction(e) { e.preventDefault(); const amtVal = Number(document.getElementById('txAmountInput')?.value); if (!amtVal) return; const t = { id: 't_'+Date.now(), type: document.getElementById('txTypeInput').value, amount: amtVal, category: document.getElementById('txCategoryInput').value, walletId: document.getElementById('txWalletInput').value, note: document.getElementById('txNoteInput').value||'Transaksi', date: new Date().toISOString().split('T')[0] }; const wallet = appState.wallets.find(w => w.id === t.walletId); if(wallet) { t.type === 'expense' ? wallet.balance -= t.amount : wallet.balance += t.amount; appState.transactions.unshift(t); saveLocalData(); refreshAllViews(); closeModal('modalTransaction'); showToast("Transaksi dicatat!", "success"); callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled }); } }
-        async function handleTransfer(e) { e.preventDefault(); closeModal('modalTransfer'); }
-        async function handleAddGoal(e) { e.preventDefault(); closeModal('modalAddGoal'); }
-        async function handleAddDebt(e) { e.preventDefault(); closeModal('modalAddDebt'); }
-        function saveScannedTransaction() { if (!scannedDataTemp) return; const w = appState.wallets[0]; if (!w) return; const t = { id: 't_'+Date.now(), type: 'expense', amount: scannedDataTemp.total, category: scannedDataTemp.category, walletId: w.id, note: scannedDataTemp.merchant, date: scannedDataTemp.date }; w.balance -= t.amount; appState.transactions.unshift(t); saveLocalData(); refreshAllViews(); document.getElementById('scanResultCard').classList.add('hidden'); showToast("Transaksi struk disimpan!", "success"); callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled }); }
-        function saveUserChatId() { const inputVal = document.getElementById('userChatIdInput')?.value.trim(); if (inputVal) { appState.telegramChatId = inputVal; localStorage.setItem('fulusku_telegram_chatid', inputVal); showToast("Chat ID disimpan!", "success"); } }
-        function toggleTelegram() { appState.telegramEnabled = !appState.telegramEnabled; localStorage.setItem('fulusku_telegram_enabled', appState.telegramEnabled); const thumb = document.getElementById('telegramToggleThumb'); const bg = document.getElementById('btnToggleTelegram'); if (appState.telegramEnabled) { if(thumb) thumb.style.transform = 'translateX(24px)'; if(bg) bg.classList.replace('bg-zinc-700', 'bg-emerald-500'); showToast("Alert Telegram Aktif", "success"); } else { if(thumb) thumb.style.transform = 'translateX(0)'; if(bg) bg.classList.replace('bg-emerald-500', 'bg-zinc-700'); showToast("Alert Telegram Nonaktif", "info"); } }
-        function sendQuickChat(cmd) { document.getElementById('chatInput').value = cmd; handleSendChat(new Event('submit')); }
-        function appendChatMessage(sender, text) { const box = document.getElementById('chatMessages'); if(!box) return; const html = `<div class="flex gap-3 max-w-[90%] ${sender==='AI'?'':'ml-auto flex-row-reverse'} slide-up"><div class="w-8 h-8 rounded-full ${sender==='AI'?'btn-lime':'bg-[var(--bg-subcard)]'} flex items-center justify-center text-xs font-bold shrink-0">${sender === 'AI' ? 'AI' : 'U'}</div><div class="p-3.5 app-card rounded-2xl text-xs txt-primary leading-relaxed">${escapeHTML(text)}</div></div>`; box.insertAdjacentHTML('beforeend', html); box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' }); }
+        function appendChatMessage(sender, text) { 
+            const box = document.getElementById('chatMessages'); 
+            if(!box) return; 
+            
+            const content = sender === 'AI' ? parseMarkdownToHTML(text) : escapeHTML(text);
+            
+            const html = `
+                <div class="flex gap-3 max-w-[90%] ${sender==='AI'?'':'ml-auto flex-row-reverse'} slide-up">
+                    <div class="w-8 h-8 rounded-full ${sender==='AI'?'btn-lime':'bg-[var(--bg-subcard)] txt-primary border border-[var(--border-color)]'} flex items-center justify-center text-xs font-bold shrink-0 shadow-md">
+                        ${sender === 'AI' ? '<i class="fa-solid fa-robot"></i>' : '<i class="fa-solid fa-user"></i>'}
+                    </div>
+                    <div class="p-3.5 ${sender==='AI'?'app-card rounded-tl-none border-t-0':'bg-[var(--bg-input)] rounded-tr-none'} border border-[var(--border-color)] rounded-2xl text-xs txt-primary leading-relaxed shadow-sm">
+                        ${content}
+                    </div>
+                </div>
+            `; 
+            box.insertAdjacentHTML('beforeend', html); 
+            box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' }); 
+        }
     </script>
 </body>
 </html>
