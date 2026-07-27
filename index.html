@@ -2,7 +2,7 @@
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
     <title>FuluskuAI - Keuangan & Vision AI</title>
     
     <!-- Fullscreen & Standalone PWA Meta Tags -->
@@ -376,13 +376,13 @@
                 </div>
             </section>
 
-            <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-[500px] slide-up relative pb-12">
+            <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-0 slide-up relative">
                 <div class="text-center pb-3 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-lg font-bold txt-primary">Asisten Finansial</h3>
                     <p class="text-[10px] txt-secondary mt-0.5"><i class="fa-solid fa-bolt txt-accent"></i> Groq Llama 3.3 AI Ready</p>
                 </div>
                 
-                <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-1 hide-scroll py-4 my-1">
+                <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-1 hide-scroll py-4 my-1 min-h-0">
                     <div class="flex gap-3 max-w-[92%] slide-up">
                         <div class="w-8 h-8 rounded-full btn-lime flex items-center justify-center text-xs font-bold shrink-0 shadow-md">
                             <i class="fa-solid fa-robot"></i>
@@ -393,7 +393,7 @@
                     </div>
                 </div>
 
-                <div class="shrink-0 space-y-2.5 pt-2 border-t border-[var(--border-color)] bg-[var(--bg-main)]/95 backdrop-blur-md z-10 pb-4">
+                <div class="shrink-0 space-y-2.5 pt-2 border-t border-[var(--border-color)] bg-[var(--bg-main)]/95 backdrop-blur-md z-10 pb-3">
                     <div class="flex gap-2 overflow-x-auto pb-1 hide-scroll">
                         <button type="button" onclick="sendQuickChat('/analisis')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/analisis</button>
                         <button type="button" onclick="sendQuickChat('/hemat')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/hemat</button>
@@ -435,9 +435,9 @@
     </div>
 
     <!-- Modal Transaction -->
-    <div id="modalTransaction" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 border-b-0 sm:border-b slide-up">
-            <div class="flex justify-between items-center mb-2">
+    <div id="modalTransaction" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto transition-opacity">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
+            <div class="flex justify-between items-center mb-1">
                 <h3 class="text-base font-bold txt-primary">Tambah Catatan</h3>
                 <button type="button" onclick="closeModal('modalTransaction')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -477,9 +477,9 @@
     </div>
 
     <!-- Modal Transfer -->
-    <div id="modalTransfer" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
+    <div id="modalTransfer" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
+            <div class="flex justify-between items-center mb-1">
                 <h3 class="text-base font-bold txt-primary">Transfer Antar Dompet</h3>
                 <button type="button" onclick="closeModal('modalTransfer')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -504,9 +504,9 @@
     </div>
 
     <!-- Modal Add Wallet -->
-    <div id="modalAddWallet" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
+    <div id="modalAddWallet" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
+            <div class="flex justify-between items-center mb-1">
                 <h3 class="text-base font-bold txt-primary">Tambah Dompet Baru</h3>
                 <button type="button" onclick="closeModal('modalAddWallet')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -525,9 +525,9 @@
     </div>
 
     <!-- Modal Add Goal -->
-    <div id="modalAddGoal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
+    <div id="modalAddGoal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
+            <div class="flex justify-between items-center mb-1">
                 <h3 class="text-base font-bold txt-primary">Tambah Target Keuangan</h3>
                 <button type="button" onclick="closeModal('modalAddGoal')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -546,9 +546,9 @@
     </div>
 
     <!-- Modal Add Debt -->
-    <div id="modalAddDebt" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-md app-card rounded-t-[36px] sm:rounded-[32px] p-7 space-y-5 slide-up">
-            <div class="flex justify-between items-center mb-2">
+    <div id="modalAddDebt" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
+            <div class="flex justify-between items-center mb-1">
                 <h3 class="text-base font-bold txt-primary">Catat Tagihan / Utang</h3>
                 <button type="button" onclick="closeModal('modalAddDebt')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -571,8 +571,8 @@
     </div>
 
     <!-- Modal Settings Backend URL -->
-    <div id="modalSettings" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 slide-up border border-[var(--border-color)]">
+    <div id="modalSettings" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
             <div class="flex justify-between items-center">
                 <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-solid fa-cloud text-limeaccent-400 text-lg"></i> Backend Google Apps Script</h3>
                 <button type="button" onclick="closeModal('modalSettings')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
@@ -581,11 +581,6 @@
                 <p class="text-xs txt-secondary leading-relaxed">
                     Masukkan URL Web App Exec Google Apps Script Anda untuk menghubungkan Google Sheets, Groq Vision AI, & Bot Telegram.
                 </p>
-                <div class="p-3 bg-lime-400/10 rounded-xl border border-lime-400/20 text-[11px] txt-secondary space-y-1">
-                    <p class="font-bold txt-accent">💡 Tips Deployment Apps Script:</p>
-                    <p>• Akses: <b>Siapa saja (Anyone)</b></p>
-                    <p>• Jalankan sebagai: <b>Saya (Me)</b></p>
-                </div>
                 <div>
                     <label class="block text-xs font-semibold txt-secondary mb-1.5 ml-1">Web App Exec URL</label>
                     <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="app-input w-full px-4 py-3 rounded-2xl text-xs font-medium border border-[var(--border-color)] text-white">
@@ -601,8 +596,8 @@
     </div>
 
     <!-- Modal Telegram Settings -->
-    <div id="modalTelegram" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity">
-        <div class="w-full max-w-md app-card rounded-[32px] p-7 space-y-5 slide-up border border-[var(--border-color)]">
+    <div id="modalTelegram" class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll my-auto slide-up border border-[var(--border-color)]">
             <div class="flex justify-between items-center">
                 <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-brands fa-telegram text-[#0088cc] text-xl"></i> Bot Telegram</h3>
                 <button type="button" onclick="closeModal('modalTelegram')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
@@ -647,6 +642,36 @@
         let scannedDataTemp = null;
         let isRegisterMode = false;
         let deferredPrompt = null;
+
+        // Smart Keyboard Listener: Auto-hide Bottom Nav and scroll focused input into center view
+        window.addEventListener('focusin', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+                const nav = document.getElementById('bottomNav');
+                if (nav) nav.classList.add('hidden');
+                
+                setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 250);
+            }
+        });
+
+        window.addEventListener('focusout', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+                const nav = document.getElementById('bottomNav');
+                if (nav && appState.user && appState.activeTab !== 'viewLanding' && appState.activeTab !== 'viewLogin') {
+                    nav.classList.remove('hidden');
+                }
+            }
+        });
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+                const active = document.activeElement;
+                if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) {
+                    active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -709,19 +734,12 @@
                 const response = await fetch(url, {
                     method: 'POST',
                     mode: 'cors',
-                    redirect: 'follow',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(fullPayload)
                 });
-
-                if (!response.ok) {
-                    return { status: 'error', message: `Server HTTP ${response.status}` };
-                }
-
                 return await response.json();
             } catch (err) {
-                // Return structured error safely without crashing or throwing console stacktraces
-                return { status: 'error', message: 'Koneksi backend terputus / CORS limit. Menggunakan Mode Lokal.' };
+                return { status: 'error', message: 'Menggunakan mode penyimpanan lokal.' };
             }
         }
 
@@ -759,7 +777,7 @@
             if (res && res.status === 'success') {
                 showToast("✅ Berhasil! Backend GAS Terhubung.", "success");
             } else {
-                showToast("❌ Gagal terhubung: " + (res?.message || "Cek URL Web App!"), "error");
+                showToast("❌ Gagal terhubung. Periksa URL Web App!", "error");
             }
         }
 
@@ -773,21 +791,14 @@
         }
 
         async function fetchInitialBackendData() {
-            try {
-                const res = await callBackend('getInitialData');
-                if (res && res.status === 'success' && res.data) {
-                    if (res.data.wallets?.length) appState.wallets = res.data.wallets;
-                    if (res.data.transactions?.length) appState.transactions = res.data.transactions;
-                    if (res.data.goals?.length) appState.goals = res.data.goals;
-                    if (res.data.debts?.length) appState.debts = res.data.debts;
-                    saveLocalData();
-                    refreshAllViews();
-                } else {
-                    // Smooth silent fallback to local storage
-                    loadLocalData();
-                }
-            } catch (e) {
-                loadLocalData();
+            const res = await callBackend('getInitialData');
+            if (res && res.status === 'success' && res.data) {
+                if (res.data.wallets?.length) appState.wallets = res.data.wallets;
+                if (res.data.transactions?.length) appState.transactions = res.data.transactions;
+                if (res.data.goals?.length) appState.goals = res.data.goals;
+                if (res.data.debts?.length) appState.debts = res.data.debts;
+                saveLocalData();
+                refreshAllViews();
             }
         }
 
@@ -919,6 +930,7 @@
         }
 
         function switchTab(tabId) {
+            appState.activeTab = tabId;
             const allViews = ['viewLanding', 'viewLogin', 'viewDashboard', 'tabTransactions', 'tabScanner', 'tabGoals', 'tabDebts', 'tabReports', 'tabChatbot'];
             allViews.forEach(v => document.getElementById(v)?.classList.add('hidden'));
 
@@ -980,7 +992,7 @@
             const key = 'fulusku_db_' + (username ? username.toLowerCase() : 'guest'); 
             try { 
                 const db = JSON.parse(localStorage.getItem(key)); 
-                if (db && db.wallets && db.wallets.length > 0) { 
+                if (db && db.wallets) { 
                     appState.wallets = db.wallets; 
                     appState.transactions = db.transactions || []; 
                     appState.goals = db.goals || []; 
@@ -1425,7 +1437,7 @@
                     document.getElementById('scanResultCard').classList.remove('hidden');
                     showToast("Struk berhasil diekstrak AI!", "success");
                 } else {
-                    showToast("Gagal scan struk AI. Menggunakan mode manual.", "info");
+                    showToast("Gagal scan struk AI. Coba lagi.", "error");
                 }
             };
             reader.readAsDataURL(file);
@@ -1486,7 +1498,7 @@
             if (res && res.status === 'success' && res.reply) {
                 appendChatMessage('AI', res.reply);
             } else {
-                appendChatMessage('AI', "Mode offline: AI Backend tidak terhubung. Anda masih bisa menggunakan seluruh fitur pencatatan lokal & grafik analitik.");
+                appendChatMessage('AI', "Maaf, terjadi kendala saat terhubung ke Groq AI Backend. Silakan periksa koneksi Backend Anda pada menu Pengaturan (⚙️).");
             }
         }
 
