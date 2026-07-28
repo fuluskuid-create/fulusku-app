@@ -13,11 +13,11 @@
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
     <meta name="description" content="Aplikasi Keuangan Cerdas dengan Vision AI OCR Struk dan In-App Chat Assistant">
 
-    <!-- iOS Apple Touch Icon (Generated SVG Data URI) -->
+    <!-- iOS Apple Touch Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><rect width='512' height='512' rx='128' fill='%2309090b'/><circle cx='256' cy='256' r='200' fill='%23d2ff1f'/><path d='M160 330 C 160 210, 352 210, 352 330 Z' fill='%2309090b'/><circle cx='256' cy='180' r='50' fill='%2309090b'/></svg>">
 
     <!-- Embedded Base64 Web App Manifest for PWA Standalone -->
-    <link rel="manifest" href="data:application/manifest+json;utf8,%7B%22name%22%3A%22FuluskuAI%20-%20Keuangan%20%26%20Vision%20AI%22%2C%22short_name%22%3A%22FuluskuAI%22%2C%22description%22%3A%22Ekosistem%20Finansial%20Cerdas%20dengan%20Vision%20AI%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2309090b%22%2C%22theme_color%22%3A%22%2309090b%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%20width%3D'512'%20height%3D'512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'128'%20fill%3D'%2309090b'%2F%3E%3Ccircle%20cx%3D'256'%20cy%3D'256'%20r%3D'200'%20fill%3D'%23d2ff1f'%2F%3E%3Cpath%20d%3D'M160%20330%20C%20160%20210%2C%20352%20210%2C%20352%20330%20Z'%20fill%3D'%2309090b'%2F%3E%3Ccircle%20cx%3D'256'%20cy%3D'180'%20r%3D'50'%20fill%3D'%2309090b'%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%20512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+    <link rel="manifest" href="data:application/manifest+json;utf8,%7B%22name%22%3A%22FuluskuAI%20-%20Keuangan%20%26%20Vision%20AI%22%2C%22short_name%22%3A%22FuluskuAI%22%2C%22description%22%3A%22Ekosistem%20Finansial%20Cerdas%20dengan%20Vision%20AI%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2309090b%22%2C%22theme_color%22%3A%22%2309090b%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%20width%3D'512'%20height%3D'512'%3E%3Crect%20width%3D'512'%20height%3D'512'%3E%3Ccircle%20cx%3D'256'%20cy%3D'256'%20r%3D'200'%20fill%3D'%23d2ff1f'%2F%3E%3Cpath%20d%3D'M160%20330%20C%20160%20210%2C%20352%20210%2C%20352%20330%20Z'%20fill%3D'%2309090b'%2F%3E%3Ccircle%20cx%3D'256'%20cy%3D'180'%20r%3D'50'%20fill%3D'%2309090b'%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%20512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -207,7 +207,7 @@
 
         <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-32 hide-scroll relative z-10 flex flex-col">
 
-            <!-- Landing Page -->
+            <!-- Landing View -->
             <section id="viewLanding" class="space-y-8 py-8 slide-up">
                 <div class="text-center space-y-5">
                     <div id="appLogoContainer" class="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-limeaccent-300 via-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(210,255,31,0.3)] transform hover:scale-105 transition-transform duration-500 overflow-hidden p-3 relative">
@@ -355,7 +355,6 @@
                 </div>
             </section>
 
-            <!-- Vision AI Scanner Tab (PWA Native Touch Fixed) -->
             <section id="tabScanner" class="hidden space-y-6 slide-up">
                 <div class="text-center space-y-2 mt-2">
                     <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
@@ -365,13 +364,10 @@
                     <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis detail toko, tanggal, & nominal transaksi dari foto struk.</p>
                 </div>
 
-                <!-- Hidden Native File Inputs for Camera & Gallery -->
-                <input type="file" id="cameraFileInput" accept="image/*" class="sr-only" onchange="processReceiptScan(event)">
-                <input type="file" id="galleryFileInput" accept="image/*" class="sr-only" onchange="processReceiptScan(event)">
-                <input type="file" id="dropFileInput" accept="image/*" class="sr-only" onchange="processReceiptScan(event)">
-
+                <!-- Native Invisible Touch Overlay for Standalone PWA Camera & File Pickers -->
                 <div class="grid grid-cols-2 gap-3">
-                    <button type="button" onclick="triggerFileInput('cameraFileInput')" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
+                    <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
+                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
                         <div class="w-12 h-12 rounded-2xl bg-limeaccent-400/10 txt-accent flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-camera"></i>
                         </div>
@@ -379,9 +375,10 @@
                             <p class="text-xs font-bold txt-primary">Ambil Foto</p>
                             <p class="text-[10px] txt-secondary">Kamera HP (Native)</p>
                         </div>
-                    </button>
+                    </div>
 
-                    <button type="button" onclick="triggerFileInput('galleryFileInput')" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
+                    <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
+                        <input type="file" id="galleryFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 txt-income flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-images"></i>
                         </div>
@@ -389,10 +386,11 @@
                             <p class="text-xs font-bold txt-primary">Pilih Galeri</p>
                             <p class="text-[10px] txt-secondary">File / Gambar Struk</p>
                         </div>
-                    </button>
+                    </div>
                 </div>
 
-                <button type="button" onclick="triggerFileInput('dropFileInput')" class="w-full app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors relative overflow-hidden cursor-pointer select-none">
+                <div class="app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors relative overflow-hidden cursor-pointer select-none">
+                    <input type="file" id="dropFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
                     <div class="pointer-events-none">
                         <div class="w-16 h-16 rounded-full bg-[var(--bg-subcard)] txt-accent flex items-center justify-center text-2xl mx-auto mb-4">
                             <i id="scanIcon" class="fa-solid fa-cloud-arrow-up"></i>
@@ -400,7 +398,7 @@
                         <p id="scanMainLabel" class="text-sm font-bold txt-primary mb-1">Unggah Struk Belanja</p>
                         <p id="scanSubLabel" class="text-[11px] txt-secondary">Ketuk di sini untuk memilih foto dari perangkat Anda</p>
                     </div>
-                </button>
+                </div>
 
                 <div id="scanResultCard" class="hidden app-card p-6 rounded-[32px] space-y-4 border-accent relative overflow-hidden">
                     <div class="space-y-3 text-sm">
@@ -415,7 +413,6 @@
                 </div>
             </section>
 
-            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
@@ -424,7 +421,6 @@
                 <div id="goalsList" class="space-y-4"></div>
             </section>
 
-            <!-- Debts Tab -->
             <section id="tabDebts" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Utang & Tagihan</h3>
@@ -433,7 +429,6 @@
                 <div id="debtsList" class="space-y-4"></div>
             </section>
 
-            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-6 slide-up">
                 <h3 class="text-xl font-bold txt-primary">Analitik & Laporan</h3>
                 <div class="p-5 app-card rounded-[24px] flex gap-4 items-start bg-gradient-to-br from-[var(--bg-card)] to-[var(--text-accent)]/5 border border-[var(--border-color)]">
@@ -468,7 +463,7 @@
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div class="p-3.5 app-card rounded-2xl rounded-tl-none text-xs txt-primary leading-relaxed shadow-sm">
-                            Halo! Saya FuluskuAI. Anda bisa langsung meminta saran finansial, mengetik perintah <b>/saldo</b>, <b>/transaksi</b>, atau mencatat transaksi otomatis seperti <b>"Makan 25k"</b> atau <b>"Pemasukan 20 jt ke dompet tunai"</b>!
+                            Halo! Saya FuluskuAI. Anda bisa langsung meminta saran finansial, mengetik perintah <b>/saldo</b>, <b>/transaksi</b>, atau mencatat transaksi otomatis seperti <b>"Makan 25k"</b> atau <b>"+20jt Tunai"</b>!
                         </div>
                     </div>
                 </div>
@@ -516,7 +511,6 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
-    <!-- Modal Transaction -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
             <div class="flex justify-between items-center mb-1">
@@ -745,7 +739,7 @@
             if ('serviceWorker' in navigator) {
                 try {
                     const swCode = `
-                        const CACHE_NAME = 'fulusku-pwa-v4';
+                        const CACHE_NAME = 'fulusku-pwa-v5';
                         const ASSETS = [
                             './',
                             'https://cdn.tailwindcss.com',
@@ -823,14 +817,6 @@
                 openModal('modalIosPwa');
             } else {
                 showToast("Buka titik 3 di browser HP Anda ➔ Ketuk 'Instal aplikasi' / 'Tambahkan ke Layar Utama'", "info");
-            }
-        }
-
-        function triggerFileInput(inputId) {
-            const fileInput = document.getElementById(inputId);
-            if (fileInput) {
-                fileInput.value = '';
-                fileInput.click();
             }
         }
 
@@ -1639,79 +1625,72 @@
             if (scanMainLabel) scanMainLabel.innerText = 'Mengompresi Gambar...';
             if (scanSubLabel) scanSubLabel.innerText = 'Mempersiapkan gambar untuk AI';
 
-            const reader = new FileReader();
-            reader.onerror = function() {
+            const objectUrl = URL.createObjectURL(file);
+            const img = new Image();
+
+            img.onerror = function() {
+                URL.revokeObjectURL(objectUrl);
                 resetScanUI();
-                showToast("Gagal membaca file gambar", "error");
+                showToast("Format gambar tidak didukung atau rusak.", "error");
                 event.target.value = '';
             };
 
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onerror = function() {
-                    resetScanUI();
-                    showToast("Format gambar tidak valid", "error");
-                    event.target.value = '';
-                };
+            img.onload = async function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const MAX_DIM = 800; // Kompresi optimal untuk pemindaian instan
 
-                img.onload = async function() {
-                    try {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        const MAX_DIM = 800;
-
-                        if (width > MAX_DIM || height > MAX_DIM) {
-                            if (width > height) {
-                                height = Math.round((height * MAX_DIM) / width);
-                                width = MAX_DIM;
-                            } else {
-                                width = Math.round((width * MAX_DIM) / height);
-                                height = MAX_DIM;
-                            }
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                        const cleanBase64 = compressedDataUrl.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '').trim();
-
-                        if (scanMainLabel) scanMainLabel.innerText = 'AI Memindai Struk...';
-                        if (scanSubLabel) scanSubLabel.innerText = 'Mengekstraksi toko, tanggal, & nominal';
-
-                        const res = await callBackend('analyzeReceipt', { base64: cleanBase64 });
-                        resetScanUI();
-
-                        if (res && res.status === 'success' && res.data) {
-                            scannedDataTemp = res.data;
-                            document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant Struk');
-                            document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
-                            document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
-                            
-                            const catSpan = document.getElementById('scanCategory');
-                            if (catSpan) catSpan.innerText = escapeHTML(res.data.category || 'Belanja');
-
-                            document.getElementById('scanResultCard').classList.remove('hidden');
-                            showToast("Struk berhasil dianalisis!", "success");
+                    if (width > MAX_DIM || height > MAX_DIM) {
+                        if (width > height) {
+                            height = Math.round((height * MAX_DIM) / width);
+                            width = MAX_DIM;
                         } else {
-                            const errMsg = (res && res.message) ? res.message : "Gagal memindai struk. Coba lagi.";
-                            showToast("Gagal Vision AI: " + errMsg, "error");
+                            width = Math.round((width * MAX_DIM) / height);
+                            height = MAX_DIM;
                         }
-                    } catch (err) {
-                        resetScanUI();
-                        showToast("Error memproses foto: " + err.message, "error");
-                    } finally {
-                        event.target.value = ''; 
                     }
-                };
 
-                img.src = e.target.result;
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                    URL.revokeObjectURL(objectUrl);
+
+                    if (scanMainLabel) scanMainLabel.innerText = 'AI Memindai Struk...';
+                    if (scanSubLabel) scanSubLabel.innerText = 'Mengekstraksi toko, tanggal, & nominal';
+
+                    const res = await callBackend('analyzeReceipt', { base64: compressedBase64 });
+                    resetScanUI();
+
+                    if (res && res.status === 'success' && res.data) {
+                        scannedDataTemp = res.data;
+                        document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant Struk');
+                        document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
+                        document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
+                        
+                        const catSpan = document.getElementById('scanCategory');
+                        if (catSpan) catSpan.innerText = escapeHTML(res.data.category || 'Belanja');
+
+                        document.getElementById('scanResultCard').classList.remove('hidden');
+                        showToast("Struk berhasil dianalisis!", "success");
+                    } else {
+                        const errMsg = (res && res.message) ? res.message : "Gagal memindai struk. Coba lagi.";
+                        showToast("Gagal Vision AI: " + errMsg, "error");
+                    }
+                } catch (err) {
+                    URL.revokeObjectURL(objectUrl);
+                    resetScanUI();
+                    showToast("Error memproses foto: " + err.message, "error");
+                } finally {
+                    event.target.value = ''; 
+                }
             };
 
-            reader.readAsDataURL(file);
+            img.src = objectUrl;
         }
 
         function resetScanUI() {
@@ -1748,25 +1727,15 @@
         function parseMarkdownToHTML(text) {
             if (!text) return '';
             
-            let str = String(text);
+            let formatted = String(text);
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>');
+            formatted = formatted.replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>');
+            formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>');
+            formatted = formatted.replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1');
+            formatted = formatted.replace(/\n/g, '<br>');
             
-            // Format bold **text** or __text__
-            str = str.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>');
-            str = str.replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>');
-            
-            // Format italic *text*
-            str = str.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            
-            // Format inline code `code`
-            str = str.replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>');
-            
-            // Format list items
-            str = str.replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1');
-            
-            // Replace newlines with break tags
-            str = str.replace(/\n/g, '<br>');
-            
-            return str;
+            return formatted;
         }
 
         async function handleSendChat(e) {
