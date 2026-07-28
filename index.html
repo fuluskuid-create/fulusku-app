@@ -186,6 +186,7 @@
             <div class="ambient-orb bg-limeaccent-300 w-80 h-80 -bottom-32 -left-20" style="animation-delay: -10s;"></div>
         </div>
 
+        <!-- Header without Telegram Button -->
         <header class="px-7 pt-4 pb-3 flex items-center justify-between text-xs font-semibold txt-muted select-none border-b border-[var(--border-color)] bg-[var(--bg-main)]/80 z-20 shrink-0 backdrop-blur-md">
             <span id="currentTime" class="tracking-wider">00:00</span>
             <div class="w-24 h-5 app-subcard rounded-full flex items-center justify-center border-none bg-black/40 shadow-inner">
@@ -194,10 +195,6 @@
             <div class="flex items-center gap-4">
                 <button type="button" onclick="openModal('modalSettings')" class="hover:text-[var(--text-accent)] transition-colors" title="Pengaturan Backend URL & Logo">
                     <i class="fa-solid fa-gear text-sm txt-accent"></i>
-                </button>
-                <button type="button" onclick="openModal('modalTelegram')" class="hover:text-[#0088cc] transition-colors relative" title="Bot Telegram">
-                    <i class="fa-brands fa-telegram text-base txt-accent"></i>
-                    <span id="telegramBadge" class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500"></span>
                 </button>
                 <button type="button" onclick="toggleTheme()" class="hover:text-[var(--text-accent)] transition-colors"><i id="themeIcon" class="fa-solid fa-sun text-sm txt-accent"></i></button>
                 <button type="button" id="logoutBtn" onclick="logout()" class="hidden txt-expense hover:opacity-80 transition-colors"><i class="fa-solid fa-arrow-right-from-bracket text-sm"></i></button>
@@ -359,11 +356,10 @@
                     <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis detail toko, tanggal, & nominal transaksi dari foto struk.</p>
                 </div>
 
-                <!-- Dual Native HTML5 Label Cards with Hidden Sr-Only Inputs for Fail-Safe Mobile Touch -->
+                <!-- Dual Native File Inputs with Overlapping Touch Overlay -->
                 <div class="grid grid-cols-2 gap-3">
-                    <!-- Native Camera Input Label Card -->
-                    <label for="cameraFileInput" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all overflow-hidden cursor-pointer select-none">
-                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="hidden" onchange="processReceiptScan(event)">
+                    <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
+                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
                         <div class="w-12 h-12 rounded-2xl bg-limeaccent-400/10 txt-accent flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-camera"></i>
                         </div>
@@ -371,11 +367,10 @@
                             <p class="text-xs font-bold txt-primary">Ambil Foto</p>
                             <p class="text-[10px] txt-secondary">Kamera HP (Native)</p>
                         </div>
-                    </label>
+                    </div>
 
-                    <!-- Native Gallery File Input Label Card -->
-                    <label for="galleryFileInput" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all overflow-hidden cursor-pointer select-none">
-                        <input type="file" id="galleryFileInput" accept="image/*" class="hidden" onchange="processReceiptScan(event)">
+                    <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
+                        <input type="file" id="galleryFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 txt-income flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-images"></i>
                         </div>
@@ -383,12 +378,11 @@
                             <p class="text-xs font-bold txt-primary">Pilih Galeri</p>
                             <p class="text-[10px] txt-secondary">File / Gambar Struk</p>
                         </div>
-                    </label>
+                    </div>
                 </div>
 
-                <!-- Big Drop Container with Direct Native Label Trigger -->
-                <label for="dropFileInput" class="block app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors overflow-hidden cursor-pointer select-none">
-                    <input type="file" id="dropFileInput" accept="image/*" class="hidden" onchange="processReceiptScan(event)">
+                <div class="app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors relative overflow-hidden cursor-pointer select-none">
+                    <input type="file" id="dropFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
                     <div class="pointer-events-none">
                         <div class="w-16 h-16 rounded-full bg-[var(--bg-subcard)] txt-accent flex items-center justify-center text-2xl mx-auto mb-4">
                             <i id="scanIcon" class="fa-solid fa-cloud-arrow-up"></i>
@@ -396,9 +390,8 @@
                         <p id="scanMainLabel" class="text-sm font-bold txt-primary mb-1">Unggah Struk Belanja</p>
                         <p id="scanSubLabel" class="text-[11px] txt-secondary">Ketuk di sini untuk memilih foto dari perangkat Anda</p>
                     </div>
-                </label>
+                </div>
 
-                <!-- Scanned Result Card -->
                 <div id="scanResultCard" class="hidden app-card p-6 rounded-[32px] space-y-4 border-accent relative overflow-hidden">
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between items-center"><span class="txt-secondary text-xs">Merchant/Toko</span> <strong id="scanMerchant" class="txt-primary">-</strong></div>
@@ -452,8 +445,8 @@
 
             <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-0 slide-up relative pb-2">
                 <div class="text-center pb-3 border-b border-[var(--border-color)] shrink-0">
-                    <h3 class="text-lg font-bold txt-primary">Asisten Finansial</h3>
-                    <p class="text-[10px] txt-secondary mt-0.5"><i class="fa-solid fa-bolt txt-accent"></i> Groq Llama 3.1 Fast AI Ready</p>
+                    <h3 class="text-lg font-bold txt-primary">Asisten Finansial AI</h3>
+                    <p class="text-[10px] txt-secondary mt-0.5"><i class="fa-solid fa-bolt txt-accent"></i> Groq Llama 3.3 Fast AI Ready</p>
                 </div>
                 
                 <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-1 hide-scroll py-4 my-1 min-h-0">
@@ -462,19 +455,21 @@
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div class="p-3.5 app-card rounded-2xl rounded-tl-none text-xs txt-primary leading-relaxed shadow-sm">
-                            Halo! Saya FuluskuAI yang ditenagai oleh Groq Llama AI. Saya siap menganalisis posisi keuangan Anda dan memberikan saran finansial terbaik.
+                            Halo! Saya FuluskuAI. Anda bisa langsung meminta saran finansial, mengetik perintah <b>/saldo</b>, <b>/transaksi</b>, atau mencatat transaksi otomatis seperti <b>"Makan 25k"</b> atau <b>"+500k Gaji"</b>!
                         </div>
                     </div>
                 </div>
 
                 <div id="chatInputContainer" class="shrink-0 space-y-2.5 pt-2 border-t border-[var(--border-color)] bg-[var(--bg-main)]/95 backdrop-blur-md z-10 pb-2">
                     <div class="flex gap-2 overflow-x-auto pb-1 hide-scroll">
+                        <button type="button" onclick="sendQuickChat('/saldo')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/saldo</button>
+                        <button type="button" onclick="sendQuickChat('/transaksi')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/transaksi</button>
                         <button type="button" onclick="sendQuickChat('/analisis')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/analisis</button>
-                        <button type="button" onclick="sendQuickChat('/hemat')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/hemat</button>
-                        <button type="button" onclick="sendQuickChat('/tagihan')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/tagihan</button>
+                        <button type="button" onclick="sendQuickChat('Makan siang 25k')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">Makan 25k</button>
+                        <button type="button" onclick="sendQuickChat('/bantuan')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/bantuan</button>
                     </div>
                     <form onsubmit="handleSendChat(event)" class="flex gap-2">
-                        <input type="text" id="chatInput" placeholder="Tanyakan sesuatu ke AI..." class="app-input flex-1 px-4 py-3 rounded-2xl text-xs font-medium" autocomplete="off">
+                        <input type="text" id="chatInput" placeholder="Ketik pesan atau contoh: Makan 25k..." class="app-input flex-1 px-4 py-3 rounded-2xl text-xs font-medium" autocomplete="off">
                         <button type="submit" class="w-12 h-12 rounded-2xl btn-lime flex items-center justify-center text-sm shrink-0 active:scale-95"><i class="fa-solid fa-paper-plane"></i></button>
                     </form>
                 </div>
@@ -680,32 +675,6 @@
         </div>
     </div>
 
-    <!-- Modal Telegram Settings -->
-    <div id="modalTelegram" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
-        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
-            <div class="flex justify-between items-center">
-                <h3 class="text-base font-bold txt-primary flex items-center gap-2"><i class="fa-brands fa-telegram text-[#0088cc] text-xl"></i> Bot Telegram</h3>
-                <button type="button" onclick="closeModal('modalTelegram')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-color)] space-y-4">
-                <p class="text-xs txt-secondary leading-relaxed">
-                    Masukkan Chat ID Telegram Anda untuk menerima alert transaksi dan laporan instan.
-                </p>
-                <div>
-                    <label class="block text-xs font-semibold txt-secondary mb-1.5 ml-1">Telegram Chat ID Anda</label>
-                    <input type="text" id="userChatIdInput" placeholder="Contoh: 987654321" onchange="saveUserChatId()" class="app-input w-full px-4 py-3 rounded-2xl text-xs font-medium border border-[var(--border-color)] text-white">
-                    <p class="text-[10px] txt-muted mt-1 ml-1">Dapatkan Chat ID via bot <a href="https://t.me/userinfobot" target="_blank" class="txt-accent font-bold underline">@userinfobot</a></p>
-                </div>
-            </div>
-            <div class="flex gap-3 pt-2">
-                <button type="button" onclick="sendTelegramTest()" class="flex-1 py-3 bg-[var(--bg-subcard)] border border-[var(--border-color)] text-sm rounded-xl font-bold txt-primary hover:bg-[#0088cc]/10 transition-colors flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-[#0088cc]"></i> Tes Ping Telegram
-                </button>
-                <button type="button" onclick="closeModal('modalTelegram')" class="flex-1 py-3 btn-lime text-sm rounded-xl font-bold active:scale-95">Selesai</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyxejM4mHPOj5Px6KuBppL9TkQ5unEWJFQy3ScXEjkpjuZdgqemVUtX5xAcE1Rc038h/exec";
         
@@ -721,8 +690,6 @@
             transactions: [], 
             goals: [], 
             debts: [], 
-            telegramEnabled: true, 
-            telegramChatId: '',
             gasUrl: DEFAULT_GAS_URL,
             logoUrl: DEFAULT_LOGO_URL
         };
@@ -836,10 +803,9 @@
                 return new Promise((resolve) => {
                     if (action === 'getInitialData') google.script.run.withSuccessHandler(resolve).getInitialData();
                     else if (action === 'saveWallet') google.script.run.withSuccessHandler(resolve).saveWalletData(payload.wallet);
-                    else if (action === 'saveTransaction') google.script.run.withSuccessHandler(resolve).saveTransactionData(payload.transaction, payload.chatId, payload.telegramEnabled);
+                    else if (action === 'saveTransaction') google.script.run.withSuccessHandler(resolve).saveTransactionData(payload.transaction);
                     else if (action === 'saveGoal') google.script.run.withSuccessHandler(resolve).saveGoalData(payload.goal);
                     else if (action === 'saveDebt') google.script.run.withSuccessHandler(resolve).saveDebtData(payload.debt);
-                    else if (action === 'sendTelegram') google.script.run.withSuccessHandler(resolve).sendTelegramAlert(payload.message, payload.chatId);
                     else if (action === 'analyzeReceipt') google.script.run.withSuccessHandler(resolve).analyzeReceiptWithGroq(payload.base64);
                     else if (action === 'askChatbot') google.script.run.withSuccessHandler(resolve).askGroqChatbot(payload.message, payload.summaryContext);
                     else if (action === 'ping') resolve({ status: 'success', message: 'Apps Script Active' });
@@ -890,13 +856,6 @@
                 if (inputLogo) inputLogo.value = activeLogoUrl;
                 
                 updateAppLogoDisplay(activeLogoUrl);
-
-                const savedChatId = localStorage.getItem('fulusku_telegram_chatid');
-                if (savedChatId) {
-                    appState.telegramChatId = savedChatId;
-                    const inputEl = document.getElementById('userChatIdInput');
-                    if (inputEl) inputEl.value = savedChatId;
-                }
             } catch (e) {}
 
             loadLocalData();
@@ -1002,33 +961,6 @@
                 if (res.data.debts?.length) appState.debts = res.data.debts;
                 saveLocalData();
                 refreshAllViews();
-            }
-        }
-
-        function saveUserChatId() {
-            const inputVal = document.getElementById('userChatIdInput')?.value.trim();
-            if (inputVal) {
-                appState.telegramChatId = inputVal;
-                try { localStorage.setItem('fulusku_telegram_chatid', inputVal); } catch(e){}
-                showToast("Chat ID disimpan!", "success");
-            }
-        }
-
-        async function sendTelegramTest() {
-            const chatId = appState.telegramChatId || document.getElementById('userChatIdInput')?.value.trim();
-            if (!chatId) {
-                showToast("Masukkan Chat ID terlebih dahulu!", "warning");
-                return;
-            }
-
-            showToast("Mengirim pesan tes Telegram...", "info");
-            const msg = "🤖 <b>Tes Ping FuluskuAI!</b>\nNotifikasi akun Anda berhasil terhubung dengan Chat ID ini.";
-            const res = await callBackend('sendTelegram', { message: msg, chatId: chatId });
-            
-            if (res && res.status === 'success') {
-                showToast("Pesan tes berhasil terkirim!", "success");
-            } else {
-                showToast("Gagal: " + (res?.message || "Koneksi terputus"), "error");
             }
         }
 
@@ -1407,7 +1339,7 @@
                 refreshAllViews(); 
                 closeModal('modalTransaction'); 
                 showToast("Transaksi dicatat!", "success"); 
-                callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled }); 
+                callBackend('saveTransaction', { transaction: t }); 
             } 
         }
 
@@ -1451,8 +1383,8 @@
             closeModal('modalTransfer');
             showToast("Transfer antar dompet berhasil!", "success");
 
-            callBackend('saveTransaction', { transaction: tOut, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
-            callBackend('saveTransaction', { transaction: tIn, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
+            callBackend('saveTransaction', { transaction: tOut });
+            callBackend('saveTransaction', { transaction: tIn });
         }
 
         async function handleAddWallet(e) {
@@ -1644,7 +1576,7 @@
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-                    const MAX_DIM = 1024;
+                    const MAX_DIM = 1000;
 
                     if (width > MAX_DIM || height > MAX_DIM) {
                         if (width > height) {
@@ -1725,7 +1657,7 @@
             refreshAllViews();
             document.getElementById('scanResultCard').classList.add('hidden');
             showToast("Transaksi disimpan ke catatan!", "success");
-            callBackend('saveTransaction', { transaction: t, chatId: appState.telegramChatId, telegramEnabled: appState.telegramEnabled });
+            callBackend('saveTransaction', { transaction: t });
         }
 
         function parseMarkdownToHTML(text) {
@@ -1753,14 +1685,25 @@
             
             const summaryContext = { 
                 totalBalance: calculateTotalBalance(), 
-                wallets: appState.wallets.map(w => ({nama: w.name, saldo: w.balance})), 
-                recentTransactions: appState.transactions.slice(0, 5).map(t => ({ket: t.note, jml: t.amount, jenis: t.type}))
+                wallets: appState.wallets.map(w => ({id: w.id, nama: w.name, saldo: w.balance})), 
+                recentTransactions: appState.transactions.slice(0, 5).map(t => ({ket: t.note, jml: t.amount, jenis: t.type, tgl: t.date}))
             };
 
             const res = await callBackend('askChatbot', { message: msg, summaryContext: summaryContext });
             
             if (res && res.status === 'success' && res.reply) {
                 appendChatMessage('AI', res.reply);
+                if (res.autoTransaction) {
+                    const tx = res.autoTransaction;
+                    const wallet = appState.wallets.find(w => w.id === tx.walletId) || appState.wallets[0];
+                    if (wallet) {
+                        tx.type === 'expense' ? wallet.balance -= tx.amount : wallet.balance += tx.amount;
+                        appState.transactions.unshift(tx);
+                        saveLocalData();
+                        refreshAllViews();
+                        showToast("Transaksi dicatat via Chat AI!", "success");
+                    }
+                }
             } else {
                 appendChatMessage('AI', "Maaf, terjadi kendala saat terhubung ke Groq AI Backend. Silakan periksa koneksi Backend Anda pada menu Pengaturan (⚙️).");
             }
