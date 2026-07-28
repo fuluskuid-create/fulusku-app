@@ -11,9 +11,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="FuluskuAI">
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
+    <meta name="description" content="Aplikasi Keuangan Cerdas dengan Vision AI OCR Struk dan In-App Chat Assistant">
 
-    <!-- Embedded Base64 Web App Manifest -->
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRnVsdXNrdUFJIiwic2hvcnRfbmFtZSI6IkZ1bHVza3UiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwOTA5MGIiLCJ0aGVtZV9jb2xvciI6IiMwOTA5MGIiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0In0=">
+    <!-- iOS Apple Touch Icon (Generated SVG Data URI) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><rect width='512' height='512' rx='128' fill='%2309090b'/><circle cx='256' cy='256' r='200' fill='%23d2ff1f'/><path d='M160 330 C 160 210, 352 210, 352 330 Z' fill='%2309090b'/><circle cx='256' cy='180' r='50' fill='%2309090b'/></svg>">
+
+    <!-- Embedded Base64 Web App Manifest for PWA Standalone -->
+    <link rel="manifest" href="data:application/manifest+json;utf8,%7B%22name%22%3A%22FuluskuAI%20- %20Keuangan%20%26%20Vision%20AI%22%2C%22short_name%22%3A%22FuluskuAI%22%2C%22description%22%3A%22Ekosistem%20Finansial%20Cerdas%20dengan%20Vision%20AI%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2309090b%22%2C%22theme_color%22%3A%22%2309090b%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%20width%3D'512'%20height%3D'512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'128'%20fill%3D'%2309090b'%2F%3E%3Ccircle%20cx%3D'256'%20cy%3D'256'%20r%3D'200'%20fill%3D'%23d2ff1f'%2F%3E%3Cpath%20d%3D'M160%20330%20C%20160%20210%2C%20352%20210%2C%20352%20330%20Z'%20fill%3D'%2309090b'%2F%3E%3Ccircle%20cx%3D'256'%20cy%3D'180'%20r%3D'50'%20fill%3D'%2309090b'%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%20512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -186,7 +190,7 @@
             <div class="ambient-orb bg-limeaccent-300 w-80 h-80 -bottom-32 -left-20" style="animation-delay: -10s;"></div>
         </div>
 
-        <!-- Header -->
+        <!-- Header Bar -->
         <header class="px-7 pt-4 pb-3 flex items-center justify-between text-xs font-semibold txt-muted select-none border-b border-[var(--border-color)] bg-[var(--bg-main)]/80 z-20 shrink-0 backdrop-blur-md">
             <span id="currentTime" class="tracking-wider">00:00</span>
             <div class="w-24 h-5 app-subcard rounded-full flex items-center justify-center border-none bg-black/40 shadow-inner">
@@ -222,7 +226,7 @@
                     </button>
                     <button type="button" onclick="triggerPwaInstall()" id="pwaInstallBtn" class="p-5 app-card rounded-[24px] text-sm flex flex-col items-center justify-center gap-2.5 active:scale-95 group relative cursor-pointer">
                         <span id="pwaBadge" class="absolute -top-1 -right-1 w-3 h-3 bg-lime-400 rounded-full animate-ping hidden"></span>
-                        <i class="fa-brands fa-android text-xl txt-accent group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-mobile-screen-button text-xl txt-accent group-hover:scale-110 transition-transform"></i>
                         <span class="txt-primary font-semibold" id="pwaBtnText">Instal App</span>
                     </button>
                 </div>
@@ -359,10 +363,10 @@
                     <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis detail toko, tanggal, & nominal transaksi dari foto struk.</p>
                 </div>
 
-                <!-- Dual Native File Inputs with Overlapping Touch Overlay -->
                 <div class="grid grid-cols-2 gap-3">
                     <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
-                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
+                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="sr-only" onchange="processReceiptScan(event)">
+                        <label for="cameraFileInput" class="absolute inset-0 w-full h-full cursor-pointer z-20"></label>
                         <div class="w-12 h-12 rounded-2xl bg-limeaccent-400/10 txt-accent flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-camera"></i>
                         </div>
@@ -373,7 +377,8 @@
                     </div>
 
                     <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
-                        <input type="file" id="galleryFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
+                        <input type="file" id="galleryFileInput" accept="image/*" class="sr-only" onchange="processReceiptScan(event)">
+                        <label for="galleryFileInput" class="absolute inset-0 w-full h-full cursor-pointer z-20"></label>
                         <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 txt-income flex items-center justify-center text-xl pointer-events-none">
                             <i class="fa-solid fa-images"></i>
                         </div>
@@ -385,7 +390,8 @@
                 </div>
 
                 <div class="app-card p-8 rounded-[32px] text-center border-2 border-dashed border-[var(--border-color)] hover:border-[var(--border-highlight)] transition-colors relative overflow-hidden cursor-pointer select-none">
-                    <input type="file" id="dropFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
+                    <input type="file" id="dropFileInput" accept="image/*" class="sr-only" onchange="processReceiptScan(event)">
+                    <label for="dropFileInput" class="absolute inset-0 w-full h-full cursor-pointer z-20"></label>
                     <div class="pointer-events-none">
                         <div class="w-16 h-16 rounded-full bg-[var(--bg-subcard)] txt-accent flex items-center justify-center text-2xl mx-auto mb-4">
                             <i id="scanIcon" class="fa-solid fa-cloud-arrow-up"></i>
@@ -461,7 +467,7 @@
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div class="p-3.5 app-card rounded-2xl rounded-tl-none text-xs txt-primary leading-relaxed shadow-sm">
-                            Halo! Saya FuluskuAI. Anda bisa langsung meminta saran finansial, mengetik perintah <b>/saldo</b>, <b>/transaksi</b>, atau mencatat transaksi otomatis seperti <b>"Makan 25k"</b> atau <b>"+500k Gaji"</b>!
+                            Halo! Saya FuluskuAI. Anda bisa langsung meminta saran finansial, mengetik perintah <b>/saldo</b>, <b>/transaksi</b>, atau mencatat transaksi otomatis seperti <b>"Makan 25k"</b> atau <b>"Pemasukan 20 jt ke dompet tunai"</b>!
                         </div>
                     </div>
                 </div>
@@ -472,7 +478,7 @@
                         <button type="button" onclick="sendQuickChat('/transaksi')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/transaksi</button>
                         <button type="button" onclick="sendQuickChat('/analisis')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/analisis</button>
                         <button type="button" onclick="sendQuickChat('Makan siang 25k')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">Makan 25k</button>
-                        <button type="button" onclick="sendQuickChat('/bantuan')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">/bantuan</button>
+                        <button type="button" onclick="sendQuickChat('Pemasukan 20 jt ke dompet tunai')" class="px-3.5 py-1.5 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-xs font-semibold whitespace-nowrap border border-[var(--border-color)] transition-all">+20jt Tunai</button>
                     </div>
                     <form onsubmit="handleSendChat(event)" class="flex gap-2">
                         <input type="text" id="chatInput" placeholder="Ketik pesan atau contoh: Makan 25k..." class="app-input flex-1 px-4 py-3 rounded-2xl text-xs font-medium" autocomplete="off">
@@ -508,7 +514,7 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
-    <!-- Modal Transaction -->
+    <!-- Modals -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
             <div class="flex justify-between items-center mb-1">
@@ -682,10 +688,37 @@
         </div>
     </div>
 
+    <!-- Modal iOS Safari PWA Installation Guide -->
+    <div id="modalIosPwa" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 modal-wrapper">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-5 border border-[var(--border-color)] my-auto text-center">
+            <div class="w-16 h-16 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center mx-auto text-2xl shadow-lg">
+                <i class="fa-brands fa-apple"></i>
+            </div>
+            <div class="space-y-1">
+                <h3 class="text-lg font-extrabold txt-primary">Instal di iPhone / iPad</h3>
+                <p class="text-xs txt-secondary">Ikuti 3 langkah mudah untuk menambahkan aplikasi ke Layar Utama iOS:</p>
+            </div>
+            <div class="space-y-3 text-left bg-[var(--bg-input)] p-4 rounded-2xl border border-[var(--border-color)] text-xs">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full bg-lime-400/20 txt-accent flex items-center justify-center font-bold text-xs shrink-0">1</div>
+                    <p class="txt-primary">Ketuk tombol <strong class="txt-accent"><i class="fa-solid fa-share-from-square"></i> Bagikan (Share)</strong> di bar bawah Safari.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full bg-lime-400/20 txt-accent flex items-center justify-center font-bold text-xs shrink-0">2</div>
+                    <p class="txt-primary">Gulir ke bawah dan pilih <strong class="txt-accent"><i class="fa-solid fa-square-plus"></i> Tambahkan ke Layar Utama</strong>.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full bg-lime-400/20 txt-accent flex items-center justify-center font-bold text-xs shrink-0">3</div>
+                    <p class="txt-primary">Ketuk <strong class="txt-accent">Tambah</strong> di pojok kanan atas.</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeModal('modalIosPwa')" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- Application Script & PWA SW Logic -->
     <script>
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyxejM4mHPOj5Px6KuBppL9TkQ5unEWJFQy3ScXEjkpjuZdgqemVUtX5xAcE1Rc038h/exec";
-        
-        // LOGO PERMANEN APLIKASI
         const DEFAULT_LOGO_URL = "https://drive.google.com/file/d/1oI6h5HgvhuisD0Lg98YnbQaTd52Pa3rj/view?usp=sharing"; 
 
         const appState = {
@@ -706,6 +739,93 @@
         let isRegisterMode = false;
         let deferredPrompt = null;
 
+        /* PWA Service Worker Registration using Dynamic Blob */
+        function initPwaServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const swCode = `
+                        const CACHE_NAME = 'fulusku-pwa-v3';
+                        const ASSETS = [
+                            './',
+                            'https://cdn.tailwindcss.com',
+                            'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap',
+                            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+                            'https://cdn.jsdelivr.net/npm/chart.js'
+                        ];
+                        self.addEventListener('install', (e) => {
+                            e.waitUntil(
+                                caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+                            );
+                        });
+                        self.addEventListener('activate', (e) => {
+                            e.waitUntil(
+                                caches.keys().then((keys) => Promise.all(
+                                    keys.map((k) => { if(k !== CACHE_NAME) return caches.delete(k); })
+                                )).then(() => self.clients.claim())
+                            );
+                        });
+                        self.addEventListener('fetch', (e) => {
+                            if (e.request.method !== 'GET') return;
+                            e.respondWith(
+                                caches.match(e.request).then((cached) => {
+                                    return cached || fetch(e.request).then((netRes) => {
+                                        return caches.open(CACHE_NAME).then((cache) => {
+                                            try { cache.put(e.request, netRes.clone()); } catch(err){}
+                                            return netRes;
+                                        });
+                                    }).catch(() => {
+                                        if (e.request.headers.get('accept')?.includes('text/html')) {
+                                            return caches.match('./');
+                                        }
+                                    });
+                                })
+                            );
+                        });
+                    `;
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(swUrl).then(() => {
+                        console.log('FuluskuAI PWA Service Worker registered successfully.');
+                    }).catch(err => console.warn('SW registration info:', err.message));
+                } catch(e) {
+                    console.warn('SW Blob error:', e.message);
+                }
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); 
+            deferredPrompt = e; 
+            const badge = document.getElementById('pwaBadge');
+            if (badge) badge.classList.remove('hidden');
+        });
+
+        function isIosSafari() {
+            const ua = window.navigator.userAgent;
+            const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+            const webkit = !!ua.match(/WebKit/i);
+            return iOS && webkit && !ua.match(/CriOS/i);
+        }
+
+        function triggerPwaInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') {
+                        showToast("Aplikasi FuluskuAI berhasil diinstal!", "success");
+                        const badge = document.getElementById('pwaBadge');
+                        if (badge) badge.classList.add('hidden');
+                    }
+                    deferredPrompt = null; 
+                });
+            } else if (isIosSafari() || /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                openModal('modalIosPwa');
+            } else {
+                showToast("Buka titik 3 di browser HP Anda ➔ Ketuk 'Instal aplikasi' / 'Tambahkan ke Layar Utama'", "info");
+            }
+        }
+
+        /* Keyboard positioning & adjustment logic */
         function setupKeyboardHandling() {
             document.addEventListener('focusin', (e) => {
                 if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
@@ -713,9 +833,7 @@
                     if (nav) nav.classList.add('hidden');
                     
                     const modalParent = e.target.closest('.modal-wrapper');
-                    if (modalParent) {
-                        modalParent.style.paddingBottom = '320px';
-                    }
+                    if (modalParent) modalParent.style.paddingBottom = '320px';
 
                     const mainArea = document.getElementById('mainScrollArea');
                     if (e.target.id === 'chatInput' || e.target.closest('#tabChatbot')) {
@@ -727,9 +845,7 @@
                         }, 250);
                     } else if (mainArea) {
                         mainArea.style.paddingBottom = '180px';
-                        setTimeout(() => {
-                            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, 250);
+                        setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 250);
                     }
                 }
             });
@@ -740,67 +856,13 @@
                     if (nav && appState.user && appState.activeTab !== 'viewLanding' && appState.activeTab !== 'viewLogin') {
                         nav.classList.remove('hidden');
                     }
-                    
                     const modalParent = e.target.closest('.modal-wrapper');
-                    if (modalParent) {
-                        modalParent.style.paddingBottom = '24rem';
-                    }
+                    if (modalParent) modalParent.style.paddingBottom = '24rem';
 
                     const mainArea = document.getElementById('mainScrollArea');
-                    if (mainArea) {
-                        mainArea.style.paddingBottom = '';
-                    }
+                    if (mainArea) mainArea.style.paddingBottom = '';
                 }
             });
-
-            if (window.visualViewport) {
-                window.visualViewport.addEventListener('resize', () => {
-                    const active = document.activeElement;
-                    if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) {
-                        setTimeout(() => {
-                            active.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            if (active.id === 'chatInput') {
-                                const chatMessages = document.getElementById('chatMessages');
-                                if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
-                            }
-                        }, 150);
-                    }
-                });
-            }
-        }
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                try {
-                    const swCode = `
-                        self.addEventListener('install', (e) => self.skipWaiting());
-                        self.addEventListener('activate', (e) => self.clients.claim());
-                        self.addEventListener('fetch', (e) => {
-                            e.respondWith(fetch(e.request).catch(() => new Response('Offline mode ready.')));
-                        });
-                    `;
-                    const blob = new Blob([swCode], { type: 'application/javascript' });
-                    const swUrl = URL.createObjectURL(blob);
-                    navigator.serviceWorker.register(swUrl).catch(err => {
-                        console.warn('SW info:', err.message);
-                    });
-                } catch (e) { console.warn('SW setup error:', e.message); }
-            });
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); 
-            deferredPrompt = e; 
-        });
-
-        function triggerPwaInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choice) => {
-                    if (choice.outcome === 'accepted') showToast("Instalasi berhasil!", "success");
-                    deferredPrompt = null; 
-                });
-            } else { showToast("Gunakan menu 'Instal aplikasi' di browser HP Anda", "info"); }
         }
 
         async function callBackend(action, payload = {}) {
@@ -840,6 +902,7 @@
 
         window.onload = function() {
             setupKeyboardHandling();
+            initPwaServiceWorker();
             updateClock(); 
             setInterval(updateClock, 1000);
             
@@ -1670,16 +1733,25 @@
         function parseMarkdownToHTML(text) {
             if (!text) return '';
             
-            // Format markdown bold, italic, code, and bullet points
-            let formatted = text
-                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>')
-                .replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>')
-                .replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1')
-                .replace(/\n/g, '<br>');
+            let str = String(text);
             
-            return formatted;
+            // Format bold **text** or __text__
+            str = str.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>');
+            str = str.replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>');
+            
+            // Format italic *text*
+            str = str.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Format inline code `code`
+            str = str.replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>');
+            
+            // Format list items
+            str = str.replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1');
+            
+            // Replace newlines with break tags
+            str = str.replace(/\n/g, '<br>');
+            
+            return str;
         }
 
         async function handleSendChat(e) {
