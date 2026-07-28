@@ -186,7 +186,7 @@
             <div class="ambient-orb bg-limeaccent-300 w-80 h-80 -bottom-32 -left-20" style="animation-delay: -10s;"></div>
         </div>
 
-        <!-- Header without Telegram Button -->
+        <!-- Header -->
         <header class="px-7 pt-4 pb-3 flex items-center justify-between text-xs font-semibold txt-muted select-none border-b border-[var(--border-color)] bg-[var(--bg-main)]/80 z-20 shrink-0 backdrop-blur-md">
             <span id="currentTime" class="tracking-wider">00:00</span>
             <div class="w-24 h-5 app-subcard rounded-full flex items-center justify-center border-none bg-black/40 shadow-inner">
@@ -203,6 +203,7 @@
 
         <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-32 hide-scroll relative z-10 flex flex-col">
 
+            <!-- Landing Page -->
             <section id="viewLanding" class="space-y-8 py-8 slide-up">
                 <div class="text-center space-y-5">
                     <div id="appLogoContainer" class="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-limeaccent-300 via-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(210,255,31,0.3)] transform hover:scale-105 transition-transform duration-500 overflow-hidden p-3 relative">
@@ -227,6 +228,7 @@
                 </div>
             </section>
 
+            <!-- Login View -->
             <section id="viewLogin" class="hidden space-y-8 py-8 slide-up">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center mx-auto mb-4 shadow-lg overflow-hidden p-2 relative">
@@ -321,6 +323,7 @@
                 </div>
             </section>
 
+            <!-- Transactions Tab -->
             <section id="tabTransactions" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-bold txt-primary">Riwayat Transaksi</h3>
@@ -405,6 +408,7 @@
                 </div>
             </section>
 
+            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
@@ -413,6 +417,7 @@
                 <div id="goalsList" class="space-y-4"></div>
             </section>
 
+            <!-- Debts Tab -->
             <section id="tabDebts" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Utang & Tagihan</h3>
@@ -421,6 +426,7 @@
                 <div id="debtsList" class="space-y-4"></div>
             </section>
 
+            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-6 slide-up">
                 <h3 class="text-xl font-bold txt-primary">Analitik & Laporan</h3>
                 <div class="p-5 app-card rounded-[24px] flex gap-4 items-start bg-gradient-to-br from-[var(--bg-card)] to-[var(--text-accent)]/5 border border-[var(--border-color)]">
@@ -502,6 +508,7 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
+    <!-- Modal Transaction -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
             <div class="flex justify-between items-center mb-1">
@@ -1662,14 +1669,15 @@
 
         function parseMarkdownToHTML(text) {
             if (!text) return '';
-            let formatted = escapeHTML(text);
             
-            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>');
-            formatted = formatted.replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>');
-            formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>');
-            formatted = formatted.replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1');
-            formatted = formatted.replace(/\n/g, '<br>');
+            // Format markdown bold, italic, code, and bullet points
+            let formatted = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold txt-accent">$1</strong>')
+                .replace(/__(.*?)__/g, '<strong class="font-bold txt-accent">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code class="bg-black/40 px-1.5 py-0.5 rounded text-limeaccent-300 font-mono text-[11px] border border-[var(--border-color)]">$1</code>')
+                .replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1')
+                .replace(/\n/g, '<br>');
             
             return formatted;
         }
