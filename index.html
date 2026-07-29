@@ -201,7 +201,6 @@
             <div class="ambient-orb bg-limeaccent-300 w-80 h-80 -bottom-32 -left-20" style="animation-delay: -10s;"></div>
         </div>
 
-        <!-- Header Bar -->
         <header class="px-6 pt-4 pb-3 flex items-center justify-between text-xs font-semibold txt-muted select-none border-b border-[var(--border-color)] bg-[var(--bg-main)]/80 z-20 shrink-0 backdrop-blur-md no-print">
             <span id="currentTime" class="tracking-wider font-mono">00:00</span>
             <div class="w-24 h-5 app-subcard rounded-full flex items-center justify-center border-none bg-black/40 shadow-inner">
@@ -246,7 +245,6 @@
                 </div>
             </section>
 
-            <!-- Login View -->
             <section id="viewLogin" class="hidden space-y-6 py-6 slide-up">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 rounded-2xl bg-limeaccent-400 text-zinc-950 flex items-center justify-center mx-auto mb-3 shadow-lg overflow-hidden p-2 relative">
@@ -288,10 +286,8 @@
                 </form>
             </section>
 
-            <!-- Dashboard View -->
             <section id="viewDashboard" class="hidden space-y-6 slide-up">
                 
-                <!-- Total Balance Card -->
                 <div class="relative p-6 rounded-[32px] overflow-hidden shadow-2xl transition-all border border-[var(--border-color)]" style="background: linear-gradient(145deg, var(--bg-card) 0%, rgba(210, 255, 31, 0.05) 100%);">
                     <div class="absolute -top-16 -right-16 w-48 h-48 bg-lime-400/20 rounded-full blur-[50px] pointer-events-none"></div>
                     <div class="flex items-center justify-between relative z-10 mb-3">
@@ -322,10 +318,8 @@
                     </div>
                 </div>
 
-                <!-- Debt Alert Warning Banner -->
                 <div id="dashDebtAlertContainer" class="hidden"></div>
 
-                <!-- Wallets Section -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between px-1">
                         <h3 class="font-bold text-xs txt-primary tracking-wide">Dompet & Rekening</h3>
@@ -337,7 +331,6 @@
                     <div id="walletContainer" class="flex gap-3 overflow-x-auto pb-2 pt-1 hide-scroll snap-x"></div>
                 </div>
 
-                <!-- Budget Allocations Section -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between px-1">
                         <h3 class="font-bold text-xs txt-primary tracking-wide">Alokasi Dana & Anggaran</h3>
@@ -346,7 +339,6 @@
                     <div id="allocationContainer" class="space-y-2.5"></div>
                 </div>
 
-                <!-- Recent Activity Section -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between px-1">
                         <h3 class="font-bold text-xs txt-primary tracking-wide">Aktivitas Terkini</h3>
@@ -358,7 +350,6 @@
                 </div>
             </section>
 
-            <!-- Transactions Tab -->
             <section id="tabTransactions" class="hidden space-y-4 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Riwayat Transaksi</h3>
@@ -385,7 +376,6 @@
                 </div>
             </section>
 
-            <!-- Scanner Tab -->
             <section id="tabScanner" class="hidden space-y-5 slide-up">
                 <div class="text-center space-y-1.5 mt-2">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-2xl mx-auto mb-2 shadow-lg">
@@ -457,7 +447,6 @@
                 </div>
             </section>
 
-            <!-- Debts Tab -->
             <section id="tabDebts" class="hidden space-y-4 slide-up">
                 <div class="flex items-center justify-between">
                     <div>
@@ -483,7 +472,6 @@
                 <div id="debtsList" class="space-y-3"></div>
             </section>
 
-            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-4 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
@@ -492,7 +480,6 @@
                 <div id="goalsList" class="space-y-3"></div>
             </section>
 
-            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between no-print">
                     <div>
@@ -625,7 +612,6 @@
                 </div>
             </section>
 
-            <!-- Chatbot Tab -->
             <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-0 slide-up relative pb-2">
                 <div class="text-center pb-2.5 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-base font-bold txt-primary flex items-center justify-center gap-1.5"><i class="fa-solid fa-robot txt-accent"></i> Asisten Bot AI Eksekutor</h3>
@@ -661,7 +647,6 @@
 
         </main>
 
-        <!-- Bottom Navigation -->
         <nav id="bottomNav" class="hidden no-print absolute bottom-3 left-1/2 -translate-x-1/2 w-[calc(100%-1.25rem)] max-w-[430px] z-40 rounded-3xl p-1.5 backdrop-blur-[32px] shadow-2xl flex items-center justify-between border border-[var(--border-color)] bg-[var(--nav-bg)]">
             <button type="button" onclick="switchTab('viewDashboard')" id="nav-viewDashboard" class="nav-item flex-1 py-1.5 flex flex-col items-center justify-center gap-0.5 txt-muted hover:txt-primary transition-all rounded-2xl active">
                 <i class="fa-solid fa-house text-xs sm:text-sm"></i>
@@ -1690,19 +1675,19 @@
             const netCashflow = totalIncome - totalExpense;
 
             let text = `📊 *FULUSKU AI - LAPORAN KEUANGAN EKSEKUTIF*\n` +
-                       `----------------------------------------\n` +
-                       `Pemilik Akun : ${userName}\n` +
-                       `Tanggal      : ${dateStr}\n` +
-                       `Status AI    : ${netCashflow >= 0 ? 'SEHAT (Surplus)' : 'PERINGATAN (Defisit)'}\n\n` +
-                       `1. RINGKASAN ASET & DOMPET\n` +
-                       `• Total Aset Finansial: ${formatRp(totalAssets)}\n\n` +
-                       `2. ARUS KAS (CASHFLOW)\n` +
-                       `• Total Pemasukan   : ${formatRp(totalIncome)}\n` +
-                       `• Total Pengeluaran : ${formatRp(totalExpense)}\n` +
-                       `• Net Cashflow      : ${formatRp(netCashflow)}\n\n` +
-                       `3. EVALUASI BOT AI\n` +
-                       `${netCashflow >= 0 ? 'Kondisi finansial stabil & surplus. Tingkatkan porsi alokasi tabungan.' : 'Pengeluaran melebihi pemasukan. Evaluasi kembali alokasi belanja non-esensial.'}\n` +
-                       `----------------------------------------`;
+                    `----------------------------------------\n` +
+                    `Pemilik Akun : ${userName}\n` +
+                    `Tanggal      : ${dateStr}\n` +
+                    `Status AI    : ${netCashflow >= 0 ? 'SEHAT (Surplus)' : 'PERINGATAN (Defisit)'}\n\n` +
+                    `1. RINGKASAN ASET & DOMPET\n` +
+                    `• Total Aset Finansial: ${formatRp(totalAssets)}\n\n` +
+                    `2. ARUS KAS (CASHFLOW)\n` +
+                    `• Total Pemasukan   : ${formatRp(totalIncome)}\n` +
+                    `• Total Pengeluaran : ${formatRp(totalExpense)}\n` +
+                    `• Net Cashflow      : ${formatRp(netCashflow)}\n\n` +
+                    `3. EVALUASI BOT AI\n` +
+                    `${netCashflow >= 0 ? 'Kondisi finansial stabil & surplus. Tingkatkan porsi alokasi tabungan.' : 'Pengeluaran melebihi pemasukan. Evaluasi kembali alokasi belanja non-esensial.'}\n` +
+                    `----------------------------------------`;
 
             const dummy = document.createElement('textarea');
             document.body.appendChild(dummy);
@@ -2220,12 +2205,26 @@
             }
 
             const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth || 1280;
-            canvas.height = video.videoHeight || 720;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            let width = video.videoWidth || 1280;
+            let height = video.videoHeight || 720;
 
-            const base64Data = canvas.toDataURL('image/jpeg', 0.90);
+            const MAX_DIM = 1024;
+            if (width > MAX_DIM || height > MAX_DIM) {
+                if (width > height) {
+                    height = Math.round((height * MAX_DIM) / width);
+                    width = MAX_DIM;
+                } else {
+                    width = Math.round((width * MAX_DIM) / height);
+                    height = MAX_DIM;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, width, height);
+
+            const base64Data = canvas.toDataURL('image/jpeg', 0.80);
             stopLiveCamera();
             sendImageForOcr(base64Data);
         }
@@ -2234,10 +2233,36 @@
             const file = e.target.files && e.target.files[0];
             if (!file) return;
 
+            showToast("Mengompresi & menyiapkan foto struk...", "info");
+
             const reader = new FileReader();
             reader.onload = function(evt) {
-                const base64Data = evt.target.result;
-                sendImageForOcr(base64Data);
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const MAX_DIM = 1024;
+
+                    if (width > MAX_DIM || height > MAX_DIM) {
+                        if (width > height) {
+                            height = Math.round((height * MAX_DIM) / width);
+                            width = MAX_DIM;
+                        } else {
+                            width = Math.round((width * MAX_DIM) / height);
+                            height = MAX_DIM;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.80);
+                    sendImageForOcr(compressedBase64);
+                };
+                img.src = evt.target.result;
             };
             reader.readAsDataURL(file);
             e.target.value = '';
