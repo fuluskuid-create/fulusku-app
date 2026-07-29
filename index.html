@@ -2,7 +2,7 @@
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
     <title>FuluskuAI - Keuangan & Vision AI</title>
     
     <meta name="mobile-web-app-capable" content="yes">
@@ -124,6 +124,8 @@
             border: 1px solid var(--border-color); 
             color: var(--text-primary); 
             transition: all 0.3s ease; 
+            scroll-margin-bottom: 120px;
+            scroll-margin-top: 80px;
         }
 
         .app-input:focus { 
@@ -269,6 +271,7 @@
                 </form>
             </section>
 
+            <!-- Dashboard View -->
             <section id="viewDashboard" class="hidden space-y-6 slide-up">
                 
                 <!-- Total Balance Card -->
@@ -302,7 +305,7 @@
                     </div>
                 </div>
 
-                <!-- Debt Alert Warning Banner (If Any Due/Overdue) -->
+                <!-- Debt Alert Warning Banner -->
                 <div id="dashDebtAlertContainer" class="hidden"></div>
 
                 <!-- Wallets Section -->
@@ -338,6 +341,7 @@
                 </div>
             </section>
 
+            <!-- Transactions Tab -->
             <section id="tabTransactions" class="hidden space-y-4 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Riwayat Transaksi</h3>
@@ -364,6 +368,7 @@
                 </div>
             </section>
 
+            <!-- Scanner Tab -->
             <section id="tabScanner" class="hidden space-y-5 slide-up">
                 <div class="text-center space-y-1.5 mt-2">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-2xl mx-auto mb-2 shadow-lg">
@@ -409,6 +414,7 @@
                 </div>
             </section>
 
+            <!-- Debts Tab -->
             <section id="tabDebts" class="hidden space-y-4 slide-up">
                 <div class="flex items-center justify-between">
                     <div>
@@ -434,6 +440,7 @@
                 <div id="debtsList" class="space-y-3"></div>
             </section>
 
+            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-4 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
@@ -442,6 +449,7 @@
                 <div id="goalsList" class="space-y-3"></div>
             </section>
 
+            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Laporan Keuangan</h3>
@@ -451,24 +459,20 @@
                     </div>
                 </div>
 
-                <!-- Draft Laporan Keuangan Eksekutif Card -->
                 <div class="app-card p-5 rounded-[28px] border-l-4 border-l-limeaccent-400 space-y-3">
                     <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
                         <h4 class="text-xs font-extrabold txt-accent uppercase tracking-wider"><i class="fa-solid fa-file-contract mr-1.5"></i> Draft Laporan Eksekutif</h4>
                         <span id="draftReportDate" class="text-[10px] txt-secondary font-mono">2026-07-29</span>
                     </div>
                     <div id="draftReportContent" class="text-xs txt-primary leading-relaxed space-y-2 font-mono bg-black/20 p-3 rounded-xl border border-[var(--border-color)]">
-                        <!-- Filled dynamically -->
                     </div>
                 </div>
 
-                <!-- Cashflow Line Chart Card -->
                 <div class="app-card p-4 rounded-[24px]">
                     <h4 class="text-xs font-bold txt-primary mb-3">Grafik Arus Kas (Masuk vs Keluar)</h4>
                     <div class="h-44 w-full"><canvas id="chartCashflow"></canvas></div>
                 </div>
 
-                <!-- Category Doughnut Chart Card -->
                 <div class="app-card p-4 rounded-[24px]">
                     <h4 class="text-xs font-bold txt-primary mb-3">Distribusi Pengeluaran</h4>
                     <div class="h-48 w-full flex items-center justify-center relative">
@@ -478,6 +482,7 @@
                 </div>
             </section>
 
+            <!-- Chatbot Tab -->
             <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-0 slide-up relative pb-2">
                 <div class="text-center pb-2.5 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-base font-bold txt-primary">Asisten Finansial AI</h3>
@@ -511,6 +516,7 @@
 
         </main>
 
+        <!-- Bottom Navigation -->
         <nav id="bottomNav" class="hidden absolute bottom-3 left-1/2 -translate-x-1/2 w-[calc(100%-1.25rem)] max-w-[430px] z-40 rounded-3xl p-1.5 backdrop-blur-[32px] shadow-2xl flex items-center justify-between border border-[var(--border-color)] bg-[var(--nav-bg)]">
             <button type="button" onclick="switchTab('viewDashboard')" id="nav-viewDashboard" class="nav-item flex-1 py-1.5 flex flex-col items-center justify-center gap-0.5 txt-muted hover:txt-primary transition-all rounded-2xl">
                 <i class="fa-solid fa-house text-xs sm:text-sm"></i>
@@ -784,80 +790,26 @@
         let deferredPrompt = null;
         let mediaStreamTrack = null;
 
-        /* Voice Greeting Speech Synthesis */
-        function playVoiceGreeting() {
-            if (!('speechSynthesis' in window)) return;
-            
-            window.speechSynthesis.cancel();
-
-            const userName = (appState.user && (appState.user.name || appState.user.username)) ? appState.user.username : 'Pengguna';
-            
-            const hour = new Date().getHours();
-            let timeGreeting = 'Selamat pagi';
-            if (hour >= 11 && hour < 15) {
-                timeGreeting = 'Selamat siang';
-            } else if (hour >= 15 && hour < 18) {
-                timeGreeting = 'Selamat sore';
-            } else if (hour >= 18 || hour < 4) {
-                timeGreeting = 'Selamat malam';
-            }
-
-            // Text phrased clearly
-            const greetingText = `${timeGreeting}. Assalamu'alaikum ${userName}, selamat datang di Fulusku.`;
-
-            const utterance = new SpeechSynthesisUtterance(greetingText);
-            
-            // Tuning parameters for resonant Arabic/warm tone
-            utterance.rate = 0.88; 
-            utterance.pitch = 0.95;
-
-            const voices = window.speechSynthesis.getVoices();
-            
-            // Prefer Arabic accent voice for natural Arabic tone, fallback to Indonesian/Malay
-            const arVoice = voices.find(v => v.lang.startsWith('ar'));
-            const idVoice = voices.find(v => v.lang.startsWith('id') || v.lang.startsWith('ms'));
-
-            if (arVoice) {
-                utterance.voice = arVoice;
-                utterance.lang = 'ar-SA';
-            } else if (idVoice) {
-                utterance.voice = idVoice;
-                utterance.lang = 'id-ID';
-            } else {
-                utterance.lang = 'id-ID';
-            }
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        // Pre-load voices for TTS
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
-        }
-
-        /* PWA Service Worker Registration */
         function initPwaServiceWorker() {
             if ('serviceWorker' in navigator) {
                 try {
                     const swCode = `
                         const CACHE_NAME = 'fulusku-pwa-v6';
-                        const ASSETS = ['./', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', 'https://cdn.jsdelivr.net/npm/chart.js'];
-                        self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())); });
+                        const ASSETS = ['./', 'https://cdn.tailwindcss.com', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', 'https://cdn.jsdelivr.net/npm/chart.js'];
+                        self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())); });
                         self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => { if(k !== CACHE_NAME) return caches.delete(k); }))).then(() => self.clients.claim())); });
-                        self.addEventListener('fetch', (e) => {
-                            if (e.request.method !== 'GET') return;
-                            e.respondWith(caches.match(e.request).then((cached) => cached || fetch(e.request).catch(() => caches.match('./'))));
-                        });
+                        self.addEventListener('fetch', (e) => { if (e.request.method !== 'GET') return; e.respondWith(caches.match(e.request).then((cached) => cached || fetch(e.request))); });
                     `;
                     const blob = new Blob([swCode], { type: 'application/javascript' });
-                    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(e => console.warn(e.message));
-                } catch(e){}
+                    const swUrl = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(swUrl).catch(err => console.warn('SW info:', err));
+                } catch(e) {}
             }
         }
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); 
-            deferredPrompt = e; 
+            e.preventDefault();
+            deferredPrompt = e;
             const badge = document.getElementById('pwaBadge');
             if (badge) badge.classList.remove('hidden');
         });
@@ -866,58 +818,94 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choice) => {
-                    if (choice.outcome === 'accepted') showToast("Aplikasi FuluskuAI berhasil diinstal!", "success");
-                    deferredPrompt = null; 
+                    if (choice.outcome === 'accepted') {
+                        showToast("Aplikasi FuluskuAI berhasil diinstal!", "success");
+                    }
+                    deferredPrompt = null;
                 });
             } else {
-                showToast("Buka menu titik 3 Chrome ➔ Pilih 'Instal aplikasi' / 'Tambahkan ke Layar Utama'", "info");
+                showToast("Buka menu browser Chrome (titik 3) -> pilih 'Instal Aplikasi' / 'Tambahkan ke Layar Utama'", "info");
             }
         }
 
-        async function callBackend(action, payload = {}) {
-            const fullPayload = { action, ...payload };
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                return new Promise((resolve) => {
-                    if (action === 'getInitialData') google.script.run.withSuccessHandler(resolve).getInitialData();
-                    else if (action === 'saveWallet') google.script.run.withSuccessHandler(resolve).saveWalletData(payload.wallet);
-                    else if (action === 'saveTransaction') google.script.run.withSuccessHandler(resolve).saveTransactionData(payload.transaction);
-                    else if (action === 'saveGoal') google.script.run.withSuccessHandler(resolve).saveGoalData(payload.goal);
-                    else if (action === 'saveDebt') google.script.run.withSuccessHandler(resolve).saveDebtData(payload.debt);
-                    else if (action === 'analyzeReceipt') google.script.run.withSuccessHandler(resolve).analyzeReceiptWithGroq(payload.base64);
-                    else if (action === 'askChatbot') google.script.run.withSuccessHandler(resolve).askGroqChatbot(payload.message, payload.summaryContext);
-                    else resolve({ status: 'success' });
-                });
-            }
+        function playVoiceGreeting() {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
 
-            const url = appState.gasUrl || DEFAULT_GAS_URL;
-            if (!url || url.includes("YOUR_DEPLOYMENT_ID")) return { status: 'error', message: 'URL Backend Apps Script belum diatur!' };
+            const hour = new Date().getHours();
+            let timeGreeting = "Selamat Pagi";
+            if (hour >= 11 && hour < 15) timeGreeting = "Selamat Siang";
+            else if (hour >= 15 && hour < 18) timeGreeting = "Selamat Sore";
+            else if (hour >= 18 || hour < 4) timeGreeting = "Selamat Malam";
 
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(fullPayload)
-                });
-                return await response.json();
-            } catch (err) {
-                return { status: 'error', message: 'Menggunakan mode penyimpanan lokal.' };
-            }
+            const userName = (appState.user && appState.user.name) ? appState.user.name : 'Sahabat Fulusku';
+            const textToSpeak = `${timeGreeting}, Assalamu'alaikum ${userName}. Selamat datang di Fulusku.`;
+
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'id-ID';
+            utterance.rate = 0.88;
+            utterance.pitch = 0.95;
+
+            const voices = window.speechSynthesis.getVoices();
+            const selectedVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ar')) || voices[0];
+            if (selectedVoice) utterance.voice = selectedVoice;
+
+            window.speechSynthesis.speak(utterance);
         }
 
-        async function fetchInitialBackendData() {
-            const res = await callBackend('getInitialData');
-            if (res && res.status === 'success' && res.data) {
-                if (res.data.wallets?.length) appState.wallets = res.data.wallets;
-                if (res.data.transactions?.length) appState.transactions = res.data.transactions;
-                if (res.data.goals?.length) appState.goals = res.data.goals;
-                if (res.data.debts?.length) appState.debts = res.data.debts;
-                saveLocalData();
-                refreshAllViews();
+        function setupKeyboardHandling() {
+            document.addEventListener('focusin', (e) => {
+                const target = e.target;
+                if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+                    const nav = document.getElementById('bottomNav');
+                    if (nav) nav.classList.add('hidden');
+                    
+                    const modalParent = target.closest('.modal-wrapper');
+                    if (modalParent) {
+                        modalParent.style.paddingBottom = '360px';
+                    }
+
+                    setTimeout(() => {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        if (target.id === 'chatInput') {
+                            const chatMessages = document.getElementById('chatMessages');
+                            if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }
+                    }, 280);
+                }
+            });
+
+            document.addEventListener('focusout', (e) => {
+                const target = e.target;
+                if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+                    setTimeout(() => {
+                        const activeEl = document.activeElement;
+                        if (!activeEl || !['INPUT', 'TEXTAREA', 'SELECT'].includes(activeEl.tagName)) {
+                            const nav = document.getElementById('bottomNav');
+                            if (nav && appState.user && appState.activeTab !== 'viewLanding' && appState.activeTab !== 'viewLogin') {
+                                nav.classList.remove('hidden');
+                            }
+                            const modalParent = target.closest('.modal-wrapper');
+                            if (modalParent) {
+                                modalParent.style.paddingBottom = '';
+                            }
+                        }
+                    }, 150);
+                }
+            });
+
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', () => {
+                    const activeEl = document.activeElement;
+                    if (activeEl && ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeEl.tagName)) {
+                        activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
             }
         }
 
         window.onload = function() {
+            setupKeyboardHandling();
             initPwaServiceWorker();
             updateClock(); 
             setInterval(updateClock, 1000);
@@ -940,6 +928,35 @@
             loadLocalData();
             fetchInitialBackendData();
         };
+
+        async function callBackend(action, payload = {}) {
+            const fullPayload = { action, ...payload };
+            const url = appState.gasUrl || DEFAULT_GAS_URL;
+            if (!url) return { status: 'error', message: 'URL Backend belum diatur' };
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(fullPayload)
+                });
+                return await response.json();
+            } catch(err) {
+                return { status: 'error', message: err.message };
+            }
+        }
+
+        async function fetchInitialBackendData() {
+            const res = await callBackend('getInitialData');
+            if (res && res.status === 'success' && res.data) {
+                if (res.data.wallets?.length) appState.wallets = res.data.wallets;
+                if (res.data.transactions?.length) appState.transactions = res.data.transactions;
+                if (res.data.goals?.length) appState.goals = res.data.goals;
+                if (res.data.debts?.length) appState.debts = res.data.debts;
+                saveLocalData();
+                refreshAllViews();
+            }
+        }
 
         function formatGoogleDriveUrl(url) {
             if (!url) return '';
