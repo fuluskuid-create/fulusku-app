@@ -39,9 +39,9 @@
         :root {
             --bg-main: #09090b;
             --bg-container: #09090b;
-            --bg-card: rgba(24, 24, 27, 0.65);
-            --bg-subcard: rgba(39, 39, 42, 0.45);
-            --bg-input: rgba(9, 9, 11, 0.7);
+            --bg-card: rgba(24, 24, 27, 0.55);
+            --bg-subcard: rgba(39, 39, 42, 0.4);
+            --bg-input: rgba(9, 9, 11, 0.6);
             --border-color: rgba(255, 255, 255, 0.08);
             --border-highlight: rgba(210, 255, 31, 0.5);
             --text-primary: #f8fafc;
@@ -53,18 +53,18 @@
             --text-accent: #d2ff1f;
             --text-income: #34d399;
             --text-expense: #f87171;
-            --nav-bg: rgba(24, 24, 27, 0.88);
-            --shadow-color: rgba(0, 0, 0, 0.5);
+            --nav-bg: rgba(24, 24, 27, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.4);
             --glass-edge: inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         body.theme-light {
             --bg-main: #f1f5f9;
             --bg-container: #f1f5f9;
-            --bg-card: rgba(255, 255, 255, 0.85);
-            --bg-subcard: rgba(241, 245, 249, 0.9);
-            --bg-input: rgba(255, 255, 255, 0.95);
-            --border-color: rgba(0, 0, 0, 0.08);
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --bg-subcard: rgba(241, 245, 249, 0.8);
+            --bg-input: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.06);
             --border-highlight: rgba(132, 204, 22, 0.6);
             --text-primary: #0f172a;
             --text-secondary: #475569;
@@ -75,8 +75,8 @@
             --text-accent: #65a30d;
             --text-income: #059669;
             --text-expense: #dc2626;
-            --nav-bg: rgba(255, 255, 255, 0.92);
-            --shadow-color: rgba(148, 163, 184, 0.2);
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --shadow-color: rgba(148, 163, 184, 0.15);
             --glass-edge: inset 0 1px 1px rgba(255, 255, 255, 0.9);
         }
 
@@ -89,7 +89,7 @@
 
         .ambient-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
         .ambient-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: float 20s infinite ease-in-out alternate; }
-        body.theme-light .ambient-orb { opacity: 0.25; }
+        body.theme-light .ambient-orb { opacity: 0.3; }
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.2); } }
 
         .app-container { 
@@ -125,7 +125,6 @@
             color: var(--text-primary); 
             transition: all 0.3s ease; 
             scroll-margin-bottom: 120px;
-            scroll-margin-top: 80px;
         }
 
         .app-input:focus { 
@@ -146,7 +145,11 @@
         }
 
         @media (min-width: 640px) {
-            .modal-wrapper { align-items: center; padding-top: 2rem; padding-bottom: 2rem; }
+            .modal-wrapper {
+                align-items: center;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
         }
 
         .txt-primary { color: var(--text-primary) !important; }
@@ -168,8 +171,24 @@
 
         .nav-item { position: relative; cursor: pointer; }
         .nav-item.active i { color: var(--text-accent); transform: scale(1.1); }
-        .nav-item.active span { color: var(--text-accent); font-weight: 700; }
-        .nav-item.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background-color: var(--text-accent); border-radius: 50%; box-shadow: 0 0 8px var(--text-accent); }
+        .nav-item.active::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background-color: var(--text-accent); border-radius: 50%; box-shadow: 0 0 8px var(--text-accent); }
+
+        /* Media Print for Draft Reports */
+        @media print {
+            body { background: #ffffff !important; color: #000000 !important; }
+            body * { visibility: hidden; }
+            #draftReportPrintArea, #draftReportPrintArea * { visibility: visible; }
+            #draftReportPrintArea {
+                position: absolute;
+                left: 0; top: 0; width: 100%;
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 20px;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 11pt;
+            }
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body class="flex justify-center items-center w-full h-full p-0">
@@ -459,23 +478,25 @@
                     </div>
                 </div>
 
-                <div class="app-card p-5 rounded-[28px] border-l-4 border-l-limeaccent-400 space-y-3">
+                <div id="draftReportPrintArea" class="app-card p-5 rounded-[28px] border-l-4 border-l-limeaccent-400 space-y-3">
                     <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
-                        <h4 class="text-xs font-extrabold txt-accent uppercase tracking-wider"><i class="fa-solid fa-file-contract mr-1.5"></i> Draft Laporan Eksekutif</h4>
+                        <h4 class="text-xs font-extrabold txt-accent uppercase tracking-wider"><i class="fa-solid fa-file-contract mr-1.5"></i> Draft Laporan Eksekutif Keuangan</h4>
                         <span id="draftReportDate" class="text-[10px] txt-secondary font-mono">2026-07-29</span>
                     </div>
-                    <div id="draftReportContent" class="text-xs txt-primary leading-relaxed space-y-2 font-mono bg-black/20 p-3 rounded-xl border border-[var(--border-color)]">
+                    <div id="draftReportContent" class="text-xs txt-primary leading-relaxed space-y-2 font-mono bg-black/20 p-3 rounded-xl border border-[var(--border-color)] whitespace-pre-line">
                     </div>
                 </div>
 
                 <div class="app-card p-4 rounded-[24px]">
                     <h4 class="text-xs font-bold txt-primary mb-3">Grafik Arus Kas (Masuk vs Keluar)</h4>
-                    <div class="h-44 w-full"><canvas id="chartCashflow"></canvas></div>
+                    <div class="h-48 w-full relative" style="min-height: 180px;">
+                        <canvas id="chartCashflow"></canvas>
+                    </div>
                 </div>
 
                 <div class="app-card p-4 rounded-[24px]">
                     <h4 class="text-xs font-bold txt-primary mb-3">Distribusi Pengeluaran</h4>
-                    <div class="h-48 w-full flex items-center justify-center relative">
+                    <div class="h-48 w-full flex items-center justify-center relative" style="min-height: 180px;">
                         <canvas id="chartCategory"></canvas>
                         <p id="chartCategoryEmpty" class="absolute hidden text-xs txt-muted font-medium text-center">Belum ada data pengeluaran</p>
                     </div>
@@ -768,27 +789,28 @@
 
     <script>
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyxejM4mHPOj5Px6KuBppL9TkQ5unEWJFQy3ScXEjkpjuZdgqemVUtX5xAcE1Rc038h/exec";
-        const DEFAULT_LOGO_URL = "https://drive.google.com/file/d/1oI6h5HgvhuisD0Lg98YnbQaTd52Pa3rj/view?usp=sharing"; 
+        const DEFAULT_LOGO_URL = "https://drive.google.com/file/d/1oI6h5HgvhuisD0Lg98YnbQaTd52Pa3rj/view?usp=sharing";
 
         const appState = {
-            theme: 'dark', 
-            privacyMode: false, 
-            user: null, 
+            theme: 'dark',
+            privacyMode: false,
+            user: null,
             activeTab: 'viewDashboard',
-            wallets: [], 
-            transactions: [], 
-            goals: [], 
-            debts: [], 
+            wallets: [],
+            transactions: [],
+            goals: [],
+            debts: [],
             allocations: [
                 { id: 'alloc_1', category: 'Makanan', limit: 1500000 },
-                { id: 'alloc_2', category: 'Belanja', limit: 1000000 },
-                { id: 'alloc_3', category: 'Transport', limit: 500000 }
+                { id: 'alloc_2', category: 'Transport', limit: 500000 },
+                { id: 'alloc_3', category: 'Belanja', limit: 1000000 }
             ],
             gasUrl: DEFAULT_GAS_URL,
             logoUrl: DEFAULT_LOGO_URL
         };
 
-        let chartCashflowInstance = null, chartCategoryInstance = null;
+        let chartCashflowInstance = null;
+        let chartCategoryInstance = null;
         let scannedDataTemp = null;
         let isRegisterMode = false;
         let deferredPrompt = null;
@@ -798,15 +820,16 @@
             if ('serviceWorker' in navigator) {
                 try {
                     const swCode = `
-                        const CACHE_NAME = 'fulusku-pwa-v7';
-                        const ASSETS = ['./', 'https://cdn.tailwindcss.com', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', 'https://cdn.jsdelivr.net/npm/chart.js'];
-                        self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())); });
-                        self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => { if(k !== CACHE_NAME) return caches.delete(k); }))).then(() => self.clients.claim())); });
-                        self.addEventListener('fetch', (e) => { if (e.request.method !== 'GET') return; e.respondWith(caches.match(e.request).then((cached) => cached || fetch(e.request))); });
+                        const CACHE_NAME = 'fulusku-pwa-v6';
+                        self.addEventListener('install', (e) => self.skipWaiting());
+                        self.addEventListener('activate', (e) => self.clients.claim());
+                        self.addEventListener('fetch', (e) => {
+                            if (e.request.method !== 'GET') return;
+                            e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+                        });
                     `;
                     const blob = new Blob([swCode], { type: 'application/javascript' });
-                    const swUrl = URL.createObjectURL(blob);
-                    navigator.serviceWorker.register(swUrl).catch(err => console.warn('SW info:', err));
+                    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
                 } catch(e) {}
             }
         }
@@ -925,7 +948,7 @@
         };
 
         async function callBackend(action, payload = {}) {
-            const fullPayload = { action, ...payload };
+            const fullPayload = { action, username: appState.user?.username || '', ...payload };
             const url = appState.gasUrl || DEFAULT_GAS_URL;
             if (!url) return { status: 'error', message: 'URL Backend belum diatur' };
             try {
@@ -942,12 +965,13 @@
         }
 
         async function fetchInitialBackendData() {
-            const res = await callBackend('getInitialData');
+            if (!appState.user || !appState.user.username) return;
+            const res = await callBackend('getInitialData', { username: appState.user.username });
             if (res && res.status === 'success' && res.data) {
-                if (res.data.wallets?.length) appState.wallets = res.data.wallets;
-                if (res.data.transactions?.length) appState.transactions = res.data.transactions;
-                if (res.data.goals?.length) appState.goals = res.data.goals;
-                if (res.data.debts?.length) appState.debts = res.data.debts;
+                appState.wallets = res.data.wallets || [];
+                appState.transactions = res.data.transactions || [];
+                appState.goals = res.data.goals || [];
+                appState.debts = res.data.debts || [];
                 saveLocalData();
                 refreshAllViews();
             }
@@ -1114,20 +1138,51 @@
             }
 
             if (tabId === 'tabReports') {
-                setTimeout(() => {
-                    initCharts();
-                    updateDashboardCharts();
-                    renderDraftReport();
-                }, 100);
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        initCharts();
+                        updateDashboardCharts();
+                        renderDraftReport();
+                    }, 120);
+                });
             }
         }
 
-        function handleAuth(e) { 
+        async function handleAuth(e) { 
             if (e && e.preventDefault) e.preventDefault(); 
             const usernameInput = document.getElementById('loginUsername'); 
-            let username = usernameInput ? usernameInput.value.trim() : 'Pengguna'; 
-            appState.user = { username, name: username }; 
+            const passwordInput = document.getElementById('loginPassword');
+            const nameInput = document.getElementById('registerName');
+
+            let username = usernameInput ? usernameInput.value.trim() : ''; 
+            let password = passwordInput ? passwordInput.value.trim() : '';
+            let name = nameInput ? nameInput.value.trim() : username;
+
+            if (!username) {
+                showToast("Username tidak boleh kosong!", "error");
+                return;
+            }
+
+            if (isRegisterMode) {
+                showToast("Mendaftarkan akun baru...", "info");
+                const res = await callBackend('registerUser', { user: { username, password, name } });
+                if (res && res.status === 'error') {
+                    showToast(res.message, "error");
+                    return;
+                }
+                showToast("Registrasi berhasil!", "success");
+            } else {
+                showToast("Memeriksa akun...", "info");
+                const res = await callBackend('loginUser', { user: { username, password } });
+                if (res && res.status === 'error') {
+                    showToast(res.message, "error");
+                    return;
+                }
+            }
+
+            appState.user = { username, name }; 
             loadLocalDataForUser(username); 
+            await fetchInitialBackendData();
             switchPage('main'); 
             setTimeout(playVoiceGreeting, 400);
         }
@@ -1399,25 +1454,68 @@
             const dateStr = new Date().toISOString().split('T')[0];
             if (reportDate) reportDate.innerText = dateStr;
 
+            const userName = appState.user ? appState.user.name : 'Pengguna';
             const totalAssets = calculateTotalBalance();
             const totalIncome = appState.transactions.filter(t => t.type === 'income').reduce((s, t) => s + Number(t.amount), 0);
             const totalExpense = appState.transactions.filter(t => t.type === 'expense').reduce((s, t) => s + Number(t.amount), 0);
             const netCashflow = totalIncome - totalExpense;
 
-            let debtTotal = 0;
-            appState.debts.filter(d => d.type === 'utang' && d.status !== 'lunas').forEach(d => debtTotal += Number(d.amount));
+            let totalDebt = 0, totalReceivable = 0;
+            appState.debts.forEach(d => {
+                if (d.status !== 'lunas') {
+                    if (d.type === 'utang') totalDebt += Number(d.amount);
+                    else totalReceivable += Number(d.amount);
+                }
+            });
 
-            reportBox.innerHTML = `
-<b>FULUSKU AI - EXECUTIVE REPORT</b><br>
-------------------------------------<br>
-• Total Aset      : ${formatRp(totalAssets)}<br>
-• Total Pemasukan : ${formatRp(totalIncome)}<br>
-• Total Pengeluaran: ${formatRp(totalExpense)}<br>
-• Arus Kas Bersih : <b>${formatRp(netCashflow)}</b><br>
-• Kewajiban Utang : ${formatRp(debtTotal)}<br>
-------------------------------------<br>
-<b>EVALUASI AI:</b> ${netCashflow >= 0 ? 'Kondisi finansial Anda Sehat & Positif. Pertahankan tingkat tabungan Anda.' : 'Peringatan: Pengeluaran melebihi pemasukan. Evaluasi anggaran bulanan Anda!'}
-            `;
+            let walletDetails = appState.wallets.map(w => `   - ${w.name.padEnd(15, ' ')} : ${formatRp(w.balance)}`).join('\n') || '   - Belum ada dompet';
+
+            const now = new Date();
+            const monthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            const expenseTxs = appState.transactions.filter(t => t.type === 'expense' && t.date.startsWith(monthStr));
+            let allocDetails = appState.allocations.map(a => {
+                const spent = expenseTxs.filter(t => t.category === a.category).reduce((s, t) => s + Number(t.amount), 0);
+                const pct = Math.min(100, Math.round((spent / a.limit) * 100));
+                return `   - ${a.category.padEnd(15, ' ')} : ${formatRp(spent)} / ${formatRp(a.limit)} (${pct}%)`;
+            }).join('\n') || '   - Belum ada alokasi anggaran';
+
+            let reportText = 
+`==================================================
+        FULUSKU AI - DRAFT LAPORAN KEUANGAN
+==================================================
+Pemilik Akun : ${userName}
+Tanggal      : ${dateStr}
+Status AI    : ${netCashflow >= 0 ? 'SEHAT (Surplus)' : 'PERINGATAN (Defisit)'}
+
+1. RINGKASAN ASET & DOMPET
+--------------------------------------------------
+${walletDetails}
+--------------------------------------------------
+Total Aset Finansial : ${formatRp(totalAssets)}
+
+2. ARUS KAS (CASHFLOW)
+--------------------------------------------------
+• Total Pemasukan    : ${formatRp(totalIncome)}
+• Total Pengeluaran  : ${formatRp(totalExpense)}
+• Arus Kas Bersih    : ${formatRp(netCashflow)}
+
+3. ALOKASI ANGGARAN BULAN INI
+--------------------------------------------------
+${allocDetails}
+
+4. KEWAJIBAN & TAGIHAN (UTANG PIUTANG)
+--------------------------------------------------
+• Total Utang Saya   : ${formatRp(totalDebt)}
+• Total Piutang Saya : ${formatRp(totalReceivable)}
+
+5. EVALUASI & REKOMENDASI AI
+--------------------------------------------------
+${netCashflow >= 0 
+  ? 'Kondisi keuangan Anda dalam keadaan stabil & surplus. Pertahankan tingkat efisiensi pengeluaran Anda.' 
+  : 'Perhatian: Total pengeluaran melebihi pemasukan. Evaluasi kembali alokasi pengeluaran non-esensial.'}
+==================================================`;
+
+            reportBox.innerText = reportText;
         }
 
         function copyDraftReport() {
@@ -1434,7 +1532,9 @@
             }
         }
 
-        function printDraftReport() { window.print(); }
+        function printDraftReport() { 
+            window.print(); 
+        }
 
         function populateWalletOptions() { 
             const html = appState.wallets.map(w => `<option value="${w.id}">${escapeHTML(w.name)} (${formatRp(w.balance)})</option>`).join(''); 
@@ -1589,12 +1689,17 @@
 
         function initCharts() {
             if (typeof Chart === 'undefined') return;
-            if (chartCashflowInstance || chartCategoryInstance) return;
 
-            const ctxCashflow = document.getElementById('chartCashflow')?.getContext('2d');
-            const ctxCategory = document.getElementById('chartCategory')?.getContext('2d');
+            const canvasCashflow = document.getElementById('chartCashflow');
+            const canvasCategory = document.getElementById('chartCategory');
 
-            if (!ctxCashflow || !ctxCategory) return;
+            if (!canvasCashflow || !canvasCategory) return;
+
+            if (chartCashflowInstance) { try { chartCashflowInstance.destroy(); } catch(e){} chartCashflowInstance = null; }
+            if (chartCategoryInstance) { try { chartCategoryInstance.destroy(); } catch(e){} chartCategoryInstance = null; }
+
+            const ctxCashflow = canvasCashflow.getContext('2d');
+            const ctxCategory = canvasCategory.getContext('2d');
 
             const isDark = appState.theme === 'dark';
             const textColor = isDark ? '#a1a1aa' : '#475569';
@@ -1740,7 +1845,6 @@
         function processBotCommandOrIntent(msg) {
             const lower = msg.toLowerCase().trim();
 
-            // 1. Slash Commands
             if (lower === '/saldo' || lower === 'saldo' || lower.includes('cek saldo')) {
                 const total = calculateTotalBalance();
                 let html = `💰 <b>RINGKASAN DOMPET & SALDO</b><br>------------------------------------<br>`;
@@ -1830,7 +1934,6 @@
                 return { handled: true, reply: html };
             }
 
-            // 2. Action Intent: Transfer
             const transferMatch = lower.match(/(?:transfer|tf|kirim)\s+(\d+[\d.,]*\s*[k|rb|ribu|jt|juta]*)\s+dari\s+([a-zA-Z0-9\s]+)\s+ke\s+([a-zA-Z0-9\s]+)/i);
             if (transferMatch) {
                 const amount = parseAmountString(transferMatch[1]);
@@ -1863,7 +1966,6 @@
                 }
             }
 
-            // 3. Action Intent: Set Budget / Anggaran
             const budgetMatch = lower.match(/(?:set\s+anggaran|set\s+alokasi|anggaran|alokasi)\s+([a-zA-Z\s]+)\s+(\d+[\d.,]*\s*[k|rb|ribu|jt|juta]*)/i);
             if (budgetMatch) {
                 const catName = budgetMatch[1].trim();
@@ -1880,39 +1982,6 @@
                 }
             }
 
-            // 4. Action Intent: Add Goal / Target
-            const goalMatch = lower.match(/(?:target|goal|tambah\s+target)\s+([a-zA-Z0-9\s]+)\s+(\d+[\d.,]*\s*[k|rb|ribu|jt|juta]*)/i);
-            if (goalMatch) {
-                const title = goalMatch[1].trim();
-                const targetAmt = parseAmountString(goalMatch[2]);
-                if (targetAmt > 0) {
-                    const goal = { id: 'g_' + Date.now(), title, target: targetAmt, current: 0, icon: 'fa-bullseye' };
-                    appState.goals.push(goal);
-                    saveLocalData();
-                    refreshAllViews();
-                    return { handled: true, reply: `✅ <b>Target Keuangan Berhasil Ditambahkan!</b><br>• Judul Target: <b>${escapeHTML(title)}</b><br>• Target Nominal: <b>${formatRp(targetAmt)}</b>` };
-                }
-            }
-
-            // 5. Action Intent: Utang / Piutang Record
-            const debtMatch = lower.match(/(utang|piutang)\s+([a-zA-Z0-9\s]+)\s+(\d+[\d.,]*\s*[k|rb|ribu|jt|juta]*)/i);
-            if (debtMatch) {
-                const type = debtMatch[1].toLowerCase();
-                const person = debtMatch[2].trim();
-                const amount = parseAmountString(debtMatch[3]);
-                if (amount > 0) {
-                    const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // Default 7 hari
-                    const title = `${type === 'utang' ? 'Utang ke' : 'Piutang dari'} ${person}`;
-                    const debt = { id: 'd_' + Date.now(), type, title, person, amount, dueDate, status: 'belum_lunas' };
-                    appState.debts.push(debt);
-                    saveLocalData();
-                    refreshAllViews();
-                    callBackend('saveDebt', { debt });
-                    return { handled: true, reply: `✅ <b>Catatan ${type.toUpperCase()} Disimpan Bot AI!</b><br>• Pihak Terkait: <b>${escapeHTML(person)}</b><br>• Nominal: <b>${formatRp(amount)}</b><br>• Jatuh Tempo Default: ${dueDate}` };
-                }
-            }
-
-            // 6. Action Intent: General Expense / Income Parsing
             const amountParsed = parseAmountString(msg);
             if (amountParsed > 0) {
                 const isIncome = msg.startsWith('+') || /masuk|pemasukan|gaji|bonus|terima|dapat|thr/i.test(lower);
@@ -1955,14 +2024,12 @@
             appendChatMessage('U', msg); 
             input.value = '';
 
-            // Execute local bot command parser & intent engine first
             const botExec = processBotCommandOrIntent(msg);
             if (botExec.handled) {
                 appendChatMessage('AI', botExec.reply);
                 return;
             }
             
-            // Fallback to Groq LLM Assistant if general question
             const summaryContext = { 
                 totalBalance: calculateTotalBalance(), 
                 wallets: appState.wallets.map(w => ({id: w.id, nama: w.name, saldo: w.balance})), 
@@ -1993,7 +2060,7 @@
                     <div class="w-7 h-7 rounded-full ${sender==='AI'?'btn-lime':'bg-[var(--bg-subcard)] txt-primary'} flex items-center justify-center text-xs font-bold shrink-0">
                         ${sender === 'AI' ? '<i class="fa-solid fa-robot"></i>' : '<i class="fa-solid fa-user"></i>'}
                     </div>
-                    <div class="p-3 ${sender==='AI'?'app-card rounded-tl-none':'bg-[var(--bg-input)] rounded-tr-none'} border border-[var(--border-color)] rounded-2xl text-xs txt-primary leading-relaxed">
+                    <div class="p-3 ${sender==='AI'?'app-card rounded-tl-none':'bg-[var(--bg-input)] rounded-tr-none'} border border-[var(--border-color)] rounded-2xl text-xs txt-primary leading-relaxed shadow-sm">
                         ${text}
                     </div>
                 </div>
