@@ -963,18 +963,18 @@
 
     <!-- Modal Live Camera Stream -->
     <div id="modalLiveCamera" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex flex-col items-center justify-between p-4">
-        <div class="w-full flex justify-between items-center z-10">
+        <div class="w-full flex justify-between items-center z-20">
             <span class="text-xs font-bold text-white"><i class="fa-solid fa-circle text-red-500 animate-pulse mr-1.5"></i> Kamera Vision AI</span>
-            <button type="button" onclick="stopLiveCamera()" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fa-solid fa-xmark"></i></button>
+            <button type="button" onclick="stopLiveCamera()" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white cursor-pointer active:scale-95" title="Tutup Kamera"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="relative w-full max-w-sm rounded-3xl overflow-hidden bg-black flex items-center justify-center border border-white/20 aspect-[3/4]">
+        <div class="relative w-full max-w-sm rounded-3xl overflow-hidden bg-black flex items-center justify-center border border-white/20 aspect-[3/4] my-auto">
             <video id="liveCameraVideo" autoplay playsinline class="w-full h-full object-cover"></video>
             <div class="absolute inset-8 border-2 border-dashed border-lime-400/60 rounded-2xl pointer-events-none flex items-center justify-center">
                 <span class="text-[10px] text-lime-400 bg-black/60 px-2 py-1 rounded-full">Posisikan Struk di Dalam Kotak</span>
             </div>
         </div>
-        <div class="w-full flex justify-center pb-6">
-            <button type="button" onclick="captureLiveCamera()" class="w-16 h-16 rounded-full btn-lime flex items-center justify-center text-2xl shadow-2xl active:scale-95 border-4 border-white"><i class="fa-solid fa-camera"></i></button>
+        <div class="w-full flex justify-center pb-6 z-20">
+            <button type="button" onclick="captureLiveCamera()" class="w-16 h-16 rounded-full btn-lime flex items-center justify-center text-2xl shadow-2xl active:scale-95 border-4 border-white cursor-pointer" title="Ambil Foto Struk"><i class="fa-solid fa-camera"></i></button>
         </div>
     </div>
 
@@ -2261,6 +2261,19 @@
             }
         }
 
+        function stopLiveCamera() {
+            const modal = document.getElementById('modalLiveCamera');
+            const video = document.getElementById('liveCameraVideo');
+            if (video && video.srcObject) {
+                const stream = video.srcObject;
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                video.srcObject = null;
+            }
+            mediaStreamTrack = null;
+            if (modal) modal.classList.add('hidden');
+        }
+
         function captureLiveCamera() {
             const video = document.getElementById('liveCameraVideo');
             if (!video || !video.videoWidth) {
@@ -2278,6 +2291,39 @@
             const base64Data = canvas.toDataURL('image/jpeg', 0.90);
             stopLiveCamera();
             sendImageForOcr(base64Data);
+        }
+
+        function processReceiptScan(e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const base64Data = evt.target.result;
+                sendImageForOcr(base64Data);
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        }
+
+        async function handleAddAllocation(e) {
+            e.preventDefault();
+            const category = document.getElementById('allocCategoryInput')?.value;
+            const limit = Number(document.getElementById('allocLimitInput')?.value || 0);
+
+            if (!category || !limit) return;
+
+            const existing = appState.allocations.find(a => a.category === category);
+            if (existing) {
+                existing.limit = limit;
+            } else {
+                appState.allocations.push({ id: 'alloc_' + Date.now(), category, limit });
+            }
+
+            saveLocalData();
+            refreshAllViews();
+            closeModal('modalAddAllocation');
+            showToast("Alokasi anggaran disimpan!", "success");
         }
 
         async function sendImageForOcr(base64Image) {
