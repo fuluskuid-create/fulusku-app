@@ -173,73 +173,19 @@
         .nav-item.active i { color: var(--text-accent); transform: scale(1.1); }
         .nav-item.active::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background-color: var(--text-accent); border-radius: 50%; box-shadow: 0 0 8px var(--text-accent); }
 
-        /* Media Print Optimization for Professional Executive Reports */
         @media print {
-            body { 
-                background: #ffffff !important; 
-                color: #111827 !important; 
-                font-family: 'Plus Jakarta Sans', sans-serif !important; 
-            }
-            .ambient-bg, header, nav, button, input, select, .no-print { 
-                display: none !important; 
-            }
-            .app-container {
-                max-width: 100% !important;
-                border: none !important;
-                box-shadow: none !important;
-                height: auto !important;
-                overflow: visible !important;
-                background: #ffffff !important;
-                padding: 0 !important;
-            }
-            #mainScrollArea {
-                overflow: visible !important;
-                height: auto !important;
-                padding: 0 !important;
-            }
-            #tabReports {
-                display: block !important;
-            }
-            #draftReportPrintArea {
-                display: block !important;
-                position: relative !important;
-                width: 100% !important;
-                background: #ffffff !important;
-                color: #111827 !important;
-                padding: 24px !important;
-                border: 1px solid #e5e7eb !important;
-                border-radius: 12px !important;
-                box-shadow: none !important;
-                margin: 0 !important;
-            }
-            .report-card-print {
-                background: #f9fafb !important;
-                border: 1px solid #e5e7eb !important;
-                color: #111827 !important;
-                box-shadow: none !important;
-            }
-            .report-text-dark {
-                color: #111827 !important;
-            }
-            .report-text-muted {
-                color: #6b7280 !important;
-            }
-            .report-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 8px;
-            }
-            .report-table th, .report-table td {
-                border: 1px solid #e5e7eb;
-                padding: 8px 12px;
-                text-align: left;
-                font-size: 11px;
-            }
-            .report-table th {
-                background-color: #f3f4f6;
-                color: #111827;
-                font-weight: 700;
-            }
+            body { background: #ffffff !important; color: #111827 !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
+            .ambient-bg, header, nav, button, input, select, .no-print { display: none !important; }
+            .app-container { max-width: 100% !important; border: none !important; box-shadow: none !important; height: auto !important; overflow: visible !important; background: #ffffff !important; padding: 0 !important; }
+            #mainScrollArea { overflow: visible !important; height: auto !important; padding: 0 !important; }
+            #tabReports { display: block !important; }
+            #draftReportPrintArea { display: block !important; position: relative !important; width: 100% !important; background: #ffffff !important; color: #111827 !important; padding: 24px !important; border: 1px solid #e5e7eb !important; border-radius: 12px !important; box-shadow: none !important; margin: 0 !important; }
+            .report-card-print { background: #f9fafb !important; border: 1px solid #e5e7eb !important; color: #111827 !important; box-shadow: none !important; }
+            .report-text-dark { color: #111827 !important; }
+            .report-text-muted { color: #6b7280 !important; }
+            .report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+            .report-table th, .report-table td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; font-size: 11px; }
+            .report-table th { background-color: #f3f4f6; color: #111827; font-weight: 700; }
         }
     </style>
 </head>
@@ -472,7 +418,6 @@
                     </div>
                 </div>
 
-                <!-- Live Editable Result Card -->
                 <div id="scanResultCard" class="hidden app-card p-5 rounded-[28px] space-y-3.5 border-accent relative overflow-hidden">
                     <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
                         <span class="text-xs font-bold txt-accent flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Ekstraksi Vision AI</span>
@@ -547,7 +492,7 @@
                 <div id="goalsList" class="space-y-3"></div>
             </section>
 
-            <!-- Reports Tab (Professional Executive Financial Statement & Charts) -->
+            <!-- Reports Tab -->
             <section id="tabReports" class="hidden space-y-5 slide-up">
                 <div class="flex items-center justify-between no-print">
                     <div>
@@ -564,10 +509,7 @@
                     </div>
                 </div>
 
-                <!-- Structured Executive Financial Report Document Card (Screen & Print Ready) -->
                 <div id="draftReportPrintArea" class="app-card p-5 sm:p-6 rounded-[28px] border border-[var(--border-color)] space-y-5 shadow-2xl relative overflow-hidden">
-                    
-                    <!-- Report Header -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-color)] pb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center font-black text-lg shrink-0 shadow-md">
@@ -584,7 +526,6 @@
                         </div>
                     </div>
 
-                    <!-- Executive Summary Badge Grid -->
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                         <div class="app-subcard p-3 rounded-2xl border-l-2 border-l-limeaccent-400">
                             <span class="text-[10px] txt-secondary uppercase font-bold tracking-wider">Total Aset</span>
@@ -604,7 +545,6 @@
                         </div>
                     </div>
 
-                    <!-- Rincian Dompet & Rekening -->
                     <div class="space-y-2">
                         <h4 class="text-xs font-bold txt-accent uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-wallet"></i> 1. Rincian Dompet & Rekening
@@ -617,13 +557,11 @@
                                         <th class="pb-2 font-bold uppercase text-right">Saldo Saat Ini</th>
                                     </tr>
                                 </thead>
-                                <tbody id="repWalletTable" class="divide-y divide-[var(--border-color)] txt-primary">
-                                </tbody>
+                                <tbody id="repWalletTable" class="divide-y divide-[var(--border-color)] txt-primary"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Evaluasi Alokasi Anggaran Bulanan -->
                     <div class="space-y-2">
                         <h4 class="text-xs font-bold txt-accent uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-sliders"></i> 2. Realisasi Alokasi Anggaran Bulanan
@@ -638,13 +576,11 @@
                                         <th class="pb-2 font-bold uppercase text-right">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody id="repAllocTable" class="divide-y divide-[var(--border-color)] txt-primary">
-                                </tbody>
+                                <tbody id="repAllocTable" class="divide-y divide-[var(--border-color)] txt-primary"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Ringkasan Utang Piutang -->
                     <div class="space-y-2">
                         <h4 class="text-xs font-bold txt-accent uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-hand-holding-dollar"></i> 3. Posisi Kewajiban & Tagihan
@@ -661,19 +597,14 @@
                         </div>
                     </div>
 
-                    <!-- AI Evaluation & Recommendations -->
                     <div class="app-subcard p-4 rounded-2xl border-l-4 border-l-limeaccent-400 space-y-1.5">
                         <h4 class="text-xs font-bold txt-accent uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-robot"></i> Evaluasi & Recommendations AI
                         </h4>
-                        <p id="repAiAdviceText" class="text-xs txt-primary leading-relaxed font-medium">
-                            Status Keuangan Sehat.
-                        </p>
+                        <p id="repAiAdviceText" class="text-xs txt-primary leading-relaxed font-medium">Status Keuangan Sehat.</p>
                     </div>
-
                 </div>
 
-                <!-- Interactive Financial Charts Card -->
                 <div class="app-card p-4 sm:p-5 rounded-[28px] space-y-3 no-print">
                     <h4 class="text-xs font-bold txt-primary flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line txt-accent"></i> Grafik Arus Kas Harian (Masuk vs Keluar)
@@ -720,7 +651,6 @@
                         <button type="button" onclick="sendQuickChat('/anggaran')" class="px-2.5 py-1 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-[10px] font-semibold whitespace-nowrap border border-[var(--border-color)]">/anggaran</button>
                         <button type="button" onclick="sendQuickChat('/target')" class="px-2.5 py-1 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-[10px] font-semibold whitespace-nowrap border border-[var(--border-color)]">/target</button>
                         <button type="button" onclick="sendQuickChat('/laporan')" class="px-2.5 py-1 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-[10px] font-semibold whitespace-nowrap border border-[var(--border-color)]">/laporan</button>
-                        <button type="button" onclick="sendQuickChat('Tf 50k dari Tunai ke BCA')" class="px-2.5 py-1 app-subcard txt-accent hover:bg-lime-400/10 rounded-full text-[10px] font-semibold whitespace-nowrap border border-[var(--border-color)]">Tf 50k</button>
                     </div>
                     <form onsubmit="handleSendChat(event)" class="flex gap-2">
                         <input type="text" id="chatInput" placeholder="Ketik perintah atau pesan..." class="app-input flex-1 px-3.5 py-2.5 rounded-2xl text-xs font-medium" autocomplete="off">
@@ -764,7 +694,6 @@
         <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30 no-print"></div>
     </div>
 
-    <!-- Modals -->
     <!-- Modal Transaction -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 border border-[var(--border-color)] my-auto">
@@ -1011,7 +940,7 @@
             if ('serviceWorker' in navigator) {
                 try {
                     const swCode = `
-                        const CACHE_NAME = 'fulusku-pwa-v7';
+                        const CACHE_NAME = 'fulusku-pwa-v8';
                         self.addEventListener('install', (e) => self.skipWaiting());
                         self.addEventListener('activate', (e) => self.clients.claim());
                         self.addEventListener('fetch', (e) => {
@@ -1176,6 +1105,82 @@
                 saveLocalData();
                 refreshAllViews();
             }
+        }
+
+        async function handleAuth(e) { 
+            if (e && e.preventDefault) e.preventDefault(); 
+            const usernameInput = document.getElementById('loginUsername'); 
+            const passwordInput = document.getElementById('loginPassword');
+            const nameInput = document.getElementById('registerName');
+            const submitBtn = document.getElementById('authSubmitBtn');
+
+            let username = usernameInput ? usernameInput.value.trim() : ''; 
+            let password = passwordInput ? passwordInput.value.trim() : '';
+            let name = nameInput ? nameInput.value.trim() : username;
+
+            if (!username) {
+                showToast("Username tidak boleh kosong!", "error");
+                return;
+            }
+
+            const origText = submitBtn ? submitBtn.innerHTML : 'Masuk';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> ${isRegisterMode ? 'Mendaftarkan...' : 'Memeriksa Akun...'}`;
+            }
+
+            showToast(isRegisterMode ? "Mendaftarkan akun baru..." : "Memeriksa akun...", "info");
+
+            try {
+                let res;
+                if (isRegisterMode) {
+                    res = await callBackend('registerUser', { user: { username, password, name } });
+                    if (res && res.status === 'error') {
+                        showToast(res.message, "error");
+                        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = origText; }
+                        return;
+                    }
+                    showToast("Registrasi berhasil!", "success");
+                } else {
+                    res = await callBackend('loginUser', { user: { username, password } });
+                    if (res && res.status === 'error') {
+                        showToast(res.message, "error");
+                        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = origText; }
+                        return;
+                    }
+                    if (res && res.user && res.user.name) {
+                        name = res.user.name;
+                    }
+                }
+
+                appState.user = { username, name }; 
+                try {
+                    localStorage.setItem('fulusku_session_user', JSON.stringify(appState.user));
+                } catch(err){}
+
+                loadLocalDataForUser(username); 
+                switchPage('main'); 
+                setTimeout(playVoiceGreeting, 400);
+
+                fetchInitialBackendData();
+            } catch(err) {
+                showToast("Terjadi kesalahan: " + err.message, "error");
+            } finally {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = origText; }
+            }
+        }
+
+        function quickLogin() { 
+            document.getElementById('loginUsername').value = "Tamu"; 
+            handleAuth(new Event('submit')); 
+        }
+
+        function logout() { 
+            appState.user = null; 
+            try {
+                localStorage.removeItem('fulusku_session_user');
+            } catch(e){}
+            switchPage('landing'); 
         }
 
         function formatGoogleDriveUrl(url) {
@@ -1359,65 +1364,6 @@
                     }, 120);
                 });
             }
-        }
-
-        async function handleAuth(e) { 
-            if (e && e.preventDefault) e.preventDefault(); 
-            const usernameInput = document.getElementById('loginUsername'); 
-            const passwordInput = document.getElementById('loginPassword');
-            const nameInput = document.getElementById('registerName');
-
-            let username = usernameInput ? usernameInput.value.trim() : ''; 
-            let password = passwordInput ? passwordInput.value.trim() : '';
-            let name = nameInput ? nameInput.value.trim() : username;
-
-            if (!username) {
-                showToast("Username tidak boleh kosong!", "error");
-                return;
-            }
-
-            if (isRegisterMode) {
-                showToast("Mendaftarkan akun baru...", "info");
-                const res = await callBackend('registerUser', { user: { username, password, name } });
-                if (res && res.status === 'error') {
-                    showToast(res.message, "error");
-                    return;
-                }
-                showToast("Registrasi berhasil!", "success");
-            } else {
-                showToast("Memeriksa akun...", "info");
-                const res = await callBackend('loginUser', { user: { username, password } });
-                if (res && res.status === 'error') {
-                    showToast(res.message, "error");
-                    return;
-                }
-                if (res && res.user && res.user.name) {
-                    name = res.user.name;
-                }
-            }
-
-            appState.user = { username, name }; 
-            try {
-                localStorage.setItem('fulusku_session_user', JSON.stringify(appState.user));
-            } catch(err){}
-
-            loadLocalDataForUser(username); 
-            await fetchInitialBackendData();
-            switchPage('main'); 
-            setTimeout(playVoiceGreeting, 400);
-        }
-
-        function quickLogin() { 
-            document.getElementById('loginUsername').value = "Tamu"; 
-            handleAuth(new Event('submit')); 
-        }
-
-        function logout() { 
-            appState.user = null; 
-            try {
-                localStorage.removeItem('fulusku_session_user');
-            } catch(e){}
-            switchPage('landing'); 
         }
 
         function getStorageKey() { 
@@ -1683,7 +1629,6 @@
                 repNetEl.className = netCashflow >= 0 ? "text-sm font-extrabold txt-income mt-0.5" : "text-sm font-extrabold txt-expense mt-0.5";
             }
 
-            // 1. Wallets Table
             const repWalletTable = document.getElementById('repWalletTable');
             if (repWalletTable) {
                 repWalletTable.innerHTML = appState.wallets.map(w => `
@@ -1694,7 +1639,6 @@
                 `).join('') || `<tr><td colspan="2" class="py-2 text-center text-muted">Belum ada dompet terdaftar</td></tr>`;
             }
 
-            // 2. Budget Allocations Table
             const repAllocTable = document.getElementById('repAllocTable');
             if (repAllocTable) {
                 const now = new Date();
@@ -1716,7 +1660,6 @@
                 }).join('') || `<tr><td colspan="4" class="py-2 text-center text-muted">Belum ada alokasi anggaran</td></tr>`;
             }
 
-            // 3. Debts & Receivables
             let totalDebt = 0, totalReceivable = 0;
             appState.debts.forEach(d => {
                 if (d.status !== 'lunas') {
@@ -1728,7 +1671,6 @@
             document.getElementById('repTotalDebt').innerText = formatRp(totalDebt);
             document.getElementById('repTotalReceivable').innerText = formatRp(totalReceivable);
 
-            // 4. AI Advice Text
             const repAiAdviceText = document.getElementById('repAiAdviceText');
             if (repAiAdviceText) {
                 if (netCashflow >= 0) {
@@ -1771,9 +1713,7 @@
             showToast("Draft laporan eksekutif disalin!", "success");
         }
 
-        function printDraftReport() { 
-            window.print(); 
-        }
+        function printDraftReport() { window.print(); }
 
         function populateWalletOptions() { 
             const html = appState.wallets.map(w => `<option value="${w.id}">${escapeHTML(w.name)} (${formatRp(w.balance)})</option>`).join(''); 
@@ -2229,7 +2169,6 @@
             modal.classList.remove('hidden');
 
             try {
-                // Request HD stream with continuous focus
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: { 
                         facingMode: { ideal: 'environment' },
@@ -2242,7 +2181,6 @@
                 video.srcObject = stream;
                 mediaStreamTrack = stream.getVideoTracks()[0];
 
-                // Continuous autofocus constraint if supported by browser
                 if (mediaStreamTrack && 'getCapabilities' in mediaStreamTrack) {
                     const capabilities = mediaStreamTrack.getCapabilities();
                     if (capabilities.focusMode && capabilities.focusMode.includes('continuous')) {
@@ -2281,7 +2219,6 @@
                 return;
             }
 
-            // Capture high resolution canvas
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth || 1280;
             canvas.height = video.videoHeight || 720;
@@ -2341,7 +2278,6 @@
                     total: Number(res.data.total || 0)
                 };
 
-                // Populate editable inputs
                 const merchantInp = document.getElementById('scanMerchantInput');
                 const categoryInp = document.getElementById('scanCategoryInput');
                 const dateInp = document.getElementById('scanDateInput');
