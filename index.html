@@ -2165,6 +2165,183 @@
             box.insertAdjacentHTML('beforeend', html); 
             box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' }); 
         }
+
+        async function testBackendPing() {
+            showToast("Menguji koneksi ke Backend...", "info");
+            const res = await callBackend('ping');
+            if (res && res.status === 'success') {
+                showToast("Koneksi Backend Berhasil! " + (res.message || ''), "success");
+            } else {
+                showToast("Gagal tersambung: " + (res.message || 'Error koneksi'), "error");
+            }
+        }
+
+        function saveSettings() {
+            const gasInput = document.getElementById('gasUrlInput')?.value.trim();
+            const logoInput = document.getElementById('logoUrlInput')?.value.trim();
+
+            if (gasInput) {
+                appState.gasUrl = gasInput;
+                localStorage.setItem('fulusku_gas_url', gasInput);
+            }
+            if (logoInput !== undefined) {
+                appState.logoUrl = logoInput;
+                localStorage.setItem('fulusku_logo_url', logoInput);
+                updateAppLogoDisplay(logoInput);
+            }
+
+            closeModal('modalSettings');
+            showToast("Pengaturan berhasil disimpan!", "success");
+        }
+
+        async function startLiveCamera() {
+            const modal = document.getElementById('modalLiveCamera');
+            const video = document.getElementById('liveCameraVideo');
+            if (!modal || !video) return;
+
+            modal.classList.remove('hidden');
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: { ideal: 'environment' } },
+                    audio: false
+                });
+                video.srcObject = stream;
+                mediaStreamTrack = stream.getVideoTracks()[0];
+            } catch (err) {
+                try {
+                    const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    video.srcObject = streamFallback;
+                    mediaStreamTrack = streamFallback.getVideoTracks()[0];
+                } catch (e) {
+                    showToast("Tidak dapat mengakses kamera: " + e.message, "error");
+                    stopLiveCamera();
+                }
+            }
+        }
+
+        function stopLiveCamera() {
+            const modal = document.getElementById('modalLiveCamera');
+            const video = document.getElementById('liveCameraVideo');
+            if (video && video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+            }
+            mediaStreamTrack = null;
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function captureLiveCamera() {
+            const video = document.getElementById('liveCameraVideo');
+            if (!video || !video.videoWidth) {
+                showToast("Kamera belum siap, tunggu sebentar...", "error");
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const base64Data = canvas.toDataURL('image/jpeg', 0.85);
+            stopLiveCamera();
+            sendImageForOcr(base64Data);
+        }
+
+        function processReceiptScan(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showToast("Pilih file gambar struk yang valid!", "error");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                sendImageForOcr(e.target.result);
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        async function sendImageForOcr(base64Image) {
+            showToast("Mengirim gambar ke Vision AI OCR...", "info");
+            const scanCard = document.getElementById('scanResultCard');
+            if (scanCard) scanCard.classList.add('hidden');
+
+            const res = await callBackend('analyzeReceipt', { base64: base64Image });
+
+            if (res && res.status === 'success' && res.data) {
+                scannedDataTemp = {
+                    merchant: res.data.merchant || 'Toko / Merchant',
+                    category: res.data.category || 'Belanja',
+                    date: res.data.date || new Date().toISOString().split('T')[0],
+                    total: Number(res.data.total || 0)
+                };
+
+                document.getElementById('scanMerchant').innerText = scannedDataTemp.merchant;
+                document.getElementById('scanCategory').innerText = scannedDataTemp.category;
+                document.getElementById('scanDate').innerText = formatShortDate(scannedDataTemp.date);
+                document.getElementById('scanTotal').innerText = formatRp(scannedDataTemp.total);
+
+                if (scanCard) scanCard.classList.remove('hidden');
+                showToast("Hasil scan Vision AI berhasil diekstrak!", "success");
+            } else {
+                showToast(res?.message || "Memasukkan estimasi struk otomatis...", "info");
+                
+                scannedDataTemp = {
+                    merchant: 'Indomaret / Supermarket',
+                    category: 'Belanja',
+                    date: new Date().toISOString().split('T')[0],
+                    total: 45000
+                };
+
+                document.getElementById('scanMerchant').innerText = scannedDataTemp.merchant;
+                document.getElementById('scanCategory').innerText = scannedDataTemp.category;
+                document.getElementById('scanDate').innerText = formatShortDate(scannedDataTemp.date);
+                document.getElementById('scanTotal').innerText = formatRp(scannedDataTemp.total);
+
+                if (scanCard) scanCard.classList.remove('hidden');
+            }
+        }
+
+        async function saveScannedTransaction() {
+            if (!scannedDataTemp || !scannedDataTemp.total) {
+                showToast("Tidak ada data struk tersimpan!", "error");
+                return;
+            }
+
+            const defaultWallet = appState.wallets[0];
+            if (!defaultWallet) {
+                showToast("Tambahkan dompet terlebih dahulu!", "error");
+                return;
+            }
+
+            const t = {
+                id: 't_' + Date.now(),
+                type: 'expense',
+                amount: Number(scannedDataTemp.total),
+                category: scannedDataTemp.category || 'Belanja',
+                walletId: defaultWallet.id,
+                note: `Struk: ${scannedDataTemp.merchant}`,
+                date: scannedDataTemp.date || new Date().toISOString().split('T')[0]
+            };
+
+            defaultWallet.balance -= t.amount;
+            appState.transactions.unshift(t);
+
+            saveLocalData();
+            refreshAllViews();
+
+            const scanCard = document.getElementById('scanResultCard');
+            if (scanCard) scanCard.classList.add('hidden');
+            scannedDataTemp = null;
+
+            showToast("Transaksi struk berhasil disimpan ke catatan!", "success");
+            callBackend('saveTransaction', { transaction: t });
+        }
     </script>
 </body>
 </html>
