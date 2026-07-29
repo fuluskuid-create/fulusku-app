@@ -437,9 +437,15 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block txt-secondary text-[10px] mb-1">Total Belanja (Rp)</label>
-                            <input type="number" id="scanTotalInput" class="app-input w-full px-3 py-2 rounded-xl text-base font-extrabold txt-accent" min="1">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block txt-secondary text-[10px] mb-1">Dompet / Sumber Dana</label>
+                                <select id="scanWalletInput" class="app-input w-full px-2.5 py-2 rounded-xl text-xs font-semibold"></select>
+                            </div>
+                            <div>
+                                <label class="block txt-secondary text-[10px] mb-1">Total Belanja (Rp)</label>
+                                <input type="number" id="scanTotalInput" class="app-input w-full px-3 py-2 rounded-xl text-base font-extrabold txt-accent" min="1">
+                            </div>
                         </div>
                     </div>
 
@@ -1702,7 +1708,7 @@
 
         function populateWalletOptions() { 
             const html = appState.wallets.map(w => `<option value="${w.id}">${escapeHTML(w.name)} (${formatRp(w.balance)})</option>`).join(''); 
-            ['txWalletInput', 'transferFromInput', 'transferToInput'].forEach(id => { 
+            ['txWalletInput', 'transferFromInput', 'transferToInput', 'scanWalletInput'].forEach(id => { 
                 const el = document.getElementById(id);
                 if (el) el.innerHTML = html; 
             }); 
@@ -2348,14 +2354,15 @@
             const categoryVal = document.getElementById('scanCategoryInput')?.value || 'Belanja';
             const dateVal = document.getElementById('scanDateInput')?.value || new Date().toISOString().split('T')[0];
             const totalVal = Number(document.getElementById('scanTotalInput')?.value || 0);
+            const walletIdVal = document.getElementById('scanWalletInput')?.value;
 
             if (!totalVal || totalVal <= 0) {
                 showToast("Masukkan total nominal belanja yang valid!", "error");
                 return;
             }
 
-            const defaultWallet = appState.wallets[0];
-            if (!defaultWallet) {
+            const targetWallet = appState.wallets.find(w => w.id === walletIdVal) || appState.wallets[0];
+            if (!targetWallet) {
                 showToast("Tambahkan dompet terlebih dahulu!", "error");
                 return;
             }
@@ -2365,12 +2372,12 @@
                 type: 'expense',
                 amount: totalVal,
                 category: categoryVal,
-                walletId: defaultWallet.id,
+                walletId: targetWallet.id,
                 note: `Struk: ${merchantVal}`,
                 date: dateVal
             };
 
-            defaultWallet.balance -= t.amount;
+            targetWallet.balance -= t.amount;
             appState.transactions.unshift(t);
 
             saveLocalData();
