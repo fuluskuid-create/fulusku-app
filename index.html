@@ -2355,7 +2355,11 @@
                 if (scanCard) scanCard.classList.remove('hidden');
                 showToast("Hasil scan Vision AI berhasil diekstrak! Silakan periksa.", "success");
             } else {
-                showToast(res?.message || "Gagal membaca struk. Menggunakan data estimasi...", "error");
+                let displayError = "Gagal membaca struk. Menggunakan data estimasi...";
+                if (res && res.message) {
+                    displayError = typeof res.message === 'string' ? res.message : JSON.stringify(res.message);
+                }
+                showToast(displayError, "error");
                 
                 scannedDataTemp = {
                     merchant: 'Struk Belanja',
