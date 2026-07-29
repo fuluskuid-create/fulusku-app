@@ -446,7 +446,7 @@
                         <i class="fa-solid fa-microchip"></i>
                     </div>
                     <h3 class="text-lg font-bold txt-primary">Vision AI Scan Struk</h3>
-                    <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis toko, tanggal, & total belanjaan dari foto atau kamera.</p>
+                    <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis toko, tanggal, & total belanjaan dari foto atau kamera HD.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -455,8 +455,8 @@
                             <i class="fa-solid fa-camera"></i>
                         </div>
                         <div>
-                            <p class="text-xs font-bold txt-primary">Kamera Langsung</p>
-                            <p class="text-[10px] txt-secondary">Live Camera PWA</p>
+                            <p class="text-xs font-bold txt-primary">Kamera HD Langsung</p>
+                            <p class="text-[10px] txt-secondary">Autofokus High-Res</p>
                         </div>
                     </button>
 
@@ -472,15 +472,42 @@
                     </div>
                 </div>
 
-                <div id="scanResultCard" class="hidden app-card p-5 rounded-[28px] space-y-3 border-accent relative overflow-hidden">
-                    <div class="space-y-2 text-xs">
-                        <div class="flex justify-between items-center"><span class="txt-secondary">Merchant / Toko</span> <strong id="scanMerchant" class="txt-primary font-bold">-</strong></div>
-                        <div class="flex justify-between items-center"><span class="txt-secondary">Kategori</span> <strong id="scanCategory" class="txt-accent font-bold">-</strong></div>
-                        <div class="flex justify-between items-center"><span class="txt-secondary">Tanggal</span> <strong id="scanDate" class="txt-primary font-bold">-</strong></div>
-                        <div class="flex justify-between items-center pt-2 border-t border-[var(--border-color)]">
-                            <span class="txt-secondary">Total Belanja</span> <strong id="scanTotal" class="text-lg font-extrabold txt-accent">Rp 0</strong>
+                <!-- Live Editable Result Card -->
+                <div id="scanResultCard" class="hidden app-card p-5 rounded-[28px] space-y-3.5 border-accent relative overflow-hidden">
+                    <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
+                        <span class="text-xs font-bold txt-accent flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Ekstraksi Vision AI</span>
+                        <span class="text-[10px] txt-muted">Dapat Disesuaikan</span>
+                    </div>
+                    
+                    <div class="space-y-2.5 text-xs">
+                        <div>
+                            <label class="block txt-secondary text-[10px] mb-1">Merchant / Nama Toko</label>
+                            <input type="text" id="scanMerchantInput" class="app-input w-full px-3 py-2 rounded-xl text-xs font-bold txt-primary">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block txt-secondary text-[10px] mb-1">Kategori</label>
+                                <select id="scanCategoryInput" class="app-input w-full px-2.5 py-2 rounded-xl text-xs font-semibold">
+                                    <option value="Makanan">Makanan</option>
+                                    <option value="Belanja">Belanja</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Tagihan">Tagihan</option>
+                                    <option value="Hiburan">Hiburan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block txt-secondary text-[10px] mb-1">Tanggal</label>
+                                <input type="date" id="scanDateInput" class="app-input w-full px-2.5 py-2 rounded-xl text-xs font-medium">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block txt-secondary text-[10px] mb-1">Total Belanja (Rp)</label>
+                            <input type="number" id="scanTotalInput" class="app-input w-full px-3 py-2 rounded-xl text-base font-extrabold txt-accent" min="1">
                         </div>
                     </div>
+
                     <button type="button" onclick="saveScannedTransaction()" class="w-full py-3 btn-lime text-xs rounded-2xl active:scale-95 mt-1">Simpan ke Catatan Transaksi</button>
                 </div>
             </section>
@@ -2202,12 +2229,26 @@
             modal.classList.remove('hidden');
 
             try {
+                // Request HD stream with continuous focus
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { ideal: 'environment' } },
+                    video: { 
+                        facingMode: { ideal: 'environment' },
+                        width: { ideal: 1920, max: 2560 },
+                        height: { ideal: 1080, max: 1440 }
+                    },
                     audio: false
                 });
+
                 video.srcObject = stream;
                 mediaStreamTrack = stream.getVideoTracks()[0];
+
+                // Continuous autofocus constraint if supported by browser
+                if (mediaStreamTrack && 'getCapabilities' in mediaStreamTrack) {
+                    const capabilities = mediaStreamTrack.getCapabilities();
+                    if (capabilities.focusMode && capabilities.focusMode.includes('continuous')) {
+                        mediaStreamTrack.applyConstraints({ advanced: [{ focusMode: 'continuous' }] }).catch(() => {});
+                    }
+                }
             } catch (err) {
                 try {
                     const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -2220,17 +2261,6 @@
             }
         }
 
-        function stopLiveCamera() {
-            const modal = document.getElementById('modalLiveCamera');
-            const video = document.getElementById('liveCameraVideo');
-            if (video && video.srcObject) {
-                video.srcObject.getTracks().forEach(track => track.stop());
-                video.srcObject = null;
-            }
-            mediaStreamTrack = null;
-            if (modal) modal.classList.add('hidden');
-        }
-
         function captureLiveCamera() {
             const video = document.getElementById('liveCameraVideo');
             if (!video || !video.videoWidth) {
@@ -2238,32 +2268,16 @@
                 return;
             }
 
+            // Capture high resolution canvas
             const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth || 1280;
+            canvas.height = video.videoHeight || 720;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            const base64Data = canvas.toDataURL('image/jpeg', 0.85);
+            const base64Data = canvas.toDataURL('image/jpeg', 0.90);
             stopLiveCamera();
             sendImageForOcr(base64Data);
-        }
-
-        function processReceiptScan(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                showToast("Pilih file gambar struk yang valid!", "error");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                sendImageForOcr(e.target.result);
-            };
-            reader.readAsDataURL(file);
-            event.target.value = '';
         }
 
         async function sendImageForOcr(base64Image) {
@@ -2275,41 +2289,57 @@
 
             if (res && res.status === 'success' && res.data) {
                 scannedDataTemp = {
-                    merchant: res.data.merchant || 'Toko / Merchant',
+                    merchant: res.data.merchant || 'Merchant Struk',
                     category: res.data.category || 'Belanja',
                     date: res.data.date || new Date().toISOString().split('T')[0],
                     total: Number(res.data.total || 0)
                 };
 
-                document.getElementById('scanMerchant').innerText = scannedDataTemp.merchant;
-                document.getElementById('scanCategory').innerText = scannedDataTemp.category;
-                document.getElementById('scanDate').innerText = formatShortDate(scannedDataTemp.date);
-                document.getElementById('scanTotal').innerText = formatRp(scannedDataTemp.total);
+                // Populate editable inputs
+                const merchantInp = document.getElementById('scanMerchantInput');
+                const categoryInp = document.getElementById('scanCategoryInput');
+                const dateInp = document.getElementById('scanDateInput');
+                const totalInp = document.getElementById('scanTotalInput');
+
+                if (merchantInp) merchantInp.value = scannedDataTemp.merchant;
+                if (categoryInp) categoryInp.value = scannedDataTemp.category;
+                if (dateInp) dateInp.value = scannedDataTemp.date;
+                if (totalInp) totalInp.value = scannedDataTemp.total;
 
                 if (scanCard) scanCard.classList.remove('hidden');
-                showToast("Hasil scan Vision AI berhasil diekstrak!", "success");
+                showToast("Hasil scan Vision AI berhasil diekstrak! Silakan periksa.", "success");
             } else {
-                showToast(res?.message || "Memasukkan estimasi struk otomatis...", "info");
+                showToast(res?.message || "Gagal membaca struk. Menggunakan data estimasi...", "error");
                 
                 scannedDataTemp = {
-                    merchant: 'Indomaret / Supermarket',
+                    merchant: 'Struk Belanja',
                     category: 'Belanja',
                     date: new Date().toISOString().split('T')[0],
-                    total: 45000
+                    total: 50000
                 };
 
-                document.getElementById('scanMerchant').innerText = scannedDataTemp.merchant;
-                document.getElementById('scanCategory').innerText = scannedDataTemp.category;
-                document.getElementById('scanDate').innerText = formatShortDate(scannedDataTemp.date);
-                document.getElementById('scanTotal').innerText = formatRp(scannedDataTemp.total);
+                const merchantInp = document.getElementById('scanMerchantInput');
+                const categoryInp = document.getElementById('scanCategoryInput');
+                const dateInp = document.getElementById('scanDateInput');
+                const totalInp = document.getElementById('scanTotalInput');
+
+                if (merchantInp) merchantInp.value = scannedDataTemp.merchant;
+                if (categoryInp) categoryInp.value = scannedDataTemp.category;
+                if (dateInp) dateInp.value = scannedDataTemp.date;
+                if (totalInp) totalInp.value = scannedDataTemp.total;
 
                 if (scanCard) scanCard.classList.remove('hidden');
             }
         }
 
         async function saveScannedTransaction() {
-            if (!scannedDataTemp || !scannedDataTemp.total) {
-                showToast("Tidak ada data struk tersimpan!", "error");
+            const merchantVal = document.getElementById('scanMerchantInput')?.value.trim() || 'Struk Belanja';
+            const categoryVal = document.getElementById('scanCategoryInput')?.value || 'Belanja';
+            const dateVal = document.getElementById('scanDateInput')?.value || new Date().toISOString().split('T')[0];
+            const totalVal = Number(document.getElementById('scanTotalInput')?.value || 0);
+
+            if (!totalVal || totalVal <= 0) {
+                showToast("Masukkan total nominal belanja yang valid!", "error");
                 return;
             }
 
@@ -2322,11 +2352,11 @@
             const t = {
                 id: 't_' + Date.now(),
                 type: 'expense',
-                amount: Number(scannedDataTemp.total),
-                category: scannedDataTemp.category || 'Belanja',
+                amount: totalVal,
+                category: categoryVal,
                 walletId: defaultWallet.id,
-                note: `Struk: ${scannedDataTemp.merchant}`,
-                date: scannedDataTemp.date || new Date().toISOString().split('T')[0]
+                note: `Struk: ${merchantVal}`,
+                date: dateVal
             };
 
             defaultWallet.balance -= t.amount;
