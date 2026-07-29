@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-    <title>FuluskuAI - Keuangan & Vision AI</title>
+    <title>FuluskuAI - Keuangan, Utang Piutang & Report AI</title>
     
     <!-- Fullscreen & Standalone PWA Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="FuluskuAI">
     <meta name="theme-color" content="#09090b" id="themeColorMeta">
-    <meta name="description" content="Aplikasi Keuangan Cerdas dengan Vision AI OCR Struk dan In-App Chat Assistant">
+    <meta name="description" content="Aplikasi Keuangan Cerdas dengan Vision AI OCR Struk, Fitur Utang Piutang Pengingat, dan Laporan Keuangan Lengkap">
 
     <!-- iOS Apple Touch Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><rect width='512' height='512' rx='128' fill='%2309090b'/><circle cx='256' cy='256' r='200' fill='%23d2ff1f'/><path d='M160 330 C 160 210, 352 210, 352 330 Z' fill='%2309090b'/><circle cx='256' cy='180' r='50' fill='%2309090b'/></svg>">
@@ -173,6 +173,9 @@
         .slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+        .pulse-warning { animation: pulseWarning 2s infinite; }
+        @keyframes pulseWarning { 0%, 100% { border-color: rgba(239, 68, 68, 0.6); box-shadow: 0 0 12px rgba(239, 68, 68, 0.3); } 50% { border-color: rgba(245, 158, 11, 0.8); box-shadow: 0 0 18px rgba(245, 158, 11, 0.5); } }
+
         .nav-item { position: relative; cursor: pointer; }
         .nav-item.active i { color: var(--text-accent); transform: scale(1.1); }
         .nav-item.active::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background-color: var(--text-accent); border-radius: 50%; box-shadow: 0 0 8px var(--text-accent); }
@@ -207,6 +210,22 @@
 
         <main id="mainScrollArea" class="flex-1 overflow-y-auto px-5 py-6 pb-32 hide-scroll relative z-10 flex flex-col">
 
+            <!-- Alert Banner for Urgent Debts / Overdue -->
+            <div id="urgentDebtAlertBanner" class="hidden mb-4 p-3.5 rounded-2xl bg-gradient-to-r from-red-500/20 via-amber-500/10 to-transparent border border-red-500/40 flex items-center justify-between gap-3 slide-up">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-sm font-bold shrink-0 animate-bounce">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div>
+                        <h5 id="alertBannerTitle" class="text-xs font-bold text-red-400">Peringatan Jatuh Tempo!</h5>
+                        <p id="alertBannerDesc" class="text-[10px] txt-secondary">Ada utang/piutang yang mendekati atau melewati batas waktu.</p>
+                    </div>
+                </div>
+                <button type="button" onclick="switchTab('tabDebts')" class="px-3 py-1.5 bg-red-500/20 text-red-400 hover:bg-red-500/30 text-[10px] font-bold rounded-xl border border-red-500/30 transition-all shrink-0">
+                    Lihat <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+
             <!-- Landing View -->
             <section id="viewLanding" class="space-y-8 py-8 slide-up">
                 <div class="text-center space-y-5">
@@ -216,7 +235,7 @@
                     </div>
                     <div>
                         <h2 class="text-3xl font-extrabold txt-primary tracking-tight leading-tight mb-2">Fulusku<span class="txt-accent">AI</span></h2>
-                        <p class="text-sm txt-secondary max-w-xs mx-auto leading-relaxed">Ekosistem finansial cerdas di ujung jari Anda. Atur aset, scan AI, dan raih kebebasan.</p>
+                        <p class="text-sm txt-secondary max-w-xs mx-auto leading-relaxed">Ekosistem finansial cerdas di ujung jari Anda. Atur aset, catat utang piutang, dan pantau laporan keuangan.</p>
                     </div>
                 </div>
 
@@ -274,7 +293,6 @@
                 </form>
             </section>
 
-            <!-- Dashboard View -->
             <section id="viewDashboard" class="hidden space-y-7 slide-up">
                 <div class="relative p-7 rounded-[32px] overflow-hidden shadow-2xl transition-all border border-[var(--border-color)]" style="background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-gradient-end) 100%);">
                     <div class="absolute -top-16 -right-16 w-48 h-48 bg-lime-400/20 rounded-full blur-[50px] pointer-events-none"></div>
@@ -303,6 +321,28 @@
                         <button type="button" onclick="switchTab('tabScanner')" class="w-12 py-3 btn-lime rounded-2xl flex items-center justify-center active:scale-95 shrink-0">
                             <i class="fa-solid fa-camera text-sm"></i>
                         </button>
+                    </div>
+                </div>
+
+                <!-- Quick Utang & Piutang Dashboard Card -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div onclick="switchTab('tabDebts')" class="app-card p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-[var(--border-highlight)] transition-all">
+                        <div>
+                            <p class="text-[10px] font-semibold txt-secondary uppercase tracking-wider">Utang Saya</p>
+                            <h4 id="dashUtangText" class="text-sm font-extrabold txt-expense">Rp 0</h4>
+                        </div>
+                        <div class="w-8 h-8 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center text-xs font-bold">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('tabDebts')" class="app-card p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-[var(--border-highlight)] transition-all">
+                        <div>
+                            <p class="text-[10px] font-semibold txt-secondary uppercase tracking-wider">Piutang Saya</p>
+                            <h4 id="dashPiutangText" class="text-sm font-extrabold txt-income">Rp 0</h4>
+                        </div>
+                        <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs font-bold">
+                            <i class="fa-solid fa-comments-dollar"></i>
+                        </div>
                     </div>
                 </div>
 
@@ -355,6 +395,7 @@
                 </div>
             </section>
 
+            <!-- Vision Scanner Tab -->
             <section id="tabScanner" class="hidden space-y-6 slide-up">
                 <div class="text-center space-y-2 mt-2">
                     <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-950 flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
@@ -364,18 +405,16 @@
                     <p class="text-xs txt-secondary max-w-xs mx-auto">Ekstrak otomatis detail toko, tanggal, & nominal transaksi dari foto struk.</p>
                 </div>
 
-                <!-- Native Invisible Touch Overlay for Standalone PWA Camera & File Pickers -->
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
-                        <input type="file" id="cameraFileInput" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
-                        <div class="w-12 h-12 rounded-2xl bg-limeaccent-400/10 txt-accent flex items-center justify-center text-xl pointer-events-none">
-                            <i class="fa-solid fa-camera"></i>
+                    <button type="button" onclick="openLiveCamera()" class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer">
+                        <div class="w-12 h-12 rounded-2xl bg-limeaccent-400/10 txt-accent flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-video"></i>
                         </div>
-                        <div class="pointer-events-none">
-                            <p class="text-xs font-bold txt-primary">Ambil Foto</p>
-                            <p class="text-[10px] txt-secondary">Kamera HP (Native)</p>
+                        <div>
+                            <p class="text-xs font-bold txt-primary">Kamera Langsung</p>
+                            <p class="text-[10px] txt-secondary">Pratinjau Live PWA</p>
                         </div>
-                    </div>
+                    </button>
 
                     <div class="app-card p-5 rounded-[24px] text-center border border-[var(--border-color)] hover:border-[var(--border-highlight)] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all relative overflow-hidden cursor-pointer select-none">
                         <input type="file" id="galleryFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="processReceiptScan(event)">
@@ -413,6 +452,7 @@
                 </div>
             </section>
 
+            <!-- Goals Tab -->
             <section id="tabGoals" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold txt-primary">Target Keuangan</h3>
@@ -423,25 +463,122 @@
 
             <section id="tabDebts" class="hidden space-y-6 slide-up">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-bold txt-primary">Utang & Tagihan</h3>
-                    <button type="button" onclick="openModal('modalAddDebt')" class="text-xs txt-accent hover:bg-lime-400/10 px-3 py-1.5 rounded-xl font-semibold">+ Catat</button>
+                    <div>
+                        <h3 class="text-xl font-bold txt-primary">Utang & Piutang</h3>
+                        <p class="text-[11px] txt-secondary">Kelola pinjaman & penagihan dengan pengingat otomatis</p>
+                    </div>
+                    <button type="button" onclick="openModal('modalAddDebt')" class="btn-lime text-xs px-3.5 py-2 rounded-xl font-bold active:scale-95 shadow-md flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> Catat
+                    </button>
                 </div>
-                <div id="debtsList" class="space-y-4"></div>
+
+                <!-- Debts Summary Cards -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="app-card p-4 rounded-2xl border-l-4 border-l-red-500">
+                        <p class="text-[10px] font-bold txt-secondary uppercase tracking-wider">Total Utang Saya</p>
+                        <p id="summaryTotalUtang" class="text-base font-extrabold txt-expense mt-1">Rp 0</p>
+                        <span id="summaryCountUtang" class="text-[10px] text-red-400 font-medium">0 Catatan Belum Lunas</span>
+                    </div>
+                    <div class="app-card p-4 rounded-2xl border-l-4 border-l-emerald-500">
+                        <p class="text-[10px] font-bold txt-secondary uppercase tracking-wider">Total Piutang Saya</p>
+                        <p id="summaryTotalPiutang" class="text-base font-extrabold txt-income mt-1">Rp 0</p>
+                        <span id="summaryCountPiutang" class="text-[10px] text-emerald-400 font-medium">0 Catatan Belum Ditagih</span>
+                    </div>
+                </div>
+
+                <!-- Debts Filter Tabs -->
+                <div class="app-card p-1 rounded-2xl flex gap-1 text-xs font-bold">
+                    <button type="button" onclick="setDebtFilter('all')" id="debtFilterAll" class="flex-1 py-2 rounded-xl text-[11px] transition-all bg-[var(--accent-lime)] text-[var(--accent-lime-text)]">
+                        Semua
+                    </button>
+                    <button type="button" onclick="setDebtFilter('utang')" id="debtFilterUtang" class="flex-1 py-2 rounded-xl text-[11px] transition-all txt-secondary hover:txt-primary">
+                        Utang Saya
+                    </button>
+                    <button type="button" onclick="setDebtFilter('piutang')" id="debtFilterPiutang" class="flex-1 py-2 rounded-xl text-[11px] transition-all txt-secondary hover:txt-primary">
+                        Piutang
+                    </button>
+                    <button type="button" onclick="setDebtFilter('urgent')" id="debtFilterUrgent" class="flex-1 py-2 rounded-xl text-[11px] transition-all txt-secondary hover:txt-primary text-red-400 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-triangle-exclamation text-[10px]"></i> Alert
+                    </button>
+                </div>
+
+                <div id="debtsList" class="space-y-3"></div>
             </section>
 
             <section id="tabReports" class="hidden space-y-6 slide-up">
-                <h3 class="text-xl font-bold txt-primary">Analitik & Laporan</h3>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold txt-primary">Laporan Keuangan</h3>
+                        <p class="text-[11px] txt-secondary">Analisis komprehensif aset, arus kas, & kesehatan finansial</p>
+                    </div>
+                    <button type="button" onclick="exportFinancialReport()" class="px-3 py-1.5 app-subcard text-xs font-bold txt-accent rounded-xl border border-[var(--border-color)] hover:bg-lime-400/10 active:scale-95 transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i> Cetak / Export
+                    </button>
+                </div>
+
+                <!-- Report Period Filter Selector -->
+                <div class="app-card p-1.5 rounded-2xl flex gap-1 text-xs font-bold">
+                    <button type="button" onclick="setReportPeriod('all')" id="reportPeriodAll" class="flex-1 py-2 rounded-xl text-[10px] transition-all bg-[var(--accent-lime)] text-[var(--accent-lime-text)]">
+                        Semua
+                    </button>
+                    <button type="button" onclick="setReportPeriod('month')" id="reportPeriodMonth" class="flex-1 py-2 rounded-xl text-[10px] transition-all txt-secondary hover:txt-primary">
+                        Bulan Ini
+                    </button>
+                    <button type="button" onclick="setReportPeriod('lastMonth')" id="reportPeriodLastMonth" class="flex-1 py-2 rounded-xl text-[10px] transition-all txt-secondary hover:txt-primary">
+                        Bulan Lalu
+                    </button>
+                    <button type="button" onclick="setReportPeriod('year')" id="reportPeriodYear" class="flex-1 py-2 rounded-xl text-[10px] transition-all txt-secondary hover:txt-primary">
+                        Tahun Ini
+                    </button>
+                </div>
+
+                <!-- AI Insight Box -->
                 <div class="p-5 app-card rounded-[24px] flex gap-4 items-start bg-gradient-to-br from-[var(--bg-card)] to-[var(--text-accent)]/5 border border-[var(--border-color)]">
                     <div class="w-10 h-10 rounded-full bg-[var(--text-accent)]/20 txt-accent flex items-center justify-center text-lg shrink-0 mt-1"><i class="fa-solid fa-lightbulb"></i></div>
-                    <div>
-                        <h4 class="text-sm font-bold txt-primary mb-1">Insight Fulusku</h4>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="text-sm font-bold txt-primary">AI Insight Keuangan</h4>
+                            <button type="button" onclick="requestAiFinancialSummary()" class="text-[10px] txt-accent font-bold underline hover:opacity-80">Analisis AI</button>
+                        </div>
                         <p id="reportInsightText" class="text-xs txt-secondary leading-relaxed">Menyiapkan laporan analitik berdasarkan transaksi Anda...</p>
                     </div>
                 </div>
+
+                <!-- Overall Key Performance Indicators (KPIs) Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="app-card p-4 rounded-2xl space-y-1">
+                        <span class="text-[10px] font-semibold txt-secondary uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-arrow-down text-emerald-400"></i> Total Pemasukan
+                        </span>
+                        <h4 id="reportTotalIncome" class="text-base font-extrabold txt-income">Rp 0</h4>
+                    </div>
+                    <div class="app-card p-4 rounded-2xl space-y-1">
+                        <span class="text-[10px] font-semibold txt-secondary uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-arrow-up text-red-400"></i> Total Pengeluaran
+                        </span>
+                        <h4 id="reportTotalExpense" class="text-base font-extrabold txt-expense">Rp 0</h4>
+                    </div>
+                    <div class="app-card p-4 rounded-2xl space-y-1">
+                        <span class="text-[10px] font-semibold txt-secondary uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-scale-balanced text-sky-400"></i> Arus Kas Bersih
+                        </span>
+                        <h4 id="reportNetCashflow" class="text-base font-extrabold txt-primary">Rp 0</h4>
+                    </div>
+                    <div class="app-card p-4 rounded-2xl space-y-1">
+                        <span class="text-[10px] font-semibold txt-secondary uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-piggy-bank text-lime-400"></i> Rasio Tabungan
+                        </span>
+                        <h4 id="reportSavingsRate" class="text-base font-extrabold txt-accent">0%</h4>
+                    </div>
+                </div>
+
+                <!-- Cashflow Line Chart -->
                 <div class="app-card p-5 rounded-[24px]">
-                    <h4 class="text-sm font-bold txt-primary mb-4">Arus Kas (Masuk vs Keluar)</h4>
+                    <h4 class="text-sm font-bold txt-primary mb-4">Tren Arus Kas (Masuk vs Keluar)</h4>
                     <div class="h-48 w-full"><canvas id="chartCashflow"></canvas></div>
                 </div>
+
+                <!-- Expenses Distribution Doughnut Chart -->
                 <div class="app-card p-5 rounded-[24px]">
                     <h4 class="text-sm font-bold txt-primary mb-4">Distribusi Pengeluaran</h4>
                     <div class="h-52 w-full flex items-center justify-center relative">
@@ -449,8 +586,15 @@
                         <p id="chartCategoryEmpty" class="absolute hidden text-xs txt-muted font-medium text-center">Belum ada data pengeluaran</p>
                     </div>
                 </div>
+
+                <!-- Category Breakdown Table -->
+                <div class="app-card p-5 rounded-[24px] space-y-3">
+                    <h4 class="text-sm font-bold txt-primary">Rincian Per Kategori</h4>
+                    <div id="reportCategoryBreakdown" class="divide-y divide-[var(--border-color)] text-xs"></div>
+                </div>
             </section>
 
+            <!-- Chatbot Tab -->
             <section id="tabChatbot" class="hidden flex flex-col flex-1 h-full min-h-0 slide-up relative pb-2">
                 <div class="text-center pb-3 border-b border-[var(--border-color)] shrink-0">
                     <h3 class="text-lg font-bold txt-primary">Asisten Finansial AI</h3>
@@ -485,7 +629,6 @@
 
         </main>
 
-        <!-- Bottom Navigation -->
         <nav id="bottomNav" class="hidden absolute bottom-5 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] max-w-[340px] z-40 rounded-3xl p-1.5 backdrop-blur-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center justify-between border border-[var(--border-color)] transition-all duration-300 bg-[var(--nav-bg)]">
             <button type="button" onclick="switchTab('viewDashboard')" id="nav-viewDashboard" class="nav-item flex-1 py-3 flex flex-col items-center gap-1 txt-muted hover:txt-primary transition-all rounded-2xl">
                 <i class="fa-solid fa-house text-[1.1rem] transition-transform"></i>
@@ -498,8 +641,9 @@
                     <i class="fa-solid fa-chart-pie"></i>
                 </div>
             </button>
-            <button type="button" onclick="switchTab('tabGoals')" id="nav-tabGoals" class="nav-item flex-1 py-3 flex flex-col items-center gap-1 txt-muted hover:txt-primary transition-all rounded-2xl">
-                <i class="fa-solid fa-bullseye text-[1.1rem] transition-transform"></i>
+            <button type="button" onclick="switchTab('tabDebts')" id="nav-tabDebts" class="nav-item flex-1 py-3 flex flex-col items-center gap-1 txt-muted hover:txt-primary transition-all rounded-2xl relative">
+                <div id="navDebtBadge" class="hidden absolute top-2 right-3 w-2 h-2 bg-red-500 rounded-full animate-ping"></div>
+                <i class="fa-solid fa-hand-holding-dollar text-[1.1rem] transition-transform"></i>
             </button>
             <button type="button" onclick="switchTab('tabChatbot')" id="nav-tabChatbot" class="nav-item flex-1 py-3 flex flex-col items-center gap-1 txt-muted hover:txt-primary transition-all rounded-2xl relative">
                 <div class="absolute top-2 right-4 w-2 h-2 bg-[var(--text-accent)] rounded-full animate-ping opacity-75"></div>
@@ -511,6 +655,31 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bg-main)] to-transparent pointer-events-none z-30"></div>
     </div>
 
+    <!-- Modal Live WebRTC Camera for Standalone PWA -->
+    <div id="modalLiveCamera" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 modal-wrapper">
+        <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 border border-[var(--border-color)] my-auto text-center relative">
+            <div class="flex justify-between items-center mb-1">
+                <h3 class="text-sm font-bold txt-primary flex items-center gap-2"><i class="fa-solid fa-camera txt-accent"></i> Pratinjau Kamera Langsung</h3>
+                <button type="button" onclick="closeLiveCamera()" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="relative w-full h-64 rounded-2xl overflow-hidden bg-black border border-[var(--border-color)] flex items-center justify-center">
+                <video id="cameraVideoPreview" autoplay playsinline class="w-full h-full object-cover"></video>
+                <div class="absolute inset-4 border-2 border-dashed border-[var(--text-accent)]/60 rounded-xl pointer-events-none flex items-center justify-center">
+                    <span class="text-[10px] bg-black/60 px-2 py-1 rounded txt-accent">Posisikan Struk di Dalam Kotak</span>
+                </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeLiveCamera()" class="flex-1 py-3 app-subcard text-xs font-bold txt-secondary rounded-2xl">Batal</button>
+                <button type="button" onclick="captureLiveFrame()" class="flex-1 py-3 btn-lime text-xs rounded-2xl shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-dot"></i> Jepret Foto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Transaction -->
     <div id="modalTransaction" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
             <div class="flex justify-between items-center mb-1">
@@ -621,27 +790,50 @@
         </div>
     </div>
 
-    <!-- Modal Add Debt -->
+    <!-- Modal Add Debt & Piutang -->
     <div id="modalAddDebt" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 modal-wrapper">
         <div class="w-full max-w-md app-card rounded-[32px] p-6 space-y-4 max-h-[85dvh] overflow-y-auto hide-scroll slide-up border border-[var(--border-color)] my-auto">
             <div class="flex justify-between items-center mb-1">
-                <h3 class="text-base font-bold txt-primary">Catat Tagihan / Utang</h3>
+                <h3 class="text-base font-bold txt-primary">Catat Utang / Piutang</h3>
                 <button type="button" onclick="closeModal('modalAddDebt')" class="w-8 h-8 rounded-full bg-[var(--bg-subcard)] flex items-center justify-center txt-muted"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="handleAddDebt(event)" class="space-y-4 text-sm">
                 <div>
-                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Nama Tagihan / Keterangan</label>
-                    <input type="text" id="debtTitleInput" placeholder="Contoh: WiFi, Tagihan Listrik" class="app-input w-full px-4 py-3 rounded-2xl font-medium" required>
+                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Jenis Catatan</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="app-subcard p-3 rounded-2xl flex items-center gap-2 cursor-pointer border hover:border-[var(--border-highlight)]">
+                            <input type="radio" name="debtType" value="utang" checked class="accent-lime-400">
+                            <div>
+                                <p class="text-xs font-bold txt-expense">Utang Saya</p>
+                                <p class="text-[9px] txt-secondary">Saya meminjam</p>
+                            </div>
+                        </label>
+                        <label class="app-subcard p-3 rounded-2xl flex items-center gap-2 cursor-pointer border hover:border-[var(--border-highlight)]">
+                            <input type="radio" name="debtType" value="piutang" class="accent-lime-400">
+                            <div>
+                                <p class="text-xs font-bold txt-income">Piutang</p>
+                                <p class="text-[9px] txt-secondary">Orang berutang ke saya</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Nama Pihak / Kontak</label>
+                    <input type="text" id="debtPersonInput" placeholder="Contoh: Budi, Bank BCA, Toko Maju" class="app-input w-full px-4 py-3 rounded-2xl font-medium" required>
+                </div>
+                <div>
+                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Judul / Keterangan</label>
+                    <input type="text" id="debtTitleInput" placeholder="Contoh: Pinjaman Usaha, Belanja Barang" class="app-input w-full px-4 py-3 rounded-2xl font-medium" required>
                 </div>
                 <div>
                     <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Nominal (Rp)</label>
-                    <input type="number" id="debtAmountInput" placeholder="0" class="app-input w-full px-4 py-3 rounded-2xl font-bold text-lg txt-expense" required min="1">
+                    <input type="number" id="debtAmountInput" placeholder="0" class="app-input w-full px-4 py-3 rounded-2xl font-bold text-lg txt-accent" required min="1">
                 </div>
                 <div>
-                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Tanggal Jatuh Tempo</label>
+                    <label class="block font-medium txt-secondary mb-1.5 text-xs ml-1">Tanggal Jatuh Tempo (Pengingat/Alert)</label>
                     <input type="date" id="debtDueDateInput" class="app-input w-full px-4 py-3 rounded-2xl font-medium" required>
                 </div>
-                <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Simpan Tagihan</button>
+                <button type="submit" class="w-full py-3.5 btn-lime text-sm rounded-2xl active:scale-95">Simpan Catatan Utang / Piutang</button>
             </form>
         </div>
     </div>
@@ -712,6 +904,23 @@
         </div>
     </div>
 
+    <!-- Custom Confirmation Modal -->
+    <div id="modalConfirmAction" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 modal-wrapper">
+        <div class="w-full max-w-sm app-card rounded-[32px] p-6 space-y-4 border border-[var(--border-color)] my-auto text-center">
+            <div id="confirmModalIcon" class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mx-auto">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <div>
+                <h4 id="confirmModalTitle" class="text-base font-bold txt-primary">Konfirmasi Tindakan</h4>
+                <p id="confirmModalMessage" class="text-xs txt-secondary mt-1 leading-relaxed">Apakah Anda yakin ingin melanjutkan?</p>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('modalConfirmAction')" class="flex-1 py-3 app-subcard text-xs font-bold txt-secondary rounded-2xl hover:txt-primary">Batal</button>
+                <button type="button" id="confirmModalExecuteBtn" class="flex-1 py-3 btn-lime text-xs rounded-2xl">Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyxejM4mHPOj5Px6KuBppL9TkQ5unEWJFQy3ScXEjkpjuZdgqemVUtX5xAcE1Rc038h/exec";
         const DEFAULT_LOGO_URL = "https://drive.google.com/file/d/1oI6h5HgvhuisD0Lg98YnbQaTd52Pa3rj/view?usp=sharing"; 
@@ -725,6 +934,8 @@
             transactions: [], 
             goals: [], 
             debts: [], 
+            debtFilter: 'all',
+            reportPeriod: 'all',
             gasUrl: DEFAULT_GAS_URL,
             logoUrl: DEFAULT_LOGO_URL
         };
@@ -733,13 +944,14 @@
         let scannedDataTemp = null;
         let isRegisterMode = false;
         let deferredPrompt = null;
+        let mediaStreamInstance = null;
 
-        /* PWA Service Worker Registration using Dynamic Blob */
+        /* PWA Service Worker Registration */
         function initPwaServiceWorker() {
             if ('serviceWorker' in navigator) {
                 try {
                     const swCode = `
-                        const CACHE_NAME = 'fulusku-pwa-v5';
+                        const CACHE_NAME = 'fulusku-pwa-v7';
                         const ASSETS = [
                             './',
                             'https://cdn.tailwindcss.com',
@@ -748,43 +960,20 @@
                             'https://cdn.jsdelivr.net/npm/chart.js'
                         ];
                         self.addEventListener('install', (e) => {
-                            e.waitUntil(
-                                caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
-                            );
+                            e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
                         });
                         self.addEventListener('activate', (e) => {
-                            e.waitUntil(
-                                caches.keys().then((keys) => Promise.all(
-                                    keys.map((k) => { if(k !== CACHE_NAME) return caches.delete(k); })
-                                )).then(() => self.clients.claim())
-                            );
+                            e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => { if(k !== CACHE_NAME) return caches.delete(k); }))).then(() => self.clients.claim()));
                         });
                         self.addEventListener('fetch', (e) => {
                             if (e.request.method !== 'GET') return;
-                            e.respondWith(
-                                caches.match(e.request).then((cached) => {
-                                    return cached || fetch(e.request).then((netRes) => {
-                                        return caches.open(CACHE_NAME).then((cache) => {
-                                            try { cache.put(e.request, netRes.clone()); } catch(err){}
-                                            return netRes;
-                                        });
-                                    }).catch(() => {
-                                        if (e.request.headers.get('accept')?.includes('text/html')) {
-                                            return caches.match('./');
-                                        }
-                                    });
-                                })
-                            );
+                            e.respondWith(caches.match(e.request).then((cached) => cached || fetch(e.request).catch(() => caches.match('./'))));
                         });
                     `;
                     const blob = new Blob([swCode], { type: 'application/javascript' });
                     const swUrl = URL.createObjectURL(blob);
-                    navigator.serviceWorker.register(swUrl).then(() => {
-                        console.log('FuluskuAI PWA Service Worker registered successfully.');
-                    }).catch(err => console.warn('SW registration info:', err.message));
-                } catch(e) {
-                    console.warn('SW Blob error:', e.message);
-                }
+                    navigator.serviceWorker.register(swUrl).catch(err => console.warn('SW info:', err.message));
+                } catch(e) {}
             }
         }
 
@@ -816,7 +1005,7 @@
             } else if (isIosSafari() || /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                 openModal('modalIosPwa');
             } else {
-                showToast("Buka titik 3 di browser HP Anda ➔ Ketuk 'Instal aplikasi' / 'Tambahkan ke Layar Utama'", "info");
+                showToast("Buka menu browser HP ➔ Ketuk 'Instal aplikasi' / 'Tambahkan ke Layar Utama'", "info");
             }
         }
 
@@ -869,6 +1058,7 @@
                     else if (action === 'saveTransaction') google.script.run.withSuccessHandler(resolve).saveTransactionData(payload.transaction);
                     else if (action === 'saveGoal') google.script.run.withSuccessHandler(resolve).saveGoalData(payload.goal);
                     else if (action === 'saveDebt') google.script.run.withSuccessHandler(resolve).saveDebtData(payload.debt);
+                    else if (action === 'updateDebtStatus') google.script.run.withSuccessHandler(resolve).updateDebtStatus(payload.debtId, payload.status);
                     else if (action === 'analyzeReceipt') google.script.run.withSuccessHandler(resolve).analyzeReceiptWithGroq(payload.base64);
                     else if (action === 'askChatbot') google.script.run.withSuccessHandler(resolve).askGroqChatbot(payload.message, payload.summaryContext);
                     else if (action === 'ping') resolve({ status: 'success', message: 'Apps Script Active' });
@@ -890,7 +1080,7 @@
                 });
                 return await response.json();
             } catch (err) {
-                return { status: 'error', message: 'Menggunakan mode penyimpanan lokal.' };
+                return { status: 'error', message: 'Mode penyimpanan lokal aktif.' };
             }
         }
 
@@ -933,14 +1123,9 @@
                 let fileId = '';
                 const matchFileD = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
                 const matchIdParam = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-                if (matchFileD && matchFileD[1]) {
-                    fileId = matchFileD[1];
-                } else if (matchIdParam && matchIdParam[1]) {
-                    fileId = matchIdParam[1];
-                }
-                if (fileId) {
-                    return `https://lh3.googleusercontent.com/d/${fileId}`;
-                }
+                if (matchFileD && matchFileD[1]) fileId = matchFileD[1];
+                else if (matchIdParam && matchIdParam[1]) fileId = matchIdParam[1];
+                if (fileId) return `https://lh3.googleusercontent.com/d/${fileId}`;
             }
             return str;
         }
@@ -954,21 +1139,13 @@
             const formattedUrl = formatGoogleDriveUrl(url);
 
             if (formattedUrl && formattedUrl.trim() !== '') {
-                if (logoImg) {
-                    logoImg.src = formattedUrl;
-                    logoImg.classList.remove('hidden');
-                }
+                if (logoImg) { logoImg.src = formattedUrl; logoImg.classList.remove('hidden'); }
                 if (fallbackIcon) fallbackIcon.classList.add('hidden');
-
-                if (loginLogoImg) {
-                    loginLogoImg.src = formattedUrl;
-                    loginLogoImg.classList.remove('hidden');
-                }
+                if (loginLogoImg) { loginLogoImg.src = formattedUrl; loginLogoImg.classList.remove('hidden'); }
                 if (authIcon) authIcon.classList.add('hidden');
             } else {
                 if (logoImg) logoImg.classList.add('hidden');
                 if (fallbackIcon) fallbackIcon.classList.remove('hidden');
-
                 if (loginLogoImg) loginLogoImg.classList.add('hidden');
                 if (authIcon) authIcon.classList.remove('hidden');
             }
@@ -1046,6 +1223,25 @@
         function closeModal(modalId) { 
             const modal = document.getElementById(modalId); 
             if (modal) modal.classList.add('hidden'); 
+        }
+
+        function openConfirmModal(title, message, iconClass, onExecute) {
+            const modal = document.getElementById('modalConfirmAction');
+            if (!modal) return;
+            
+            document.getElementById('confirmModalTitle').innerText = title;
+            document.getElementById('confirmModalMessage').innerText = message;
+            
+            const iconContainer = document.getElementById('confirmModalIcon');
+            if (iconContainer) iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+
+            const btn = document.getElementById('confirmModalExecuteBtn');
+            btn.onclick = function() {
+                closeModal('modalConfirmAction');
+                if (onExecute) onExecute();
+            };
+
+            modal.classList.remove('hidden');
         }
 
         function updateClock() { 
@@ -1137,16 +1333,18 @@
             if (target) target.classList.remove('hidden');
 
             document.querySelectorAll('#bottomNav .nav-item').forEach(b => b.classList.remove('active'));
-            if (tabId !== 'tabReports' && document.getElementById(`nav-${tabId}`)) {
+            if (document.getElementById(`nav-${tabId}`)) {
                 document.getElementById(`nav-${tabId}`).classList.add('active');
             }
 
             if (tabId === 'tabReports') {
                 setTimeout(() => {
                     initCharts();
-                    updateDashboardCharts();
+                    renderFullReportView();
                     updateChartsTheme();
                 }, 100);
+            } else if (tabId === 'tabDebts') {
+                renderDebts();
             } else if (tabId === 'tabChatbot') {
                 setTimeout(() => {
                     const box = document.getElementById('chatMessages');
@@ -1173,6 +1371,7 @@
             appState.user = null; 
             appState.wallets = []; 
             appState.transactions = []; 
+            appState.debts = [];
             refreshAllViews(); 
             switchPage('landing'); 
         }
@@ -1222,8 +1421,9 @@
             renderTransactions(); 
             renderGoals(); 
             renderDebts(); 
+            checkUrgentDebtsAlert();
             populateWalletOptions(); 
-            if (!document.getElementById('tabReports').classList.contains('hidden')) updateDashboardCharts();
+            if (!document.getElementById('tabReports').classList.contains('hidden')) renderFullReportView();
         }
 
         function showToast(msg, type = "info") { 
@@ -1232,7 +1432,7 @@
             const color = type === 'success' ? 'border-emerald-500 txt-income' : (type === 'error' ? 'border-red-500 txt-expense' : 'border-lime-400 txt-accent'); 
             const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-triangle-exclamation' : 'fa-info-circle'); 
             const toast = document.createElement('div'); 
-            toast.className = `app-card p-3 rounded-2xl border-l-4 ${color} text-xs font-bold txt-primary flex items-center gap-3 slide-up`; 
+            toast.className = `app-card p-3.5 rounded-2xl border-l-4 ${color} text-xs font-bold txt-primary flex items-center gap-3 slide-up shadow-xl backdrop-blur-md`; 
             toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHTML(msg)}</span>`; 
             box.appendChild(toast); 
             setTimeout(() => { 
@@ -1269,10 +1469,12 @@
                 showToast("Minimal harus menyisakan 1 dompet", "warning");
                 return;
             }
-            appState.wallets = appState.wallets.filter(w => w.id !== id);
-            saveLocalData();
-            refreshAllViews();
-            showToast("Dompet dihapus", "info");
+            openConfirmModal("Hapus Dompet", "Apakah Anda yakin ingin menghapus dompet ini?", "fa-solid fa-trash text-red-400", function() {
+                appState.wallets = appState.wallets.filter(w => w.id !== id);
+                saveLocalData();
+                refreshAllViews();
+                showToast("Dompet dihapus", "info");
+            });
         }
 
         function renderTransactions() { 
@@ -1306,18 +1508,20 @@
         }
 
         function deleteTransaction(id) {
-            const txIndex = appState.transactions.findIndex(t => t.id === id);
-            if (txIndex !== -1) {
-                const tx = appState.transactions[txIndex];
-                const wallet = appState.wallets.find(w => w.id === tx.walletId);
-                if (wallet) {
-                    tx.type === 'expense' ? wallet.balance += Number(tx.amount) : wallet.balance -= Number(tx.amount);
+            openConfirmModal("Hapus Transaksi", "Apakah Anda yakin ingin menghapus catatan transaksi ini?", "fa-solid fa-trash text-red-400", function() {
+                const txIndex = appState.transactions.findIndex(t => t.id === id);
+                if (txIndex !== -1) {
+                    const tx = appState.transactions[txIndex];
+                    const wallet = appState.wallets.find(w => w.id === tx.walletId);
+                    if (wallet) {
+                        tx.type === 'expense' ? wallet.balance += Number(tx.amount) : wallet.balance -= Number(tx.amount);
+                    }
+                    appState.transactions.splice(txIndex, 1);
+                    saveLocalData();
+                    refreshAllViews();
+                    showToast("Transaksi dihapus", "info");
                 }
-                appState.transactions.splice(txIndex, 1);
-                saveLocalData();
-                refreshAllViews();
-                showToast("Transaksi dihapus", "info");
-            }
+            });
         }
 
         function renderGoals() { 
@@ -1350,28 +1554,184 @@
             showToast("Target dihapus", "info");
         }
 
+        function checkUrgentDebtsAlert() {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            let urgentCount = 0;
+            let overdueCount = 0;
+
+            const unpaidDebts = appState.debts.filter(d => (d.status || 'belum_lunas') === 'belum_lunas');
+
+            unpaidDebts.forEach(d => {
+                if (d.dueDate) {
+                    const due = new Date(d.dueDate);
+                    due.setHours(0, 0, 0, 0);
+                    const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
+                    if (diffDays <= 3 && diffDays >= 0) urgentCount++;
+                    else if (diffDays < 0) overdueCount++;
+                }
+            });
+
+            const banner = document.getElementById('urgentDebtAlertBanner');
+            const navBadge = document.getElementById('navDebtBadge');
+            const bannerTitle = document.getElementById('alertBannerTitle');
+            const bannerDesc = document.getElementById('alertBannerDesc');
+
+            const totalAlerts = urgentCount + overdueCount;
+
+            if (totalAlerts > 0) {
+                if (banner) banner.classList.remove('hidden');
+                if (navBadge) navBadge.classList.remove('hidden');
+
+                if (overdueCount > 0) {
+                    if (bannerTitle) bannerTitle.innerText = `⚠️ ${overdueCount} Tagihan Melewati Jatuh Tempo!`;
+                    if (bannerDesc) bannerDesc.innerText = `Ada utang/piutang yang sudah jatuh tempo. Segera selesaikan!`;
+                } else {
+                    if (bannerTitle) bannerTitle.innerText = `🔔 ${urgentCount} Tagihan Mendekati Jatuh Tempo`;
+                    if (bannerDesc) bannerDesc.innerText = `Jatuh tempo dalam 3 hari ke depan. Jangan sampai terlambat!`;
+                }
+            } else {
+                if (banner) banner.classList.add('hidden');
+                if (navBadge) navBadge.classList.add('hidden');
+            }
+        }
+
+        function setDebtFilter(filter) {
+            appState.debtFilter = filter;
+            ['all', 'utang', 'piutang', 'urgent'].forEach(f => {
+                const btn = document.getElementById(`debtFilter${f.charAt(0).toUpperCase() + f.slice(1)}`);
+                if (btn) {
+                    if (f === filter) btn.className = 'flex-1 py-2 rounded-xl text-[11px] transition-all bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-bold';
+                    else btn.className = 'flex-1 py-2 rounded-xl text-[11px] transition-all txt-secondary hover:txt-primary font-bold';
+                }
+            });
+            renderDebts();
+        }
+
         function renderDebts() { 
             const container = document.getElementById('debtsList'); 
             if(!container) return; 
-            container.innerHTML = appState.debts.map(d => `
-                <div class="app-card p-4 rounded-2xl mb-3 flex justify-between items-center group">
-                    <div>
-                        <h4 class="text-sm font-bold txt-primary">${escapeHTML(d.title)}</h4>
-                        <p class="text-[10px] txt-secondary mt-0.5"><i class="fa-solid fa-calendar-day mr-1"></i> Jatuh Tempo: ${d.dueDate}</p>
+
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            let totalUtang = 0, countUtang = 0;
+            let totalPiutang = 0, countPiutang = 0;
+
+            appState.debts.forEach(d => {
+                const isUnpaid = (d.status || 'belum_lunas') === 'belum_lunas';
+                const isUtang = (d.type || 'utang') === 'utang';
+                if (isUnpaid) {
+                    if (isUtang) { totalUtang += Number(d.amount || 0); countUtang++; }
+                    else { totalPiutang += Number(d.amount || 0); countPiutang++; }
+                }
+            });
+
+            document.getElementById('summaryTotalUtang').innerText = formatRp(totalUtang);
+            document.getElementById('summaryCountUtang').innerText = `${countUtang} Catatan Belum Lunas`;
+            document.getElementById('summaryTotalPiutang').innerText = formatRp(totalPiutang);
+            document.getElementById('summaryCountPiutang').innerText = `${countPiutang} Catatan Belum Ditagih`;
+
+            document.getElementById('dashUtangText').innerText = formatRp(totalUtang);
+            document.getElementById('dashPiutangText').innerText = formatRp(totalPiutang);
+
+            let filtered = appState.debts;
+            if (appState.debtFilter === 'utang') {
+                filtered = filtered.filter(d => (d.type || 'utang') === 'utang');
+            } else if (appState.debtFilter === 'piutang') {
+                filtered = filtered.filter(d => (d.type || 'utang') === 'piutang');
+            } else if (appState.debtFilter === 'urgent') {
+                filtered = filtered.filter(d => {
+                    if ((d.status || 'belum_lunas') === 'lunas') return false;
+                    if (!d.dueDate) return false;
+                    const due = new Date(d.dueDate);
+                    due.setHours(0, 0, 0, 0);
+                    const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
+                    return diffDays <= 3;
+                });
+            }
+
+            container.innerHTML = filtered.map(d => {
+                const isUtang = (d.type || 'utang') === 'utang';
+                const isLunas = (d.status || 'belum_lunas') === 'lunas';
+                
+                let alertBadge = '';
+                let borderClass = 'border-[var(--border-color)]';
+
+                if (!isLunas && d.dueDate) {
+                    const due = new Date(d.dueDate);
+                    due.setHours(0, 0, 0, 0);
+                    const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
+
+                    if (diffDays < 0) {
+                        alertBadge = `<span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-red-500/20 text-red-400 border border-red-500/40">Lewat ${Math.abs(diffDays)} Hari!</span>`;
+                        borderClass = 'pulse-warning';
+                    } else if (diffDays <= 3) {
+                        alertBadge = `<span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/40">H-${diffDays} Jatuh Tempo</span>`;
+                        borderClass = 'border-amber-500/50';
+                    }
+                }
+
+                return `
+                    <div class="app-card p-4 rounded-2xl border ${borderClass} space-y-3 group transition-all">
+                        <div class="flex justify-between items-start gap-2">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2 py-0.5 rounded-md text-[9px] font-bold ${isUtang ? 'bg-red-500/20 text-red-400' : 'bg-emerald-500/20 text-emerald-400'} uppercase">
+                                        ${isUtang ? 'Utang Saya' : 'Piutang'}
+                                    </span>
+                                    <span class="px-2 py-0.5 rounded-md text-[9px] font-bold ${isLunas ? 'bg-lime-400/20 text-lime-400' : 'bg-zinc-700/50 txt-secondary'}">
+                                        ${isLunas ? 'LUNAS' : 'Belum Lunas'}
+                                    </span>
+                                    ${alertBadge}
+                                </div>
+                                <h4 class="text-sm font-extrabold txt-primary">${escapeHTML(d.title)}</h4>
+                                <p class="text-[11px] txt-secondary mt-0.5"><i class="fa-solid fa-user text-[10px] mr-1 txt-accent"></i> Pihak: <strong>${escapeHTML(d.person || '-')}</strong></p>
+                            </div>
+                            <strong class="text-base font-extrabold ${isUtang ? 'txt-expense' : 'txt-income'}">${formatRp(d.amount)}</strong>
+                        </div>
+
+                        <div class="flex justify-between items-center pt-2 border-t border-[var(--border-color)] text-[10px] txt-secondary">
+                            <span><i class="fa-solid fa-calendar-day mr-1"></i> ${d.dueDate || 'Tanpa Tanggal'}</span>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="toggleDebtStatus('${d.id}')" class="px-2.5 py-1.5 rounded-xl font-bold ${isLunas ? 'bg-zinc-800 text-zinc-400' : 'btn-lime'} transition-all">
+                                    ${isLunas ? 'Tandai Belum Lunas' : '<i class="fa-solid fa-check mr-1"></i> Tandai Lunas'}
+                                </button>
+                                <button type="button" onclick="deleteDebt('${d.id}')" class="p-1.5 text-red-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <strong class="text-sm txt-expense">${formatRp(d.amount)}</strong>
-                        <button type="button" onclick="deleteDebt('${d.id}')" class="text-xs text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('') || `<p class="text-xs txt-muted text-center py-6">Tidak ada tagihan.</p>`; 
+                `;
+            }).join('') || `<p class="text-xs txt-muted text-center py-8">Tidak ada catatan utang/piutang.</p>`; 
+        }
+
+        async function toggleDebtStatus(debtId) {
+            const debt = appState.debts.find(d => d.id === debtId);
+            if (!debt) return;
+
+            const newStatus = (debt.status || 'belum_lunas') === 'lunas' ? 'belum_lunas' : 'lunas';
+            debt.status = newStatus;
+
+            saveLocalData();
+            refreshAllViews();
+
+            if (newStatus === 'lunas') {
+                showToast("Catatan ditandai LUNAS!", "success");
+            } else {
+                showToast("Status dikembalikan ke Belum Lunas.", "info");
+            }
+
+            callBackend('updateDebtStatus', { debtId: debtId, status: newStatus });
         }
 
         function deleteDebt(id) {
-            appState.debts = appState.debts.filter(d => d.id !== id);
-            saveLocalData();
-            refreshAllViews();
-            showToast("Tagihan dihapus", "info");
+            openConfirmModal("Hapus Catatan", "Yakin ingin menghapus catatan utang/piutang ini?", "fa-solid fa-trash text-red-400", function() {
+                appState.debts = appState.debts.filter(d => d.id !== id);
+                saveLocalData();
+                refreshAllViews();
+                showToast("Catatan dihapus", "info");
+            });
         }
 
         function populateWalletOptions() { 
@@ -1487,20 +1847,127 @@
 
         async function handleAddDebt(e) {
             e.preventDefault();
+            const typeEl = document.querySelector('input[name="debtType"]:checked');
+            const type = typeEl ? typeEl.value : 'utang';
+            const person = document.getElementById('debtPersonInput')?.value.trim() || '-';
             const title = document.getElementById('debtTitleInput')?.value.trim();
             const amount = Number(document.getElementById('debtAmountInput')?.value || 0);
             const dueDate = document.getElementById('debtDueDateInput')?.value;
 
             if (!title || !amount || !dueDate) return;
 
-            const debt = { id: 'd_' + Date.now(), title, amount, dueDate };
+            const debt = { 
+                id: 'd_' + Date.now(), 
+                title, 
+                amount, 
+                dueDate, 
+                type, 
+                status: 'belum_lunas',
+                person 
+            };
+
             appState.debts.push(debt);
             saveLocalData();
             refreshAllViews();
             closeModal('modalAddDebt');
-            showToast("Tagihan/Utang berhasil dicatat!", "success");
+            showToast(type === 'utang' ? "Utang berhasil dicatat!" : "Piutang berhasil dicatat!", "success");
 
             callBackend('saveDebt', { debt });
+        }
+
+        function setReportPeriod(period) {
+            appState.reportPeriod = period;
+            ['all', 'month', 'lastMonth', 'year'].forEach(p => {
+                const btn = document.getElementById(`reportPeriod${p.charAt(0).toUpperCase() + p.slice(1)}`);
+                if (btn) {
+                    if (p === period) btn.className = 'flex-1 py-2 rounded-xl text-[10px] transition-all bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-bold';
+                    else btn.className = 'flex-1 py-2 rounded-xl text-[10px] transition-all txt-secondary hover:txt-primary font-bold';
+                }
+            });
+            renderFullReportView();
+        }
+
+        function filterTransactionsByPeriod(txs, period) {
+            if (period === 'all') return txs;
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth();
+
+            return txs.filter(t => {
+                if (!t.date) return false;
+                const d = new Date(t.date);
+                if (period === 'month') {
+                    return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+                } else if (period === 'lastMonth') {
+                    const lm = currentMonth === 0 ? 11 : currentMonth - 1;
+                    const ly = currentMonth === 0 ? currentYear - 1 : currentYear;
+                    return d.getFullYear() === ly && d.getMonth() === lm;
+                } else if (period === 'year') {
+                    return d.getFullYear() === currentYear;
+                }
+                return true;
+            });
+        }
+
+        function renderFullReportView() {
+            initCharts();
+            const periodTxs = filterTransactionsByPeriod(appState.transactions, appState.reportPeriod);
+
+            let totalIn = 0, totalOut = 0;
+            const categorySums = {};
+
+            periodTxs.forEach(t => {
+                const amt = Number(t.amount || 0);
+                if (t.type === 'income') {
+                    totalIn += amt;
+                } else {
+                    totalOut += amt;
+                    categorySums[t.category] = (categorySums[t.category] || 0) + amt;
+                }
+            });
+
+            const netCashflow = totalIn - totalOut;
+            const savingsRate = totalIn > 0 ? Math.max(0, Math.round((netCashflow / totalIn) * 100)) : 0;
+
+            document.getElementById('reportTotalIncome').innerText = formatRp(totalIn);
+            document.getElementById('reportTotalExpense').innerText = formatRp(totalOut);
+            
+            const netEl = document.getElementById('reportNetCashflow');
+            if (netEl) {
+                netEl.innerText = formatRp(netCashflow);
+                netEl.className = `text-base font-extrabold ${netCashflow >= 0 ? 'txt-income' : 'txt-expense'}`;
+            }
+
+            document.getElementById('reportSavingsRate').innerText = `${savingsRate}%`;
+
+            // Category Table
+            const catContainer = document.getElementById('reportCategoryBreakdown');
+            if (catContainer) {
+                const cats = Object.keys(categorySums);
+                if (cats.length === 0) {
+                    catContainer.innerHTML = `<p class="text-xs txt-muted text-center py-4">Belum ada pengeluaran pada periode ini.</p>`;
+                } else {
+                    catContainer.innerHTML = cats.map(c => {
+                        const amt = categorySums[c];
+                        const pct = totalOut > 0 ? Math.round((amt / totalOut) * 100) : 0;
+                        return `
+                            <div class="py-2.5 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-lime-400"></div>
+                                    <span class="txt-primary font-bold">${escapeHTML(c)}</span>
+                                </div>
+                                <div class="text-right">
+                                    <strong class="txt-primary block">${formatRp(amt)}</strong>
+                                    <span class="text-[10px] txt-secondary">${pct}% dari total</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Charts
+            updateReportCharts(periodTxs, categorySums);
         }
 
         function initCharts() {
@@ -1541,10 +2008,10 @@
             });
         }
 
-        function updateDashboardCharts() {
+        function updateReportCharts(periodTxs, categorySums) {
             if (!chartCashflowInstance || !chartCategoryInstance) return;
 
-            const recentTxs = [...appState.transactions].reverse().slice(-10);
+            const recentTxs = [...periodTxs].reverse().slice(-10);
             const dates = [...new Set(recentTxs.map(t => t.date))].sort();
 
             const incomeData = dates.map(d => recentTxs.filter(t => t.date === d && t.type === 'income').reduce((s, t) => s + Number(t.amount), 0));
@@ -1558,12 +2025,6 @@
                 ]
             };
             chartCashflowInstance.update();
-
-            const expenses = appState.transactions.filter(t => t.type === 'expense');
-            const categorySums = {};
-            expenses.forEach(t => {
-                categorySums[t.category] = (categorySums[t.category] || 0) + Number(t.amount);
-            });
 
             const categories = Object.keys(categorySums);
             const catData = Object.values(categorySums);
@@ -1582,21 +2043,6 @@
                 }]
             };
             chartCategoryInstance.update();
-
-            const reportInsight = document.getElementById('reportInsightText');
-            if (reportInsight) {
-                const totalIn = appState.transactions.filter(t => t.type === 'income').reduce((s, t) => s + Number(t.amount), 0);
-                const totalOut = expenses.reduce((s, t) => s + Number(t.amount), 0);
-                if (totalOut > totalIn && totalIn > 0) {
-                    reportInsight.innerText = "⚠️ Pengeluaran Anda melebihi pemasukan bulan ini! Evaluasi kategori belanja non-esensial.";
-                } else if (categories.length > 0) {
-                    let topCat = categories[0];
-                    categories.forEach(c => { if (categorySums[c] > categorySums[topCat]) topCat = c; });
-                    reportInsight.innerText = `💡 Pengeluaran terbesar Anda dialokasikan untuk kategori "${topCat}". Pertimbangkan untuk mengaturnya.`;
-                } else {
-                    reportInsight.innerText = "💡 Belum cukup data transaksi untuk membuat rekomendasi analitik.";
-                }
-            }
         }
 
         function updateChartsTheme() {
@@ -1613,84 +2059,179 @@
             chartCategoryInstance.update();
         }
 
+        function exportFinancialReport() {
+            window.print();
+        }
+
+        async function requestAiFinancialSummary() {
+            showToast("Meminta analisis AI...", "info");
+            const periodTxs = filterTransactionsByPeriod(appState.transactions, appState.reportPeriod);
+            const totalIn = periodTxs.filter(t => t.type === 'income').reduce((s, t) => s + Number(t.amount), 0);
+            const totalOut = periodTxs.filter(t => t.type === 'expense').reduce((s, t) => s + Number(t.amount), 0);
+
+            const prompt = `/analisis Keuangan: Pemasukan Rp ${totalIn}, Pengeluaran Rp ${totalOut}, Saldo Aset Rp ${calculateTotalBalance()}`;
+            const summaryContext = { totalBalance: calculateTotalBalance(), totalIn, totalOut };
+
+            const res = await callBackend('askChatbot', { message: prompt, summaryContext });
+            if (res && res.status === 'success' && res.reply) {
+                document.getElementById('reportInsightText').innerHTML = parseMarkdownToHTML(res.reply);
+                showToast("Analisis AI diperbarui!", "success");
+            }
+        }
+
+        /* Standalone PWA Live WebRTC Camera Handler */
+        async function openLiveCamera() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast("PWA/Browser tidak mendukung akses kamera langsung. Pilih opsi Galeri.", "error");
+                return;
+            }
+
+            try {
+                openModal('modalLiveCamera');
+                const video = document.getElementById('cameraVideoPreview');
+                
+                let constraints = { video: { facingMode: { exact: "environment" } } };
+                try {
+                    mediaStreamInstance = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (e) {
+                    constraints = { video: true };
+                    mediaStreamInstance = await navigator.mediaDevices.getUserMedia(constraints);
+                }
+
+                if (video) {
+                    video.srcObject = mediaStreamInstance;
+                    await video.play();
+                }
+            } catch (err) {
+                closeLiveCamera();
+                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                    showToast("Izin kamera ditolak. Berikan izin kamera untuk Chrome/PWA di Pengaturan HP.", "error");
+                } else {
+                    showToast("Gagal membuka kamera: " + err.message, "error");
+                }
+            }
+        }
+
+        function closeLiveCamera() {
+            if (mediaStreamInstance) {
+                mediaStreamInstance.getTracks().forEach(track => track.stop());
+                mediaStreamInstance = null;
+            }
+            const video = document.getElementById('cameraVideoPreview');
+            if (video) video.srcObject = null;
+            closeModal('modalLiveCamera');
+        }
+
+        function captureLiveFrame() {
+            const video = document.getElementById('cameraVideoPreview');
+            if (!video || !video.videoWidth) {
+                showToast("Kamera belum siap.", "warning");
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const img = new Image();
+            img.onload = function() {
+                closeLiveCamera();
+                compressAndProcessImage(img);
+            };
+            img.src = canvas.toDataURL('image/jpeg', 0.9);
+        }
+
+        /* Universal Image File Handler via FileReader for PWA Compatibility */
         function processReceiptScan(event) {
             const file = event.target.files && event.target.files[0]; 
             if (!file) return;
-            
+
+            showScanLoading('Membaca File Gambar...', 'Memproses foto struk dari perangkat Anda');
+
+            const reader = new FileReader();
+            reader.onerror = function() {
+                resetScanUI();
+                showToast("Gagal membaca file gambar.", "error");
+                event.target.value = '';
+            };
+
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onerror = function() {
+                    resetScanUI();
+                    showToast("Format gambar tidak didukung atau rusak.", "error");
+                    event.target.value = '';
+                };
+                img.onload = function() {
+                    compressAndProcessImage(img);
+                    event.target.value = '';
+                };
+                img.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function showScanLoading(mainText, subText) {
             const scanIcon = document.getElementById('scanIcon');
             const scanMainLabel = document.getElementById('scanMainLabel');
             const scanSubLabel = document.getElementById('scanSubLabel');
 
             if (scanIcon) scanIcon.className = 'fa-solid fa-spinner fa-spin text-2xl txt-accent';
-            if (scanMainLabel) scanMainLabel.innerText = 'Mengompresi Gambar...';
-            if (scanSubLabel) scanSubLabel.innerText = 'Mempersiapkan gambar untuk AI';
+            if (scanMainLabel) scanMainLabel.innerText = mainText;
+            if (scanSubLabel) scanSubLabel.innerText = subText;
+        }
 
-            const objectUrl = URL.createObjectURL(file);
-            const img = new Image();
+        async function compressAndProcessImage(img) {
+            try {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                const MAX_DIM = 800;
 
-            img.onerror = function() {
-                URL.revokeObjectURL(objectUrl);
-                resetScanUI();
-                showToast("Format gambar tidak didukung atau rusak.", "error");
-                event.target.value = '';
-            };
-
-            img.onload = async function() {
-                try {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    const MAX_DIM = 800; // Kompresi optimal untuk pemindaian instan
-
-                    if (width > MAX_DIM || height > MAX_DIM) {
-                        if (width > height) {
-                            height = Math.round((height * MAX_DIM) / width);
-                            width = MAX_DIM;
-                        } else {
-                            width = Math.round((width * MAX_DIM) / height);
-                            height = MAX_DIM;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                    URL.revokeObjectURL(objectUrl);
-
-                    if (scanMainLabel) scanMainLabel.innerText = 'AI Memindai Struk...';
-                    if (scanSubLabel) scanSubLabel.innerText = 'Mengekstraksi toko, tanggal, & nominal';
-
-                    const res = await callBackend('analyzeReceipt', { base64: compressedBase64 });
-                    resetScanUI();
-
-                    if (res && res.status === 'success' && res.data) {
-                        scannedDataTemp = res.data;
-                        document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant Struk');
-                        document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
-                        document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
-                        
-                        const catSpan = document.getElementById('scanCategory');
-                        if (catSpan) catSpan.innerText = escapeHTML(res.data.category || 'Belanja');
-
-                        document.getElementById('scanResultCard').classList.remove('hidden');
-                        showToast("Struk berhasil dianalisis!", "success");
+                if (width > MAX_DIM || height > MAX_DIM) {
+                    if (width > height) {
+                        height = Math.round((height * MAX_DIM) / width);
+                        width = MAX_DIM;
                     } else {
-                        const errMsg = (res && res.message) ? res.message : "Gagal memindai struk. Coba lagi.";
-                        showToast("Gagal Vision AI: " + errMsg, "error");
+                        width = Math.round((width * MAX_DIM) / height);
+                        height = MAX_DIM;
                     }
-                } catch (err) {
-                    URL.revokeObjectURL(objectUrl);
-                    resetScanUI();
-                    showToast("Error memproses foto: " + err.message, "error");
-                } finally {
-                    event.target.value = ''; 
                 }
-            };
 
-            img.src = objectUrl;
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                showScanLoading('AI Memindai Struk...', 'Mengekstraksi toko, tanggal, & nominal');
+
+                const res = await callBackend('analyzeReceipt', { base64: compressedBase64 });
+                resetScanUI();
+
+                if (res && res.status === 'success' && res.data) {
+                    scannedDataTemp = res.data;
+                    document.getElementById('scanMerchant').innerText = escapeHTML(res.data.merchant || 'Merchant Struk');
+                    document.getElementById('scanDate').innerText = escapeHTML(res.data.date || new Date().toISOString().split('T')[0]);
+                    document.getElementById('scanTotal').innerText = formatRp(res.data.total || 0);
+                    
+                    const catSpan = document.getElementById('scanCategory');
+                    if (catSpan) catSpan.innerText = escapeHTML(res.data.category || 'Belanja');
+
+                    document.getElementById('scanResultCard').classList.remove('hidden');
+                    showToast("Struk berhasil dianalisis!", "success");
+                } else {
+                    const errMsg = (res && res.message) ? res.message : "Gagal memindai struk. Coba lagi.";
+                    showToast("Gagal Vision AI: " + errMsg, "error");
+                }
+            } catch (err) {
+                resetScanUI();
+                showToast("Error memproses foto: " + err.message, "error");
+            }
         }
 
         function resetScanUI() {
