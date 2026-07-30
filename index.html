@@ -630,7 +630,7 @@
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div class="p-3 app-card rounded-2xl rounded-tl-none text-xs txt-primary leading-relaxed shadow-sm">
-                            Halo! Saya Bot AI Fulusku. Anda bisa memberikan perintah langsung seperti <b>/saldo</b>, <b>/utang</b>, <b>/anggaran</b>, <b>/target</b>, <b>/laporan</b>, atau eksekusi cepat seperti <b>"Transfer 50k dari BCA ke Tunai"</b>, <b>"Utang Budi 100k tempo besok"</b>, atau <b>"Makan 25k"</b>!
+                            Halo! Saya Bot AI Fulusku. Anda bisa memberikan perintah langsung seperti <b>/saldo</b>, <b>/utang</b>, <b>/anggaran</b>, <b>/target</b>, <b>/laporan</b>, atau eksekusi cepat seperti <b>"Transfer 50k dari BCA ke Tunai"</b>, <b>"Pengeluaran 171062 ke Cimb Niaga"</b>, atau <b>"Makan 25k"</b>!
                         </div>
                     </div>
                 </div>
@@ -1256,17 +1256,6 @@
             } catch(e) {
                 return dateStr;
             }
-        }
-
-        function parseAmountString(str) {
-            if (!str) return 0;
-            let match = str.toLowerCase().match(/(\d+([.,]\d+)?)\s*(k|rb|ribu|jt|juta|m)?/);
-            if (!match) return 0;
-            let num = parseFloat(match[1].replace(',', '.'));
-            let unit = (match[3] || '').toLowerCase();
-            if (['k', 'rb', 'ribu'].includes(unit)) num *= 1000;
-            else if (['jt', 'juta', 'm'].includes(unit)) num *= 1000000;
-            return Math.round(num);
         }
 
         function togglePrivacy() { 
@@ -1973,6 +1962,7 @@
         }
 
         function processBotCommandOrIntent(msg) {
+            if (!msg) return { handled: false };
             const lower = msg.toLowerCase().trim();
 
             if (lower === '/saldo' || lower === 'saldo' || lower.includes('cek saldo')) {
@@ -2038,33 +2028,127 @@
                 return { handled: true, reply: html };
             }
 
-            const amountParsed = parseAmountString(msg);
-            if (amountParsed > 0) {
-                const isIncome = msg.startsWith('+') || /masuk|pemasukan|gaji|bonus|terima|dapat|thr/i.test(lower);
-                let note = msg.replace(/^\+/g, '').replace(/(\d+[\d.,]*\s*[k|rb|ribu|jt|juta]*)/gi, '').replace(/masuk|pemasukan|pengeluaran|keluar|beli|bayar/gi, '').trim();
-                if (!note || note.length < 2) note = isIncome ? 'Pemasukan AI' : 'Pengeluaran AI';
-                note = note.charAt(0).toUpperCase() + note.slice(1);
+            // --- DETEKSI NOMINAL & PARSING TRANSAKSI SANGAT PRESISI ---
+            let isIncome = msg.startsWith('+') || /pemasukan|masuk|gaji|bonus|terima|dapat|thr|omset|penjualan|kredit/i.test(lower);
+            let isExpense = /pengeluaran|keluar|beli|bayar|makan|sewa|parkir|potong|kirim|debit|biaya/i.test(lower);
 
-                const wallet = appState.wallets[0];
-                if (wallet) {
-                    let cat = 'Belanja';
-                    if (isIncome) cat = 'Gaji';
-                    else if (/makan|minum|kopi|resto/i.test(lower)) cat = 'Makanan';
-                    else if (/bensin|parkir|trans/i.test(lower)) cat = 'Transport';
+            if (isIncome && isExpense) {
+                if (/pemasukan|masuk|gaji|bonus/i.test(lower)) isExpense = false;
+                else isIncome = false;
+            }
+            const txType = isIncome ? 'income' : 'expense';
 
-                    const t = { id: 't_' + Date.now(), type: isIncome ? 'income' : 'expense', amount: amountParsed, category: cat, walletId: wallet.id, note, date: new Date().toISOString().split('T')[0] };
-                    isIncome ? wallet.balance += amountParsed : wallet.balance -= amountParsed;
+            // 1. Ekstraksi Nominal yang Mencegah Bug "ke" (k multiplier false match)
+            let parsedAmount = 0;
+            let matchedAmountString = '';
 
-                    appState.transactions.unshift(t);
-                    saveLocalData();
-                    refreshAllViews();
-                    callBackend('saveTransaction', { transaction: t });
+            const numRegex = /(\d+(?:[.,]\d+)?)\s*(k|rb|ribu|jt|juta|m)?/gi;
+            let match;
 
-                    return {
-                        handled: true,
-                        reply: `✅ <b>Dicatat Otomatis oleh Bot AI!</b><br>• Jenis: ${isIncome ? '📈 Pemasukan' : '📉 Pengeluaran'}<br>• Keterangan: <b>${escapeHTML(note)}</b><br>• Nominal: <b>${formatRp(amountParsed)}</b><br>• Dompet: ${escapeHTML(wallet.name)}`
-                    };
+            while ((match = numRegex.exec(lower)) !== null) {
+                let numRaw = match[1].replace(/\./g, '').replace(',', '.');
+                let numVal = parseFloat(numRaw);
+                let unit = (match[2] || '').toLowerCase();
+
+                // Cek apakah 'k' yang tercocokkan adalah bagian dari kata lain seperti "ke", "kopi", "kantor"
+                const matchEndIndex = match.index + match[0].length;
+                const nextChar = lower.charAt(matchEndIndex);
+
+                if (unit === 'k' && /[a-z]/i.test(nextChar)) {
+                    unit = ''; // Batal multiplier jika k diikuti huruf (e.g., "171062 ke")
                 }
+
+                if (unit === 'k' || unit === 'rb' || unit === 'ribu') numVal *= 1000;
+                else if (unit === 'jt' || unit === 'juta' || unit === 'm') numVal *= 1000000;
+
+                if (!isNaN(numVal) && numVal > 0) {
+                    parsedAmount = Math.round(numVal);
+                    matchedAmountString = match[0];
+                    break;
+                }
+            }
+
+            if (parsedAmount > 0) {
+                // 2. Cocokkan Dompet Target dari appState.wallets
+                let matchedWallet = null;
+                if (appState.wallets && appState.wallets.length > 0) {
+                    // Cek nama dompet persis / parsial
+                    for (let w of appState.wallets) {
+                        const wName = (w.name || '').toLowerCase().trim();
+                        if (wName && lower.includes(wName)) {
+                            matchedWallet = w;
+                            break;
+                        }
+                    }
+                    // Cek kata kunci dompet (misal "cimb" mencocokkan "Cimb Niaga")
+                    if (!matchedWallet) {
+                        for (let w of appState.wallets) {
+                            const words = (w.name || '').toLowerCase().split(/\s+/);
+                            for (let word of words) {
+                                if (word.length >= 3 && lower.includes(word)) {
+                                    matchedWallet = w;
+                                    break;
+                                }
+                            }
+                            if (matchedWallet) break;
+                        }
+                    }
+                    if (!matchedWallet) matchedWallet = appState.wallets[0];
+                }
+
+                if (!matchedWallet) return { handled: false };
+
+                // 3. Bersihkan Catatan/Keterangan Transaksi
+                let note = msg;
+                if (matchedAmountString) {
+                    note = note.replace(new RegExp(matchedAmountString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '');
+                }
+                if (matchedWallet && matchedWallet.name) {
+                    note = note.replace(new RegExp(matchedWallet.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '');
+                }
+
+                note = note.replace(/pemasukan|pengeluaran|masuk|keluar|nominal|sebesar|rp\.?|ke|dari|di|pake|pakai|menggunakan|oleh|untuk|buat|via/gi, ' ');
+                note = note.replace(/\s+/g, ' ').trim();
+
+                if (!note || note.length < 2) {
+                    note = txType === 'income' ? `Pemasukan ${matchedWallet.name}` : `Pengeluaran ${matchedWallet.name}`;
+                } else {
+                    note = note.charAt(0).toUpperCase() + note.slice(1);
+                }
+
+                // 4. Deteksi Kategori Cerdas
+                let category = 'Belanja';
+                if (txType === 'income') {
+                    category = 'Gaji';
+                } else {
+                    if (/makan|minum|kopi|resto|warung|bakso|soto|nasgor|snack|cafe|makanan/i.test(lower)) category = 'Makanan';
+                    else if (/bensin|parkir|gojek|grab|toll|bus|kereta|angkot|trans|bengkel/i.test(lower)) category = 'Transport';
+                    else if (/listrik|wifi|pulsa|pajak|air|token|pdam|sewa|kos|kontrakan|tagihan/i.test(lower)) category = 'Tagihan';
+                    else if (/nonton|game|bioskop|hiburan|rekreasi/i.test(lower)) category = 'Hiburan';
+                    else category = 'Belanja';
+                }
+
+                const t = {
+                    id: 't_' + Date.now(),
+                    type: txType,
+                    amount: parsedAmount,
+                    category: category,
+                    walletId: matchedWallet.id,
+                    note: note,
+                    date: new Date().toISOString().split('T')[0]
+                };
+
+                txType === 'income' ? matchedWallet.balance += parsedAmount : matchedWallet.balance -= parsedAmount;
+
+                appState.transactions.unshift(t);
+                saveLocalData();
+                refreshAllViews();
+                callBackend('saveTransaction', { transaction: t });
+
+                return {
+                    handled: true,
+                    reply: `✅ <b>Dicatat Otomatis oleh Bot AI!</b><br>• Jenis: ${txType === 'income' ? '📈 Pemasukan' : '📉 Pengeluaran'}<br>• Keterangan: <b>${escapeHTML(note)}</b><br>• Nominal: <b>${formatRp(parsedAmount)}</b><br>• Kategori: ${category}<br>• Dompet: <b>${escapeHTML(matchedWallet.name)}</b>`
+                };
             }
 
             return { handled: false };
